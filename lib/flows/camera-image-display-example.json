@@ -1,0 +1,335 @@
+[
+    {
+        "id": "aa37707c59680a01",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4ce2fac6.848174",
+        "type": "ui_button",
+        "z": "aa37707c59680a01",
+        "d": true,
+        "name": "",
+        "group": "7de23636.088a88",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Image from internet",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 250,
+        "y": 60,
+        "wires": [
+            [
+                "39d92325.5b31ec"
+            ]
+        ]
+    },
+    {
+        "id": "a5ecda5c.164c28",
+        "type": "debug",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 850,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d615e8d1.844438",
+        "type": "ui_template",
+        "z": "aa37707c59680a01",
+        "group": "7de23636.088a88",
+        "name": "ui template",
+        "order": 1,
+        "width": "10",
+        "height": "7",
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1030,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7f9bc166.833c3",
+        "type": "template",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<img width=\"640px\" height=\"480px\" src=\"{{{payload}}}\">",
+        "output": "str",
+        "x": 860,
+        "y": 100,
+        "wires": [
+            [
+                "d615e8d1.844438"
+            ]
+        ]
+    },
+    {
+        "id": "39d92325.5b31ec",
+        "type": "jimp-image",
+        "z": "aa37707c59680a01",
+        "name": "cam img",
+        "data": "http://10.10.10.238/snapshot.jpg",
+        "dataType": "str",
+        "ret": "b64",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 520,
+        "y": 100,
+        "wires": [
+            [
+                "2d9d272a.787cb8",
+                "a5ecda5c.164c28",
+                "7f9bc166.833c3"
+            ]
+        ]
+    },
+    {
+        "id": "2d9d272a.787cb8",
+        "type": "image viewer",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "width": "200",
+        "data": "payload",
+        "dataType": "msg",
+        "active": false,
+        "x": 850,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fdb0953aacc31b8",
+        "type": "inject",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "39d92325.5b31ec"
+            ]
+        ]
+    },
+    {
+        "id": "264f266106c7f2bc",
+        "type": "ui_button",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "group": "7de23636.088a88",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Toggle LED",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "http://10.10.10.238/cm?cmnd=POWER1%202",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [
+                "506f6a9136e2e70b",
+                "8584aeab13bb07af"
+            ]
+        ]
+    },
+    {
+        "id": "506f6a9136e2e70b",
+        "type": "http request",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "51e3d378a82e5a24"
+            ]
+        ]
+    },
+    {
+        "id": "8584aeab13bb07af",
+        "type": "debug",
+        "z": "aa37707c59680a01",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "51e3d378a82e5a24",
+        "type": "function",
+        "z": "aa37707c59680a01",
+        "name": "function 1",
+        "func": "const key = Object.keys(msg.payload)\nconst val = Object.values(msg.payload)\n\nflow.set(key[0], val[0])\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4e0e35edb4cc4e2",
+        "type": "function",
+        "z": "aa37707c59680a01",
+        "name": "function 2",
+        "func": "const mode = flow.get('WCFeature')\nif (mode == 2){\n    msg.payload= 'http://10.10.10.238/cm?cmnd=WcFeature%200'\n    msg.icon= 'fa-moon'\n    msg.label= 'Night Mode'\n}else{\n    msg.payload= 'http://10.10.10.238/cm?cmnd=WcFeature%202'\n    msg.icon = 'fa-sun'\n    msg.label = 'Day/Reg Mode'\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 340,
+        "wires": [
+            [
+                "506f6a9136e2e70b",
+                "8584aeab13bb07af",
+                "7574803ad9cf51a4"
+            ]
+        ]
+    },
+    {
+        "id": "7574803ad9cf51a4",
+        "type": "ui_button",
+        "z": "aa37707c59680a01",
+        "name": "",
+        "group": "7de23636.088a88",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "{{label}}",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "{{icon}}",
+        "payload": "http://10.10.10.238/cm?cmnd=POWER1%202",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 230,
+        "y": 280,
+        "wires": [
+            [
+                "a4e0e35edb4cc4e2"
+            ]
+        ]
+    },
+    {
+        "id": "7de23636.088a88",
+        "type": "ui_group",
+        "name": "Front Door",
+        "tab": "59c1a803.3cb648",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "59c1a803.3cb648",
+        "type": "ui_tab",
+        "name": "Security",
+        "icon": "fa-lock",
+        "disabled": false,
+        "hidden": false
+    }
+]

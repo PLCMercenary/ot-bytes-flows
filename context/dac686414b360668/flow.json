@@ -1,0 +1,6 @@
+{
+    "deviceId": "nodered",
+    "groupId": "edgegw",
+    "edgeNodeId": "brazos-edge",
+    "firstRun": true
+}

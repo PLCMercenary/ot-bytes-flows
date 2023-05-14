@@ -1,0 +1,54 @@
+{
+  "name": "uib-root",
+  "version": "6.4.1",
+  "uibuilder": {
+    "packages": {
+      "bootstrap-vue": {
+        "spec": "^2.23.1",
+        "installFolder": "/data/uibuilder/node_modules/bootstrap-vue",
+        "installedVersion": "2.23.1",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://www.npmjs.com/search?q=bootstrap-vue",
+        "packageUrl": "/bootstrap-vue",
+        "url": "../uibuilder/vendor/bootstrap-vue/?",
+        "installedFrom": "npm",
+        "outdated": {}
+      },
+      "bootstrap": {
+        "spec": "^4.6.1",
+        "installFolder": "/data/uibuilder/node_modules/bootstrap",
+        "installedVersion": "4.6.2",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://www.npmjs.com/search?q=bootstrap",
+        "packageUrl": "/bootstrap",
+        "url": "../uibuilder/vendor/bootstrap/?",
+        "installedFrom": "npm",
+        "outdated": {
+          "current": "4.6.2",
+          "wanted": "4.6.2",
+          "latest": "5.2.3"
+        }
+      },
+      "vue": {
+        "spec": "^3.2.47",
+        "installFolder": "/data/uibuilder/node_modules/vue",
+        "installedVersion": "3.2.47",
+        "estimatedEntryPoint": "?",
+        "homepage": "https://www.npmjs.com/search?q=vue",
+        "packageUrl": "/vue",
+        "url": "../uibuilder/vendor/vue/?",
+        "installedFrom": "npm",
+        "outdated": {
+          "current": "3.2.47",
+          "wanted": "3.3.2",
+          "latest": "3.3.2"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.23.1",
+    "vue": "^3.2.47",
+    "bootstrap": "^4.6.1"
+  }
+}

@@ -1,0 +1,43 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@8.15.0
+2 info using node@v18.7.0
+3 timing npm:load:whichnode Completed in 0ms
+4 timing config:load:defaults Completed in 3ms
+5 timing config:load:file:/usr/local/lib/node_modules/npm/npmrc Completed in 5ms
+6 timing config:load:builtin Completed in 5ms
+7 timing config:load:cli Completed in 5ms
+8 timing config:load:env Completed in 1ms
+9 timing config:load:file:/data/uibuilder/.npmrc Completed in 0ms
+10 timing config:load:project Completed in 9ms
+11 timing config:load:file:/root/.npmrc Completed in 0ms
+12 timing config:load:user Completed in 1ms
+13 timing config:load:file:/usr/local/etc/npmrc Completed in 2ms
+14 timing config:load:global Completed in 2ms
+15 timing config:load:validate Completed in 0ms
+16 timing config:load:credentials Completed in 2ms
+17 timing config:load:setEnvs Completed in 2ms
+18 timing config:load Completed in 30ms
+19 timing npm:load:configload Completed in 31ms
+20 timing npm:load:mkdirpcache Completed in 2ms
+21 timing npm:load:mkdirplogs Completed in 1ms
+22 verbose title npm outdated bootstrap
+23 verbose argv "outdated" "--json" "bootstrap"
+24 timing npm:load:setTitle Completed in 2ms
+25 timing config:load:flatten Completed in 7ms
+26 timing npm:load:display Completed in 8ms
+27 verbose logfile logs-max:10 dir:/data/.npm/_logs
+28 verbose logfile /data/.npm/_logs/2023-05-13T15_03_08_170Z-debug-0.log
+29 timing npm:load:logFile Completed in 10ms
+30 timing npm:load:timers Completed in 0ms
+31 timing npm:load:configScope Completed in 0ms
+32 timing npm:load Completed in 56ms
+33 timing arborist:ctor Completed in 3ms
+34 silly logfile start cleaning logs, removing 2 files
+35 silly logfile done cleaning log files
+36 timing arborist:ctor Completed in 1ms
+37 http fetch GET 200 https://registry.npmjs.org/bootstrap 230ms (cache revalidated)
+38 http fetch GET 200 https://registry.npmjs.org/bootstrap 237ms (cache revalidated)
+39 timing command:outdated Completed in 391ms
+40 verbose exit 0
+41 timing npm Completed in 544ms
+42 verbose code 1

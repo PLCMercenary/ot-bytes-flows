@@ -1,0 +1,84 @@
+[
+    {
+        "id": "e0103161dad7e509",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e4dc78c9f1f97d85",
+        "type": "comment",
+        "z": "e0103161dad7e509",
+        "name": "Advanced mustache example",
+        "info": "Template node can create a string value using [Mustache](http://mustache.github.io/mustache.5.html) syntax.",
+        "x": 180,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8dbff78cca564cef",
+        "type": "inject",
+        "z": "e0103161dad7e509",
+        "name": "Price of fruits",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "Fruits",
+        "payload": "[{\"name\":\"apple\",\"price\":100},{\"name\":\"orange\",\"price\":80},{\"name\":\"banana\",\"price\":210}]",
+        "payloadType": "json",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "14278dee9f6a4858"
+            ]
+        ]
+    },
+    {
+        "id": "14278dee9f6a4858",
+        "type": "template",
+        "z": "e0103161dad7e509",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "# Price List of {{topic}}\n\n{{! outputs list of prices }}\n{{#payload}}\n- {{name}}: {{price}}\n{{/payload}}\n",
+        "output": "str",
+        "x": 360,
+        "y": 280,
+        "wires": [
+            [
+                "8bec50489bdf1148"
+            ]
+        ]
+    },
+    {
+        "id": "8bec50489bdf1148",
+        "type": "debug",
+        "z": "e0103161dad7e509",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 280,
+        "wires": []
+    }
+]

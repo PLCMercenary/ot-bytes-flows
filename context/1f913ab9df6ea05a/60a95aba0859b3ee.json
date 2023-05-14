@@ -1,0 +1,95 @@
+{
+    "stateTrailStorage": [
+        {
+            "state": false,
+            "timestamp": 1684002638803
+        },
+        {
+            "state": true,
+            "timestamp": 1684003438866
+        },
+        {
+            "state": false,
+            "timestamp": 1684004358904
+        },
+        {
+            "state": true,
+            "timestamp": 1684005078928
+        },
+        {
+            "state": false,
+            "timestamp": 1684005638955
+        },
+        {
+            "state": true,
+            "timestamp": 1684006478987
+        },
+        {
+            "state": false,
+            "timestamp": 1684007199012
+        },
+        {
+            "state": true,
+            "timestamp": 1684007959045
+        },
+        {
+            "state": false,
+            "timestamp": 1684008719068
+        },
+        {
+            "state": true,
+            "timestamp": 1684009279085
+        },
+        {
+            "state": false,
+            "timestamp": 1684009999110
+        },
+        {
+            "state": true,
+            "timestamp": 1684010839133
+        },
+        {
+            "state": false,
+            "timestamp": 1684011610327
+        },
+        {
+            "state": true,
+            "timestamp": 1684012320329
+        },
+        {
+            "state": false,
+            "timestamp": 1684013000336
+        },
+        {
+            "state": true,
+            "timestamp": 1684016560451
+        },
+        {
+            "state": false,
+            "timestamp": 1684020250596
+        },
+        {
+            "state": true,
+            "timestamp": 1684024170745
+        },
+        {
+            "state": false,
+            "timestamp": 1684027890879
+        },
+        {
+            "state": true,
+            "timestamp": 1684031891037
+        },
+        {
+            "state": false,
+            "timestamp": 1684035491161
+        },
+        {
+            "state": false,
+            "timestamp": 1684038421269
+        }
+    ],
+    "stateTrailReferences": [],
+    "stateTrailMax": 1684038421269,
+    "stateTrailMin": 1684002638803
+}

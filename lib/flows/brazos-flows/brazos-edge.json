@@ -1,0 +1,1006 @@
+[
+    {
+        "id": "f530b7f4ac193173",
+        "type": "tab",
+        "label": "brazos-edge",
+        "disabled": false,
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadabytes.io\n  \\/_____/   \\/_/ | sean@scadabytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "e3086462074002cc",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab"
+        ],
+        "x": 545,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "667bb106853cb289",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 275,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "fec7aee9c8bdba56",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "25 sec ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 280,
+        "wires": [
+            [
+                "667bb106853cb289"
+            ]
+        ]
+    },
+    {
+        "id": "090858351a9c26a2",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "391ecadd59f0afca"
+            ]
+        ]
+    },
+    {
+        "id": "391ecadd59f0afca",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "clear cache & set tag variables",
+        "func": "flow.set('startTime', msg.timestamp)\nflow.set('simTags', {\n 'high': undefined,\n 'low': undefined,\n 'inTempMax ': undefined,\n 'inTempMin ': undefined,\n 'outTempMax': undefined,\n 'outTempMin': undefined,\n 'oilTempMax': undefined,\n 'oilTempMin': undefined\n})\n\n\n\nglobal.set('inlet',{ \n    'valve': undefined,\n    \"inletmeter\": { \n        'curflowrate': undefined,\n        'todaytotal': undefined,\n        'yesttotal': undefined, \n        'lifetime': undefined}\n        })\nglobal.set('simRun', undefined)\nglobal.set('SITE', undefined)\n\nglobal.set('tank1', {\n    'Level': undefined,\n    'LvlAlms': [undefined, undefined, undefined, undefined],\n    'LvlAlmSP': [undefined, undefined, undefined, undefined]\n})\nglobal.set('tank2', {\n    'Level': undefined,\n    'LvlAlms': [undefined, undefined, undefined, undefined],\n    'LvlAlmSP': [undefined, undefined, undefined, undefined]\n})\nglobal.set('pump1', {\n    'HOA': undefined,\n    // 'chgPump': {\n    //     'runCmd': undefined,\n    //     'runInd': undefined,\n    //     'suctPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'discPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'fault': undefined,\n    //     'ftsTime': undefined,\n    //     'oilTemp': [undefined, undefined, undefined, undefined, undefined]},\n    // 'runCmd': undefined,\n    'runInd': undefined,\n    'speed': undefined,\n    'fault': undefined,\n    // 'ftsTime': undefined,\n    'suctPSI': { 'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined }, //value, hi almSP, hiSDsp, hiAlm, hiSD\n    'discPSI': { 'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined }, //value, hi alm, hiSDsp\n    'opSP': [undefined, undefined],\n    'inTemp': { 'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined },\n    'outTemp': { 'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined },\n    'oilTemp': { 'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined }, //temp val, hi alm, hi SD \n    'meter': {\n        'currRate': undefined, 'todayTot': undefined,\n        'yestTot': undefined, 'lifeTime': undefined\n    }\n})\n\n\nglobal.set('pump2', {\n    'HOA': undefined,\n    // 'chgPump': {\n    //     'runCmd': undefined,\n    //     'runInd': undefined,\n    //     'suctPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'discPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'fault': undefined,\n    //     'ftsTime': undefined,\n    //     'oilTemp': [undefined, undefined, undefined, undefined, undefined]},\n    // 'runCmd': undefined,\n    'runInd': undefined,\n    'speed': undefined,\n    'fault': undefined,\n   // 'ftsTime': undefined,\n    'suctPSI': {'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined}, //value, hi almSP, hiSDsp, hiAlm, hiSD\n    'discPSI': {'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined}, //value, hi alm, hiSDsp\n    'opSP': [undefined, undefined],\n    'inTemp':  {'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined},\n    'outTemp': {'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined},\n    'oilTemp': {'val': undefined, 'HiAlmSP': undefined, 'HiAlm': undefined, 'hiSDsp': undefined, 'hiSD': undefined}, //temp val, hi alm, hi SD \n    'meter': {\n        'currRate': undefined, 'todayTot': undefined,\n        'yestTot': undefined, 'lifeTime': undefined }\n})\n\n\n\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 80,
+        "wires": [
+            [
+                "7343f7e46f66d220"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadabytes.io\n  \\/_____/   \\/_/ | sean@scadabytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "7343f7e46f66d220",
+        "type": "debug",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1dadfb77ed020af5",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "42820f455eaa13e4"
+            ]
+        ]
+    },
+    {
+        "id": "42820f455eaa13e4",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "Sim Stop",
+        "func": "flow.set('stopTime' , msg.timestamp)\nglobal.set('simRun', false)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "7343f7e46f66d220"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadabytes.io\n  \\/_____/   \\/_/ | sean@scadabytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "46d807b35d01cf52",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 480,
+        "wires": [
+            [
+                "87d1dcf6aa304771"
+            ]
+        ]
+    },
+    {
+        "id": "e84ede59fa4d741d",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab"
+        ],
+        "x": 545,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c01f19b43bf0194b",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 440,
+        "wires": [
+            [
+                "7a16a0ca57ce853b"
+            ]
+        ]
+    },
+    {
+        "id": "7e33de37ccedf5c5",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab",
+            "ae228ea2cf8999b4"
+        ],
+        "x": 545,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "abe5a5d3ef1ecac5",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "920be485913908dd",
+            "c01f19b43bf0194b",
+            "60a2d345307eb01b",
+            "e25d5f39bbead1da",
+            "46d807b35d01cf52",
+            "83b65bba4892300b",
+            "ed09e90cf855e3aa",
+            "1f3aeeeefcd89774",
+            "ff3b68b9902ef6ae",
+            "f5dda0339946430d",
+            "34b58ff82c1c730e",
+            "1d2c2411c144cae1",
+            "44cc04bb8c9180d9",
+            "c3d0400d0699f8b7",
+            "e2a7690780295f17",
+            "29f4648a00640bb0",
+            "c675199368cc539a",
+            "cf542af01762daf2",
+            "58e9d6960025c3bd",
+            "5e2a70c24bb48e60",
+            "e71b4d877a8ee63c",
+            "275d50b6b2364c36",
+            "a9e12191cf98e3c2",
+            "b7f045436bfc0c97",
+            "a080e2d332e5327e"
+        ],
+        "x": 295,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "be5f930af524cae7",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "30 sec",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "abe5a5d3ef1ecac5"
+            ]
+        ]
+    },
+    {
+        "id": "83b65bba4892300b",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 520,
+        "wires": [
+            [
+                "bf89a1992827ac95"
+            ]
+        ]
+    },
+    {
+        "id": "6d6313a5a37b4fd2",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab"
+        ],
+        "x": 545,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "ed09e90cf855e3aa",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 560,
+        "wires": [
+            [
+                "acf57c746370e859"
+            ]
+        ]
+    },
+    {
+        "id": "cf791bec19a7b714",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab",
+            "552fdad58891ac7c"
+        ],
+        "x": 545,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "a25bcee2353283ca",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "c33cdb17c33dd375",
+            "199a09927c0c87e2",
+            "361059e6ad52afc5"
+        ],
+        "x": 555,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "cb4c7706c9993465",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "format topic and send MQTT",
+        "func": "let sim = global.get(\"simRun\");\nif (sim){\nmsg.payload = global.get('pump1.speed')\nmsg.topic = \"scadaBytes/tanksite/\"+global.get('SITE')+\"/main/pump1/vfd_speed\"\nnode.send(msg)\n\nmsg.payload = global.get('pump2.speed')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pump2/vfd_speed\"\nnode.send(msg)\n\nmsg.payload = global.get('pump1.suctPSI.val')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pump1/pump_suctPSI\"\nnode.send(msg)\n\nmsg.payload = global.get('pump1.discPSI.val')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pump1/pump_disPSI\"\nnode.send(msg)\n\nmsg.payload = global.get('pump2.suctPSI.val')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pump2/pump_suctPSI\"\nnode.send(msg)\n\nmsg.payload = global.get('pump2.discPSI.val')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pump2/pump_disPSI\"\nnode.send(msg)\n\nmsg.payload = global.get('pump1.meter.currRate')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/meter_p1/p1flowrate\"\nnode.send(msg)\n\nmsg.payload = global.get('pump2.meter.currRate')\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/meter_p2/p2flowrate\"\nnode.send(msg)\n\n\nreturn ;}\n\nelse { \n    \n    return ;}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 600,
+        "wires": [
+            [
+                "a25bcee2353283ca"
+            ]
+        ]
+    },
+    {
+        "id": "7e0434b2a4f7de17",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "p1 meter",
+        "func": "let f = global.get('pump1.meter')||{}\nlet r = f.currRate\nlet rcal = (r / 60)/60\nlet t = f.todayTot\nlet tcal = t + rcal\n\nglobal.set('pump1.meter.todayTot', tcal)\n\nif (msg.topic === \"ro\"){\n    var l = tcal + f.yestTot\n    global.set('pump1.meter.lifeTime', l)\n    global.set('pump1.meter.yestTot', tcal)\n    global.set('pump1.meter.todayTot', 0)\n}\n\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 680,
+        "wires": [
+            [
+                "950276d5ad15ee24"
+            ]
+        ]
+    },
+    {
+        "id": "428cab07ce832223",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "p2 meter",
+        "func": "let f = global.get('pump2.meter') || {}\nlet r = f.currRate\nlet rcal = (r / 60) / 60\nlet t = f.todayTot\nlet tcal = t + rcal\n\nglobal.set('pump2.meter.todayTot', tcal)\n\nif (msg.topic === \"ro\") {\n    var l = tcal + f.yestTot\n    global.set('pump2.meter.lifeTime', l)\n    global.set('pump2.meter.yestTot', tcal)\n    global.set('pump2.meter.todayTot', 0)\n}\n\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 740,
+        "wires": [
+            [
+                "93bd5423d6db34ed"
+            ]
+        ]
+    },
+    {
+        "id": "950276d5ad15ee24",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 605,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "93bd5423d6db34ed",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "c33cdb17c33dd375",
+            "199a09927c0c87e2"
+        ],
+        "x": 605,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "447e28b46e7e3c24",
+        "type": "mqtt out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ae6f683fb566469c",
+        "x": 1070,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "361059e6ad52afc5",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f1dee2502a899f3c",
+            "a25bcee2353283ca",
+            "bca75130767a85a1",
+            "9dfa49447b923298",
+            "8c71ebaf648e2ba3"
+        ],
+        "x": 975,
+        "y": 480,
+        "wires": [
+            [
+                "447e28b46e7e3c24"
+            ]
+        ]
+    },
+    {
+        "id": "be843b108c0e8866",
+        "type": "split",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": true,
+        "addname": "",
+        "x": 750,
+        "y": 360,
+        "wires": [
+            [
+                "a20f6ed38cb82585"
+            ]
+        ]
+    },
+    {
+        "id": "a20f6ed38cb82585",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "form MQTT",
+        "func": "msg.topic = msg.topic + \"/\" + msg.parts.key\nif (msg.parts.key.indexOf(\"temp\")!==-1){\n    msg.units = \"degrees-C\"\n}\nelse if(msg.parts.key.indexOf(\"level\")!==-1){\n    msg.units = \"feet\"\n}\nelse if(msg.parts.key.indexOf(\"run\")!==-1){\n    msg.units = \"bool\"\n}else if(msg.parts.key.indexOf(\"Run\")!==-1){\n    msg.units = \"bool\"\n}\nelse if(msg.parts.key.indexOf(\"SP\")!==-1){\n    msg.units = \"feet\"\n}\nelse if(msg.parts.key.indexOf(\"act\")!==-1){\n    msg.units = \"bool\"\n}\nelse if(msg.parts.key.indexOf(\"inalm\")!==-1){\n    msg.units = \"bool\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 360,
+        "wires": [
+            [
+                "f1dee2502a899f3c"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.com\n  \\/_____/   \\/_/ | scadaBytes industrial data  \n                  | Montreal, QB\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "f1dee2502a899f3c",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "361059e6ad52afc5"
+        ],
+        "x": 1065,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b62a9d3a3fc23cab",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "cf791bec19a7b714",
+            "6d6313a5a37b4fd2",
+            "e3086462074002cc",
+            "e84ede59fa4d741d",
+            "7e33de37ccedf5c5",
+            "f86c79d37208c96f"
+        ],
+        "x": 655,
+        "y": 360,
+        "wires": [
+            [
+                "be843b108c0e8866"
+            ]
+        ]
+    },
+    {
+        "id": "6bcaa30af30d22d8",
+        "type": "debug",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b7f045436bfc0c97",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 400,
+        "wires": [
+            [
+                "e4589e5358004ca0"
+            ]
+        ]
+    },
+    {
+        "id": "775ddb90f6a92b14",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 120,
+        "wires": [
+            [
+                "2893aee692429024"
+            ]
+        ]
+    },
+    {
+        "id": "ff3b68b9902ef6ae",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 600,
+        "wires": [
+            [
+                "cb4c7706c9993465"
+            ]
+        ]
+    },
+    {
+        "id": "4e7deeb5a3fee44c",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ro",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 720,
+        "wires": [
+            [
+                "7e0434b2a4f7de17"
+            ]
+        ]
+    },
+    {
+        "id": "f0ba1b36ccefb10d",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 680,
+        "wires": [
+            [
+                "7e0434b2a4f7de17"
+            ]
+        ]
+    },
+    {
+        "id": "1b183e881706c6c4",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ro",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 800,
+        "wires": [
+            [
+                "428cab07ce832223"
+            ]
+        ]
+    },
+    {
+        "id": "57fba77db3e6fd62",
+        "type": "inject",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 760,
+        "wires": [
+            [
+                "428cab07ce832223"
+            ]
+        ]
+    },
+    {
+        "id": "2893aee692429024",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "set some defaults & sim tags",
+        "func": "flow.set('startTime', msg.timestamp)\nglobal.set('simTags', {\n 'high': 0.00009,\n 'low': 0.00001,\n 'inTempMaxMin': [55, 25],\n 'outTempMaxMin': [75, 30],\n 'oilTempMaxMin': [130, 90],\n 'cpOilTempMaxMin': [100, 60],\n 'plPSIMaxMin': [220, 80],\n 'cpMaxMinSuct': [90, 8],\n 'hpMaxMinSuct': [180, 15],\n 'hpMaxMinDisc': [450, 110] \n})\n\n\nlet st= global.get(\"simTags\")\nglobal.set('inlet',{ \n    'valve': true,\n    'plPSI': st.plPSIMaxMin[1] + 2,\n    \"inletmeter\": { \n        'curflowrate': 12,\n        'todaytotal': 0,\n        'yesttotal': 0, \n        'lifetime': 0}\n        })\nglobal.set('simRun', true)\nglobal.set('SITE', \"East-Brazos\")\n\nglobal.set('tank1', {\n    'Level': 8,\n    'maxLv': 30,\n    'lvlCmd': true\n    })\nglobal.set('tank2', {\n    'Level': 3.1,\n    'maxLv': 24,\n    'lvlCmd': true\n    })\nlet t1 = global.get('tank1') ||{}\nlet t2 = global.get('tank2') || {}\n\nglobal.set('tank1.LvlAlmSP', [t1.maxLv -2, t1.maxLv -6, 5, 2.5])\nglobal.set('tank2.LvlAlmSP', [t2.maxLv - 2, t2.maxLv - 6, 7, 2.5])\nglobal.set('tank1.LvlAlms', [false, false, false, false])\nglobal.set('tank2.LvlAlms', [false, false, false, false])\nst = global.get('simTags') ||{}\n\nglobal.set('pump1', {\n    'name': 'pump1',\n    'alias': 'p1',\n    'HOA': 3,\n    // 'chgPump': {\n    //     'runCmd': undefined,\n    //     'runInd': undefined,\n    //     'suctPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'discPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'fault': undefined,\n    //     'ftsTime': undefined,\n    //     'oilTemp': [undefined, undefined, undefined, undefined, undefined]},\n    // 'runCmd': undefined,\n    'runInd': false,\n    'speed': 0,\n    'fault': false,\n    // 'ftsTime': undefined,\n    'runPerm':{\n        'psiPerm': true, \n        'tempPerm': true},   \n    'opSP': {'start':t1.maxLv - 5, 'stop': 4},\n    'suctPSI': { 'val': st.hpMaxMinSuct[1] + 8, 'HiAlmSP': st.hpMaxMinSuct[0] - 10, 'HiAlm': false, 'hiSDsp': st.hpMaxMinSuct[0] - 2, 'hiSD': false }, //value, hi almSP, hiSDsp, hiAlm, hiSD\n    'discPSI': { 'val': st.hpMaxMinDisc[1] + 5, 'HiAlmSP': st.hpMaxMinDisc[0] - 20, 'HiAlm': false, 'hiSDsp': st.hpMaxMinDisc[0] - 3, 'hiSD': false }, //value, hi alm, hiSDsp\n    'inTemp': { 'val': st.inTempMaxMin[1] + 10,   'HiAlmSP': st.inTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.inTempMaxMin[0] - 2, 'hiSD': false },\n    'outTemp': { 'val': st.outTempMaxMin[1] + 10, 'HiAlmSP': st.outTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.outTempMaxMin[0] - 2, 'hiSD': false  },\n    'oilTemp': { 'val': st.oilTempMaxMin[1] + 10, 'HiAlmSP': st.oilTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.oilTempMaxMin[0] - 2, 'hiSD': false  }, //temp val, hi alm, hi SD \n    'meter': {\n        'currRate':12, 'todayTot': 0,\n        'yestTot': 0, 'lifeTime': 0\n    }\n})\n\n\nglobal.set('pump2', {\n    'name': 'pump2',\n    'alias': 'p2',\n    'HOA': 3,\n    // 'chgPump': {\n    //     'runCmd': undefined,\n    //     'runInd': undefined,\n    //     'suctPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'discPSI': [undefined, undefined, undefined, undefined, undefined],\n    //     'fault': undefined,\n    //     'ftsTime': undefined,\n    //     'oilTemp': [undefined, undefined, undefined, undefined, undefined]},\n    // 'runCmd': undefined,\n    'runInd': false,\n    'speed': 0,\n    'fault': false,\n    'runPerm': { 'psiPerm': true, 'tempPerm': true },\n    'opSP': { 'start': t2.maxLv - 4, 'stop': 3 },\n    // 'ftsTime': undefined,\n    'suctPSI': { 'val': st.hpMaxMinSuct[1] + 7, 'HiAlmSP': st.hpMaxMinSuct[0] - 10, 'HiAlm': false, 'hiSDsp': st.hpMaxMinSuct[0] - 2, 'hiSD': false }, //value, hi almSP, hiSDsp, hiAlm, hiSD\n    'discPSI': { 'val': st.hpMaxMinDisc[1] + 3,  'HiAlmSP': st.hpMaxMinDisc[0] - 20, 'HiAlm': false, 'hiSDsp': st.hpMaxMinDisc[0] - 3,  'hiSD': false }, //value, hi alm, hiSDsp\n    'inTemp': { 'val': st.inTempMaxMin[1] + 10, 'HiAlmSP': st.inTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.inTempMaxMin[0] - 2, 'hiSD': false },\n    'outTemp': { 'val': st.outTempMaxMin[1] + 10, 'HiAlmSP': st.outTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.outTempMaxMin[0] - 2, 'hiSD': false },\n    'oilTemp': { 'val': st.oilTempMaxMin[1] + 10, 'HiAlmSP': st.oilTempMaxMin[0] - 10, 'HiAlm': false, 'hiSDsp': st.oilTempMaxMin[0] - 2, 'hiSD': false }, //temp val, hi alm, hi SD \n    'meter': {\n        'currRate': 3, 'todayTot': 0,\n        'yestTot': 0, 'lifeTime': 0\n    }\n})\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 120,
+        "wires": [
+            [
+                "7343f7e46f66d220"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadabytes.io\n  \\/_____/   \\/_/ | sean@scadabytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "87d1dcf6aa304771",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "level alarms",
+        "func": "// //flow.set(\"alarm\", {\"almHi_act\": false, \"almHiHi_act\": false, \"almLo_act\": false, \"almLoLo_act\": false});\n\n// var sim = global.get('simRun')\n// let r = global.get('reset')\n// let t1 = global.get('tank1') || {}\n// let t2 = global.get('tank2') || {}\n// let p1 = global.get('pump1') || {}\n// let p2 = global.get('pump2') || {}\n\n// if(sim){\n//     if (t1.Level > t1.LvlAlmSP[0]) {\n//         t1.LvlAlms[0] = true \n//     } \n//     if (t1.LvlAlms[0] && t1.Level < t1.LvlAlmSP[0] && r){\n//         t1.LvlAlms[0] = false\n//     } \n//     if (!t1.LvlAlms[0] && t1.Level < t1.LvlAlmSP[0]) {\n//         t1.LvlAlms[0] = false\n//     }    \n//     global.set('tank1.LvlAlms[0]', t1.LvlAlms[0])\n  \n//     if (t1.Level > t1.LvlAlmSP[1]) {\n//         t1.LvlAlms[1] = true\n//     } \n//     if (t1.LvlAlms[1] && t1.Level < t1.LvlAlmSP[1] && r) {\n//         t1.LvlAlms[1] = false\n//     }\n//     if (!t1.LvlAlms[1] && t1.Level < t1.LvlAlmSP[1]) {\n//         t1.LvlAlms[1] = false\n//     }    \n//     global.set('tank1.LvlAlms[1]', t1.LvlAlms[1])\n\n//     if (t1.Level < t1.LvlAlmSP[2]) {\n//         t1.LvlAlms[2] = true\n//     } \n//     if (t1.LvlAlms[2] && t1.Level > t1.LvlAlmSP[2] && r) {\n//         t1.LvlAlms[2] = false\n//     }\n//     if (!t1.LvlAlms[2] && t1.Level > t1.LvlAlmSP[2]) {\n//         t1.LvlAlms[2] = false\n//     }    \n//     global.set('tank1.LvlAlms[2]', t1.LvlAlms[2]) \n\n//     if (t1.Level < t1.LvlAlmSP[3]) {\n//         t1.LvlAlms[3] = true\n//     } \n//     if (t1.LvlAlms[3] && t1.Level > t1.LvlAlmSP[3] && r) {\n//         t1.LvlAlms[3] = false\n//         r = false\n//     }\n//     if (!t1.LvlAlms[3] && t1.Level > t1.LvlAlmSP[3]) {\n//         t1.LvlAlms[3] = false\n//     }    \n//     global.set('tank1.LvlAlms[4]', t1.LvlAlms[4])\n// }\n// if (sim) {\n//     if (t2.Level > t2.LvlAlmSP[0]) {\n//         t2.LvlAlms[0] = true\n//     }\n//     if (t2.LvlAlms[0] && t2.Level < t2.LvlAlmSP[0] && r) {\n//         t2.LvlAlms[0] = false\n//     }\n//     if (!t2.LvlAlms[0] && t2.Level < t2.LvlAlmSP[0]) {\n//         t2.LvlAlms[0] = false\n//     }\n//     global.set('tank2.LvlAlms[0]', t2.LvlAlms[0])\n\n//     if (t2.Level > t2.LvlAlmSP[1]) {\n//         t2.LvlAlms[1] = true\n//     }\n//     if (t2.LvlAlms[1] && t2.Level < t2.LvlAlmSP[1] && r) {\n//         t2.LvlAlms[1] = false\n//     }\n//     if (!t2.LvlAlms[1] && t2.Level < t2.LvlAlmSP[1]) {\n//         t2.LvlAlms[1] = false\n//     }\n//     global.set('tank2.LvlAlms[1]', t2.LvlAlms[1])\n\n//     if (t2.Level < t2.LvlAlmSP[2]) {\n//         t2.LvlAlms[2] = true\n//     }\n//     if (t2.LvlAlms[2] && t2.Level > t2.LvlAlmSP[2] && r) {\n//         t2.LvlAlms[2] = false\n//         r = false\n//     }\n//     if (!t2.LvlAlms[2] && t2.Level > t2.LvlAlmSP[2]) {\n//         t2.LvlAlms[2] = false\n//     }\n//     global.set('tank2.LvlAlms[2]', t2.LvlAlms[2])\n\n//     if (t2.Level < t2.LvlAlmSP[3]) {\n//         t2.LvlAlms[3] = true\n//     }\n//     if (t2.LvlAlms[3] && t2.Level > t2.LvlAlmSP[3] && r) {\n//         t2.LvlAlms[3] = false\n//         r = false\n//     }\n//     if (!t2.LvlAlms[3] && t2.Level > t2.LvlAlmSP[3]) {\n//         t2.LvlAlms[3] = false\n//     }\n//     global.set('tank2.LvlAlms[4]', t2.LvlAlms[4])\n// }\n\n// if (r){\n//     r = false\n//     global.set('reset', r)\n// }\nfunction updateAlarms(tank, tankKey, reset) {\n    for (let i = 0; i < 4; i++) {\n        let alarmCondition = (i < 2) ? (tank.Level > tank.LvlAlmSP[i]) : (tank.Level < tank.LvlAlmSP[i]);\n\n        if (alarmCondition) {\n            tank.LvlAlms[i] = true;\n        } else if (tank.LvlAlms[i] && !alarmCondition && reset) {\n            tank.LvlAlms[i] = false;\n        }\n\n        global.set(`${tankKey}.LvlAlms[${i}]`, tank.LvlAlms[i]);\n    }\n    return tank.LvlAlms;\n}\n\nvar sim = global.get('simRun');\nlet reset = global.get('reset');\nlet tank1 = global.get('tank1') || {};\nlet tank2 = global.get('tank2') || {};\n\nif (sim) {\n    let tank1Alarms = updateAlarms(tank1, 'tank1', reset);\n    let tank2Alarms = updateAlarms(tank2, 'tank2', reset);\n    let msg = {\n        site: global.get('SITE'),\n        metricType: \"tankalm\",\n        payload: { 'tank1Alarms': tank1Alarms, 'tank2Alarms': tank2Alarms },\n        topic: \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/tank-lvl-alarms\"\n    };\n\n    return msg;\n}\n\n\n// if (sim){\n// msg.site = flow.get('SITE')\n// msg.metricType = \"tankalm\"\n// msg.payload = {'tank1Alarms': t1.LvlAlms, \"tank2Alarms\": t2.LvlAlms}\n// msg.topic = \"scadaBytes/tanksite/\"+flow.get('SITE')+\"/main/tank-lvl-alarms\"\n// return msg;\n// }\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 480,
+        "wires": [
+            [
+                "e84ede59fa4d741d"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.com\n  \\/_____/   \\/_/ | scadaBytes industrial data  \n                  | Montreal, QB\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "7a16a0ca57ce853b",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "pump temp alarming",
+        "func": "// let p1 = global.get('pump1') || {}\n// let p2 = global.get('pump2') || {}\n// let r= global.get('reset')\n\n// var sim = global.get('simRun')\n\n\n// if (sim){\n//     if (p1.runInd && p1.inTemp.val > p1.inTemp.HiAlmSP){      \n//         p1.inTemp.HiAlm = true\n//     } \n//     if (p1.inTemp.HiAlm && p1.inTemp.val < p1.inTemp.HiAlmSP && r){\n//         p1.inTemp.HiAlm = false\n//     }\n//     if (!p1.inTemp.HiAlm && p1.inTemp.val < p1.inTemp.HiAlmSP) {\n//         p1.inTemp.HiAlm = false\n//     }\n//     global.set('pump1.inTemp.HiAlm', p1.inTemp.HiAlm)\n\n//     if (p1.runInd && p1.inTemp.val > p1.inTemp.hiSDsp) {\n//         p1.inTemp.hiSD = true\n//     }\n//     if (p1.inTemp.hiSD && p1.inTemp.val < p1.inTemp.hiSDsp && r) {\n//         p1.inTemp.hiSD = false\n//     }\n//     if (!p1.inTemp.hiSD && p1.inTemp.val < p1.inTemp.hiSDsp) {\n//         p1.inTemp.hiSD = false\n//     }\n//     global.set('pump1.inTemp.hiSD', p1.inTemp.hiSD)\n\n//     if (p1.runInd && p1.outTemp.val > p1.outTemp.HiAlmSP) {\n//         p1.outTemp.HiAlm = true\n//     }\n//     if (p1.outTemp.HiAlm && p1.outTemp.val < p1.outTemp.HiAlmSP && r) {\n//         p1.outTemp.HiAlm = false\n//     }\n//     if (!p1.outTemp.HiAlm && p1.outTemp.val < p1.outTemp.HiAlmSP) {\n//         p1.outTemp.HiAlm = false\n//     }\n//     global.set('pump1.outTemp.HiAlm', p1.outTemp.HiAlm )\n\n//     if (p1.runInd && p1.outTemp.val > p1.outTemp.hiSDsp) {\n//         p1.outTemp.hiSD = true\n//     }\n//     if (p1.outTemp.hiSD && p1.outTemp.val < p1.outTemp.hiSDsp && r) {\n//         p1.outTemp.hiSD = false\n//     }\n//     if (!p1.outTemp.hiSD && p1.outTemp.val < p1.outTemp.hiSDsp) {\n//         p1.outTemp.hiSD = false\n//     }\n//     global.set('pump1.outTemp.hiSD', p1.outTemp.hiSD)\n\n//     if (p1.runInd && p1.oilTemp.val > p1.oilTemp.HiAlmSP) {\n//         p1.oilTemp.HiAlm = true\n//     }\n//     if (p1.oilTemp.HiAlm && p1.oilTemp.val < p1.oilTemp.HiAlmSP && r) {\n//         p1.oilTemp.HiAlm = false\n//     }\n//     if (!p1.oilTemp.HiAlm && p1.oilTemp.val < p1.oilTemp.HiAlmSP) {\n//         p1.oilTemp.HiAlm = false\n//     }\n//     global.set('pump1.oilTemp.HiAlm', p1.oilTemp.HiAlm)\n\n//     if (p1.runInd && p1.oilTemp.val > p1.oilTemp.hiSDsp) {\n//         p1.oilTemp.hiSD = true\n//     }\n//     if (p1.oilTemp.hiSD && p1.oilTemp.val < p1.oilTemp.hiSDsp && r) {\n//         p1.oilTemp.hiSD = false\n//     }\n//     if (!p1.oilTemp.hiSD && p1.oilTemp.val < p1.oilTemp.hiSDsp) {\n//         p1.oilTemp.hiSD = false\n//     }\n//     global.set('pump1.oilTemp.hiSD', p1.oilTemp.hiSD)\n// }\n\n// if (sim) {\n//     if (p2.runInd && p2.inTemp.val > p2.inTemp.HiAlmSP) {\n//         p2.inTemp.HiAlm = true\n//     }\n//     if (p2.inTemp.HiAlm && p2.inTemp.val < p2.inTemp.HiAlmSP && r) {\n//         p2.inTemp.HiAlm = false\n//     }\n//     if (!p2.inTemp.HiAlm && p2.inTemp.val < p2.inTemp.HiAlmSP) {\n//         p2.inTemp.HiAlm = false\n//     }\n//     global.set('pump2.inTemp.HiAlm', p2.inTemp.HiAlm)\n    \n//     if (p2.runInd && p2.inTemp.val > p2.inTemp.hiSDsp) {\n//         p2.inTemp.hiSD = true\n//     }\n//     if (p2.inTemp.hiSD && p2.inTemp.val < p2.inTemp.hiSDsp && r) {\n//         p2.inTemp.hiSD = false\n//     }\n//     if (!p2.inTemp.hiSD && p2.inTemp.val < p2.inTemp.hiSDsp) {\n//         p2.inTemp.hiSD = false\n//     }\n//     global.set('pump2.inTemp.hiSD', p2.inTemp.hiSD)\n\n//     if (p2.runInd && p2.outTemp.val > p2.outTemp.HiAlmSP) {\n//         p2.outTemp.HiAlm = true\n//     }\n//     if (p2.outTemp.HiAlm && p2.outTemp.val < p2.outTemp.HiAlmSP && r) {\n//         p2.outTemp.HiAlm = false\n//     }\n//     if (!p2.outTemp.HiAlm && p2.outTemp.val < p2.outTemp.HiAlmSP) {\n//         p2.outTemp.HiAlm = false\n//     }\n//     global.set('pump2.outTemp.HiAlm', p2.outTemp.HiAlm)\n\n//     if (p2.runInd && p2.outTemp.val > p2.outTemp.hiSDsp) {\n//         p2.outTemp.hiSD = true\n//     }\n//     if (p2.outTemp.hiSD && p2.outTemp.val < p2.outTemp.hiSDsp && r) {\n//         p2.outTemp.hiSD = false\n//     }\n//     if (!p2.outTemp.hiSD && p2.outTemp.val < p2.outTemp.hiSDsp) {\n//         p2.outTemp.hiSD = false\n//     }\n//     global.set('pump2.outTemp.hiSD', p2.outTemp.hiSD)\n\n//     if (p2.runInd && p2.oilTemp.val > p2.oilTemp.HiAlmSP) {\n//         p2.oilTemp.HiAlm = true\n//     }\n//     if (p2.oilTemp.HiAlm && p2.oilTemp.val < p2.oilTemp.HiAlmSP && r) {\n//         p2.oilTemp.HiAlm = false\n//     }\n//     if (!p2.oilTemp.HiAlm && p2.oilTemp.val < p2.oilTemp.HiAlmSP) {\n//         p2.oilTemp.HiAlm = false\n//     }\n//     global.set('pump2.oilTemp.HiAlm', p2.oilTemp.HiAlm)\n\n//     if (p2.runInd && p2.oilTemp.val > p2.oilTemp.hiSDsp) {\n//         p2.oilTemp.hiSD = true\n//     }\n//     if (p2.oilTemp.hiSD && p2.oilTemp.val < p2.oilTemp.hiSDsp && r) {\n//         p2.oilTemp.hiSD = false\n//     }\n//     if (!p2.oilTemp.hiSD && p2.oilTemp.val < p2.oilTemp.hiSDsp) {\n//         p2.oilTemp.hiSD = false\n//     }\n//     global.set('pump2.oilTemp.hiSD', p2.oilTemp.hiSD)\n// }\n\n// let perm1 = flow.get('p1TempPerm')\n// if (p1.inTemp.hiSD || p1.outTemp.hiSD || p1.oilTemp.hiSD){\n//     perm1 = false\n// }\n// if (!perm1 && r && (!p1.inTemp.hiSD && !p1.outTemp.hiSD && !p1.oilTemp.hiSD)){\n//     perm1 = true \n// }\n// if (perm1 && (!p1.inTemp.hiSD && !p1.outTemp.hiSD && !p1.oilTemp.hiSD)) {\n//     perm1 = true\n// }\n// flow.set('p1TempPerm', perm1)\n\n// let perm2 = flow.get('p2TempPerm')\n// if (p2.inTemp.hiSD || p2.outTemp.hiSD || p2.oilTemp.hiSD) {\n//     perm2 = false\n// }\n// if (!perm2 && r && (!p2.inTemp.hiSD && !p2.outTemp.hiSD && !p2.oilTemp.hiSD)) {    \n//     perm2 = true\n// }\n// if (perm2 && (!p2.inTemp.hiSD && !p2.outTemp.hiSD && !p2.oilTemp.hiSD)) {\n//     perm2 = true\n// }\n// flow.set('p2TempPerm', perm2)\n// function processAlarms(pump, reset) {\n//     for (const key of ['inTemp', 'outTemp', 'oilTemp']) {\n//         const temp = pump[key];\n//         const hiAlm = pump.runInd && temp.val > temp.HiAlmSP;\n//         const hiSD = pump.runInd && temp.val > temp.hiSDsp;\n\n//         if (temp.HiAlm && temp.val < temp.HiAlmSP && reset) {\n//             temp.HiAlm = false;\n//         } else if (!temp.HiAlm && !hiAlm) {\n//             temp.HiAlm = false;\n//         }\n\n//         if (temp.hiSD && temp.val < temp.hiSDsp && reset) {\n//             temp.hiSD = false;\n//         } else if (!temp.hiSD && !hiSD) {\n//             temp.hiSD = false;\n//         }\n\n//         global.set(`pump${pump.id}.${key}.HiAlm`, temp.HiAlm);\n//         global.set(`pump${pump.id}.${key}.hiSD`, temp.hiSD);\n//     }\n// }\nlet p1 = global.get('pump1') || {};\np1.id = p1.id || 1;\n\nlet p2 = global.get('pump2') || {};\np2.id = p2.id || 2;\n\nfunction processAlarms(pump, reset) {\n    for (const key of ['inTemp', 'outTemp', 'oilTemp']) {\n        const temp = pump[key];\n        const hiAlm = pump.runInd && temp.val > temp.HiAlmSP;\n        const hiSD = pump.runInd && temp.val > temp.hiSDsp;\n\n        if (hiAlm) {\n            temp.HiAlm = true;\n        } else if (temp.HiAlm && temp.val < temp.HiAlmSP && reset) {\n            temp.HiAlm = false;\n        } else if (!temp.HiAlm && !hiAlm) {\n            temp.HiAlm = false;\n        }\n\n        if (hiSD) {\n            temp.hiSD = true;\n        } else if (temp.hiSD && temp.val < temp.hiSDsp && reset) {\n            temp.hiSD = false;\n        } else if (!temp.hiSD && !hiSD) {\n            temp.hiSD = false;\n        }\n\n        global.set(`${pump.id}.${key}.HiAlm`, temp.HiAlm);\n        global.set(`${pump.id}.${key}.hiSD`, temp.hiSD);\n    }\n}\n\nfunction updateTempPerm(pump, reset) {\n    const permKey = `p${pump.id}TempPerm`;\n    let perm = flow.get(permKey);\n\n    const hiSD = pump.inTemp.hiSD || pump.outTemp.hiSD || pump.oilTemp.hiSD;\n\n    if (hiSD) {\n        perm = false;\n    } else if (!perm && reset) {\n        perm = true;\n    }\n\n    flow.set(permKey, perm);\n}\n\n//let p1 = global.get('pump1') || { id: 1 };\n//let p2 = global.get('pump2') || { id: 2 };\nlet reset = global.get('reset');\nlet sim = global.get('simRun');\n\nif (sim) {\n    processAlarms(p1, reset);\n    processAlarms(p2, reset);\n\n    updateTempPerm(p1, reset);\n    updateTempPerm(p2, reset);\n}\n\n// if (sim){\n// msg.site = flow.get('SITE')\n// msg.metricType = \"temperature\"\n// msg.payload = {'pump1_in-temp': p1.inTemp.val, 'pump1_out-temp': p1.outTemp.val, 'pump1_oil-temp': p1.oilTemp.val, 'pump2_in-temp': p2.inTemp.val, 'pump2_out-temp': p2.outTemp.val, 'pump2_oil-temp': p2.oilTemp.val}\n// msg.topic = \"scadaBytes/tanksite/\"+flow.get('SITE')+\"/main/tank-pump/temperatures\"\n// return msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 440,
+        "wires": [
+            [
+                "7e33de37ccedf5c5"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.com\n  \\/_____/   \\/_/ | scadaBytes industrial data  \n                  | Montreal, QB\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "bf89a1992827ac95",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "pump PSI control",
+        "func": "const sim = global.get('simRun')\nlet r = global.get('reset')\nlet p1 = global.get('pump1') || {}\nlet p2 = global.get('pump2') || {}\n\n\nif (sim) {\n    if (p1.suctPSI.val > p1.suctPSI.HiAlmSP && p1.runInd) {\n        p1.suctPSI.HiAlm = true\n    }  \n    if (p1.suctPSI.HiAlm && p1.suctPSI.val < p1.suctPSI.HiAlmSP && r) {\n        p1.suctPSI.HiAlm = false\n    }\n    if (!p1.suctPSI.HiAlm && p1.suctPSI.val < p1.suctPSI.HiAlmSP) {\n        p1.suctPSI.HiAlm = false\n    }\n    global.set('pump1.suctPSI.HiAlm', p1.suctPSI.HiAlm)\n\n    if (p1.suctPSI.val > p1.suctPSI.hiSDsp && p1.runInd) {\n        p1.suctPSI.hiSD = true\n    }\n    if (p1.suctPSI.hiSD && p1.suctPSI.val < p1.suctPSI.hiSDsp && r) {\n        p1.suctPSI.hiSD = false\n    }\n    if (!p1.suctPSI.hiSD && p1.suctPSI.val < p1.suctPSI.hiSDsp) {\n         p1.suctPSI.hiSD = false\n    } \n    global.set('pump1.suctPSI.hiSD', p1.suctPSI.hiSD)\n\n    if (p1.discPSI.val > p1.discPSI.HiAlmSP && p1.runInd) {\n        p1.discPSI.HiAlm = true\n    } \n    if (p1.discPSI.HiAlm && p1.discPSI.val < p1.discPSI.HiAlmSP && r) {\n        p1.discPSI.HiAlm = false\n    }\n    if (!p1.discPSI.HiAlm && p1.discPSI.val < p1.discPSI.HiAlmSP) {\n        p1.discPSI.HiAlm = false\n    }\n    global.set('pump1.discPSI.HiAlm', p1.discPSI.HiAlm)\n\n    if (p1.discPSI.val > p1.discPSI.hiSDsp && p1.runInd) {\n        p1.discPSI.hiSD = true\n    } \n    if (p1.discPSI.hiSD && p1.discPSI.val < p1.discPSI.hiSDsp && r) {\n        p1.discPSI.hiSD = false\n    }\n    if (!p1.discPSI.hiSD && p1.discPSI.val < p1.discPSI.hiSDsp) {\n        p1.discPSI.hiSD = false\n    } \n    global.set('pump1.discPSI.hiSD', p1.discPSI.hiSD)\n\n    if (p2.suctPSI.val > p2.suctPSI.HiAlmSP && p2.runInd) {\n        p2.suctPSI.HiAlm = true\n    } \n    if (p2.suctPSI.HiAlm && p2.suctPSI.val < p2.suctPSI.HiAlmSP && r) {\n        p2.suctPSI.HiAlm = false\n    }\n    if (!p2.suctPSI.HiAlm && p2.suctPSI.val < p2.suctPSI.HiAlmSP) {\n        p2.suctPSI.HiAlm = false\n    }\n    global.set('pump2.suctPSI.HiAlm', p2.suctPSI.HiAlm)\n\n    if (p2.suctPSI.val > p2.suctPSI.hiSDsp && p2.runInd) {\n        p2.suctPSI.hiSD = true\n    } \n    if (p2.suctPSI.hiSD && p2.suctPSI.val < p2.suctPSI.hiSDsp && r) {\n        p2.suctPSI.hiSD = false\n    }\n    if (!p2.suctPSI.hiSD && p2.suctPSI.val < p2.suctPSI.hiSDsp) {\n        p2.suctPSI.hiSD = false\n    }\n    global.set('pump2.suctPSI.hiSD', p2.suctPSI.hiSD)\n\n    if (p2.discPSI.val > p2.discPSI.HiAlmSP && p2.runInd) {\n        p2.discPSI.HiAlm = true\n    } \n    if (p2.discPSI.HiAlm && p2.discPSI.val < p2.discPSI.HiAlmSP && r) {\n        p2.discPSI.HiAlm = false\n    }\n    if (!p2.discPSI.HiAlm && p2.discPSI.val < p2.discPSI.HiAlmSP) {\n        p2.discPSI.HiAlm = false\n    }\n    global.set('pump2.discPSI.HiAlm', p2.discPSI.HiAlm)\n\n    if (p2.discPSI.val > p2.discPSI.hiSDsp && p2.runInd) {\n        p2.discPSI.hiSD = true\n    } \n    if (p2.discPSI.hiSD && p2.discPSI.val < p2.discPSI.hiSDsp && r) {\n        p2.discPSI.hiSD = false\n    }\n    if (!p2.discPSI.hiSD && p2.discPSI.val < p2.discPSI.hiSDsp) {\n        p2.discPSI.hiSD = false\n    }\n    global.set('pump2.discPSI.hiSD', p2.discPSI.hiSD)\n}\nlet psiPerm1 = flow.get('p1PsiPerm')\nif (p1.suctPSI.hiSD || p1.discPSI.hiSD) {\n    psiPerm1 = false\n}\nif (!psiPerm1 && r && (!p1.suctPSI.hiSD && !p1.discPSI.hiSD)) {\n    psiPerm1 = true\n}\nif (psiPerm1 && (!p1.suctPSI.hiSD && !p1.discPSI.hiSD)) {\n    psiPerm1 = true\n}\nlet psiPerm2 = flow.get('p2PsiPerm')\nif (p2.suctPSI.hiSD || p2.discPSI.hiSD) {\n    psiPerm2 = false\n}\nif (!psiPerm2 && r && (!p2.suctPSI.hiSD && !p2.discPSI.hiSD)) {\n    psiPerm2 = true\n}\nif (psiPerm2 && (!p2.suctPSI.hiSD && !p2.discPSI.hiSD)) {\n    psiPerm2 = true\n}\nflow.set('p1PsiPerm', psiPerm1)\nflow.set('p2PsiPerm', psiPerm2)\n\n\n\nif (sim){\nmsg.site = global.get('SITE')\n//global.set('pump1', p1)\n//global.set('pump2', p2)\nmsg.metricType = \"pump-PSI-alarm-trigger\"\n    msg.payload = { \"pump1-alarms\": { \n                    'p1-suctPSI-HiAlm': p1.suctPSI.HiAlm, \n                    'p1-suctPSI-hiSD': p1.suctPSI.hiSD,\n                    'p1-discPSI-HiAlm': p1.discPSI.HiAlm, \n                    'p1-discPSI-hiSD':  p1.discPSI.hiSD, },  \n                    \"pump2-alarms\": {\n                    'p2-suctPSI-HiAlm': p2.suctPSI.HiAlm,\n                    'p2-suctPSI-hiSD':  p2.suctPSI.hiSD,\n                    'p2-discPSI-HiAlm': p2.discPSI.HiAlm,\n                    'p2-discPSI-hiSD':  p2.discPSI.hiSD,} \n                    }\nmsg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pumpPSI-alarms\"\n}\n\n\nreturn; //msg;\n\n\n\n\n\n\n//var am = []\n//\n//Object.entries(a).forEach(entry => {\n//    am.push({topic:(`sahoma/mqttgen/tank alm ${entry[0]}`),payload:entry[1]})\n//})\n//\n//return [am",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 520,
+        "wires": [
+            [
+                "6d6313a5a37b4fd2"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.com\n  \\/_____/   \\/_/ | scadaBytes industrial data  \n                  | Montreal, QB\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "acf57c746370e859",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "inlet valve",
+        "func": "let t1 =  global.get('tank1') || {}\nlet t2 =  global.get('tank2') || {}\nlet p1 =  global.get('pump1') || {}\nlet p2 =  global.get('pump2') || {}\nlet sim = global.get('simRun')\n\nif (sim){\nif (t1.LvlAlms[0] || t2.LvlAlms[0]){\n    global.set('inlet.valve', 'closed')\n}else{\n    global.set('inlet.valve', 'open')\n}\n}\n\nif (sim) {\n    let i = global.get('inlet.valve')\n    msg.payload = {'Pipeline-Inlet': i}\n    msg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/pipeline-inlet\"\n    return msg;\n}\n\n\n\n\n\n\n\n\n// flow.set\n// var pSS = flow.get('pumpLvlSP')||{}\n// let pr = {\"pr1\": flow.get('pump1_Run'), \"pr2\":flow.get('pump2_Run')};\n// let lvs = {'lvl1':flow.get('tank1lvl'), 'lvl2':flow.get('tank2lvl')}\n// //let mana = flow.get('manmode-a')\n// ////let manb = flow.get('manmode-b')\n// //let autoa = flow.get('autoMode-a')\n// //let autob = flow.get('autoMode-b')\n// let pf = flow.get('pumpFreq')||{}\n\n// //Defiine a func to generate a random output\n\n// let high = 0.0009, low = 0.0001\n// function random(low, high) {\n//     return Math.random() * (high - low) + low\n// }\n// //Call our function and set var step to that val\n// let step = Math.random()\n// flow.set(\"step\", step)\n\n// let sim = flow.get('simRun')\n\n\n// if (pr.pr1 === true && lvs.lvl1 > pSS.pump1_stopSP) {\n//     if (pf.p1freq === 0){\n//         flow.set('pumpFreq', {'p1freq': 60});\n//         pf.p1freq = 60\n//         msg.payload= ('pumpFreq', {'p1freq': pf.p1freq})\n//         msg.topic = \"scadaBytes/tanksite/\"+flow.get('SITE')+\"set context\"\n//         return msg;     \n//     } \n    \n// }\n\n\n// if (pr.pr1=== true && lvs.lvl1 > pSS.pump1_stop) {\n//     if (pf.p1freq > 40){\n//        pf.p1freq = (pf.p1freq - flow.get('step'))\n//     } \n    \n// }\n\n// if (pr.pmp1Run == true && lvs.lvl1 > pSS.pump1_stop) {\n//     if (pf.p1freq < 40 && pf.p1freq!=0 ){\n//        pf.p1freq= 40\n//     } \n    \n// }\n\n// if (pr.pmp1Run !== true || lvs.lvl1 < pSS.pump1_stop) {\n//        pf.p1freq = 0\n        \n//     } \n    \n\n\n\n// //\n// //if (pr.pump2_Run == true && lvs.lvl2 > pSS.pump2_stopSP) {\n// //    if (p2F === 0){\n// //        flow.set('p2Freq', 60)\n// //        p2F = 60\n// //        msg.payload= ('pumpSpeed', {'p1Freq': p1F}, {'p2Freq': p2F})\n// //        msg.topic = \"scadaBytes/tanksite/\"+flow.get('SITE')+\"/main/tankLevel-pumpSpeed\"\n// //        return msg;     \n// //    } \n// //    \n// //}\n// //\n// //\n// //if (pr.pmp2Run == true && lvs.lvl2 > pSS.pump2_stop) {\n// //    if (p2F > 40){\n// //        p2F = p2F - flow.get('step')\n// //    } \n// //    \n// //}\n// //\n// //if (pr.pmp2Run == true && lvs.lvl2 > pSS.pump2_stop) {\n// //    if (p2F < 40 && p2F!=0 ){\n// //        p2F = 40\n// //    } \n// //    \n// //}\n// //\n// //if (pr.pmp2Run !== true || lvs.lvl2 < pSS.pump2_stop) {\n// //        p2F = 0\n// //        \n// //    } \n// //    \n// //\n// //\n// //\n// //\n// //\n// //\n// //\n// ////if (sim === true && pr.pmp1Run === false){\n// ////    lvs.lvl1 = parseFloat(lvs.lvl1.toFixed(1)) + parseFloat(step.toFixed(1)) \n// ////}  //tanklevel 1 = level 1 + step\n// ////if (sim === true && pr.pmp1Run === true){\n// ////    lvs.lvl1 = parseFloat(lvs.lvl1.toFixed(1)) -parseFloat(step.toFixed(1)) \n// ////}\n// ////if (auto === true && pr.pmp1Run === true){\n// ////    a = pSS.pump1_SP - lvs.lvl1\n// ////    \n// ////}\n// //\n// ////if ((sim === true && lvs.lvl1 <= pSS.pump1_stopSP)||(auto!=true)){\n// ////    pr.pmp1Run = false\n// ////    flow.set(\"pump1_Run\", false)\n// ////}\n// ////if (sim === true && auto === true && lvs.lvl1 >= pSS.pump1_startSP){\n// ////    pr.pmp1Run = true\n// ////    flow.set(\"pump1_Run\", true)\n// ////}\n// //\n// //\n// //\n// //\n// ////step = Math.random()\n// //\n// ////if (sim === true && pr.pmp2Run === false){\n// ////    lvs.lvl2 = parseFloat(lvs.lvl2.toFixed(2)) +  parseFloat(step.toFixed(2)) \n// ////}\n// ////if (sim === true && pr.pmp2Run === true){\n// ////    lvs.lvl2 = parseFloat(lvs.lvl2.toFixed(2))-  parseFloat(step.toFixed(2))\n// ////}\n// //\n// //\n// ////if ((sim === true && lvs.lvl2 <= pSS.pump2_stopSP) || (auto!=true)){\n// ////    pr.pmp2Run = false\n// ////    flow.set(\"pump2_Run\", false)\n// ////}\n// ////if (sim === true && lvs.lvl2 >= pSS.pump2_startSP){\n// ////    pr.pmp2Run = true\n// ////    flow.set(\"pump2_Run\", true)\n// ////}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 560,
+        "wires": [
+            [
+                "cf791bec19a7b714"
+            ]
+        ]
+    },
+    {
+        "id": "e4589e5358004ca0",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "Level Control",
+        "func": "\nlet t1 = global.get('tank1') || {}\nlet t2 = global.get('tank2') || {}\nlet p1 = global.get('pump1') || {}\nlet p2 = global.get('pump2') || {}\nlet sim = global.get('simRun')\n\n\nif (sim) {\n    \n    if (t1.Level <= p1.opSP.stop) {\n        t1.lvlCmd = false}\n    if (t1.Level >= p1.opSP.start) {\n        t1.lvlCmd = true} \n    if (t2.Level <= p2.opSP.stop) {\n        t2.lvlCmd = false}\n    if (t2.Level >= p2.opSP.start) {\n        t2.lvlCmd = true} \n\n   \n    \n    global.set('tank1.lvlCmd', t1.lvlCmd)\n    global.set('tank2.lvlCmd', t2.lvlCmd)\n    \n\n//if (global.get('p1.HOA') === 1) {\n  //  global.set(\"pump1.runInd\", true)\n//}\n//if (global.get('p2.HOA') === 1) {\n //   global.set(\"pump2.runInd\", true)\n//}\n\nif (sim) {\n    msg.payload = { 'tank1_level': t1.Level, 'tank2_level': t2.Level, 'pump1_Run': p1.runInd, 'pump2_Run': p2.runInd}\n    msg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/tankLevel-control\"\n    return msg;\n}\nreturn ;\n\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 400,
+        "wires": [
+            [
+                "e3086462074002cc"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.io\n  \\/_____/   \\/_/ | sean@scadaBytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "24baeef2807eb76a",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "Level Control",
+        "func": "\nconst t1 = global.get('tank1') || {},\n      t2 = global.get('tank2') || {},\n      p1 = global.get('pump1') || {},\n      p2 = global.get('pump2') || {},\n      sim = global.get('simRun')\n\nif (sim) {\n  const pPerm1 = Object.entries(p1.runPerm).every(Boolean),\n        pPerm2 = Object.entries(p2.runPerm).every(Boolean),\n        lPerm1 = !t1.LvlAlms[3],\n        lPerm2 = !t2.LvlAlms[3]\n\n  if (pPerm1 && lPerm1 && t1.lvlCmd) {\n     p1.runInd = true \n     }else{\n     p1.runInd = false\n     }\n  global.set('pump1.runInd', p1.runInd)\n    \n  if (pPerm2 && lPerm2 && t2.lvlCmd) {\n    p2.runInd = true\n    } else {\n    p2.runInd = false\n    }\n  global.set('pump2.runInd', p2.runInd)\n\n\n//global.set('pump1.runInd', p1.runInd)\n//global.set('pump2.runInd', p2.runInd)\n\n// if (global.get('p1.HOA') === 1) {\n//     global.set(\"pump1.runInd\", true)\n//     }\n// if (global.get('p2.HOA') === 1) {\n//     global.set(\"pump2.runInd\", true)\n//     }\n// }\n}\n//if (sim) {\n  //  msg.payload = { 'tank1_level': t1.Level, 'tank2_level': t2.Level, 'pump1_Run': p1.runInd, 'pump2_Run': p2.runInd}\n  //  msg.topic = \"scadaBytes/tanksite/\" + global.get('SITE') + \"/main/tankLevel-control\"\n  //  return msg;\n//}\nreturn ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 360,
+        "wires": [
+            [
+                "f86c79d37208c96f"
+            ]
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.io\n  \\/_____/   \\/_/ | sean@scadaBytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "a080e2d332e5327e",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "abe5a5d3ef1ecac5"
+        ],
+        "x": 185,
+        "y": 360,
+        "wires": [
+            [
+                "24baeef2807eb76a"
+            ]
+        ]
+    },
+    {
+        "id": "f86c79d37208c96f",
+        "type": "link out",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "f21a16ba9855c846",
+            "b62a9d3a3fc23cab"
+        ],
+        "x": 545,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ce17751b26b0f520",
+        "type": "function",
+        "z": "f530b7f4ac193173",
+        "name": "reset false",
+        "func": "global.set('reset', false)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "552fdad58891ac7c",
+        "type": "link in",
+        "z": "f530b7f4ac193173",
+        "name": "",
+        "links": [
+            "cf791bec19a7b714"
+        ],
+        "x": 655,
+        "y": 400,
+        "wires": [
+            [
+                "ce17751b26b0f520"
+            ]
+        ]
+    },
+    {
+        "id": "d4cd9c5488264110",
+        "type": "comment",
+        "z": "f530b7f4ac193173",
+        "name": "TODO",
+        "info": "# NodeRed simulator generator tester back pocket helper app.\n\n#TODO: document features.\n\n## eventually this will have helpful information \n- for now its just a TODO list for myself\n\n\n---\n\n\n###TODO\n\n### alarming\n -  finish alarming and verify produce logs\n -  validate alarm indications\n -  investigate dashboard notifications\n -  change log to date management vs array length\n -  email report upon req\n -  sms\n \n\n### Controls\n\n\n### Comms\n\n\n### Simulation",
+        "x": 1230,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ae6f683fb566469c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt.ot-bytes.com",
+        "port": "8883",
+        "tls": "4b78b960fba463b4",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4b78b960fba463b4",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    }
+]

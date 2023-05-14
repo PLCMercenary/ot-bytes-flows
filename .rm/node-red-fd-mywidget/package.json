@@ -1,0 +1,25 @@
+{
+  "name": "node-red-fd-mywidget",
+  "version": "1.0.0",
+  "description": "A custom widget for FlexDash in Node-RED",
+  "main": "mywidget.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node-red",
+    "flexdash",
+    "widget",
+    "mywidget"
+  ],
+  "node-red": {
+    "nodes": {
+      "mywidget": "./mywidget.js"
+    }
+  },
+  "author": "Widget",
+  "license": "MIT",
+  "dependencies": {
+    "@flexdash/node-red-fd-custom": "^1.0.0"
+  }
+}

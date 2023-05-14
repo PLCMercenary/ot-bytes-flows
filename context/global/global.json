@@ -1,0 +1,230 @@
+{
+    "simTags": {
+        "high": 0.00009,
+        "low": 0.00001,
+        "inTempMaxMin": [
+            55,
+            25
+        ],
+        "outTempMaxMin": [
+            75,
+            30
+        ],
+        "oilTempMaxMin": [
+            130,
+            40
+        ],
+        "cpOilTempMaxMin": [
+            100,
+            60
+        ],
+        "plPSIMaxMin": [
+            220,
+            80
+        ],
+        "cpMaxMinSuct": [
+            90,
+            8
+        ],
+        "hpMaxMinSuct": [
+            180,
+            15
+        ],
+        "hpMaxMinDisc": [
+            450,
+            110
+        ]
+    },
+    "simRun": true,
+    "SITE": "East-Brazos",
+    "tank1": {
+        "Level": 7.47,
+        "maxLv": 30,
+        "lvlCmd": false,
+        "LvlAlmSP": [
+            28,
+            26,
+            4.3,
+            2.5
+        ],
+        "LvlAlms": [
+            false,
+            false,
+            true,
+            false
+        ]
+    },
+    "tank2": {
+        "Level": 15.38,
+        "maxLv": 24,
+        "lvlCmd": false,
+        "LvlAlmSP": [
+            22,
+            20,
+            3.2,
+            2.5
+        ],
+        "LvlAlms": [
+            false,
+            false,
+            true,
+            false
+        ]
+    },
+    "reset": false,
+    "inlet": {
+        "valve": "open",
+        "plPSI": 27,
+        "inletmeter": {
+            "curflowrate": 29857.14285714286,
+            "todayTotal": 13291.809520502627,
+            "yesterdayTotal": 42025.583040675505,
+            "lifetimeTotal": 1052039.7274785738,
+            "lastUpdate": 1684038423593
+        }
+    },
+    "pump1": {
+        "name": "pump1",
+        "alias": "p1",
+        "HOA": 1,
+        "runInd": false,
+        "speed": 0,
+        "fault": false,
+        "runPerm": {
+            "psiPerm": true,
+            "tempPerm": true
+        },
+        "opSP": {
+            "start": 8,
+            "stop": 7
+        },
+        "suctPSI": {
+            "val": 0,
+            "HiAlmSP": 170,
+            "HiAlm": false,
+            "hiSDsp": 178,
+            "hiSD": false
+        },
+        "discPSI": {
+            "val": 0,
+            "HiAlmSP": 430,
+            "HiAlm": false,
+            "hiSDsp": 447,
+            "hiSD": false
+        },
+        "inTemp": {
+            "val": 36.97,
+            "HiAlmSP": 45,
+            "HiAlm": true,
+            "hiSDsp": 53,
+            "hiSD": true
+        },
+        "outTemp": {
+            "val": 54.76,
+            "HiAlmSP": 65,
+            "HiAlm": true,
+            "hiSDsp": 73,
+            "hiSD": true
+        },
+        "oilTemp": {
+            "val": 102.68,
+            "HiAlmSP": 120,
+            "HiAlm": true,
+            "hiSDsp": 128,
+            "hiSD": true
+        },
+        "controlValve": {
+            "position": 0,
+            "pressureRating": 200,
+            "pid": {
+                "setpoint": 266,
+                "kp": 0.1,
+                "ki": 0.03,
+                "kd": 0,
+                "integralError": -1947.2147194719514,
+                "lastError": 0
+            }
+        },
+        "meter": {
+            "currRate": 0,
+            "lastUpdate": 1684038423592,
+            "todayTotal": 181.50301754115247,
+            "lifetimeTotal": 235594.85301445783,
+            "yesterdayTotal": 14944.097253703414
+        },
+        "id": "pump1",
+        "runInt": 0
+    },
+    "pump2": {
+        "name": "pump2",
+        "alias": "p2",
+        "HOA": 1,
+        "runInd": false,
+        "speed": 0,
+        "fault": false,
+        "runPerm": {
+            "psiPerm": true,
+            "tempPerm": true
+        },
+        "opSP": {
+            "start": 19,
+            "stop": 3
+        },
+        "suctPSI": {
+            "val": 0,
+            "HiAlmSP": 170,
+            "HiAlm": false,
+            "hiSDsp": 178,
+            "hiSD": false
+        },
+        "discPSI": {
+            "val": 0,
+            "HiAlmSP": 430,
+            "HiAlm": false,
+            "hiSDsp": 447,
+            "hiSD": false
+        },
+        "inTemp": {
+            "val": 24.7,
+            "HiAlmSP": 45,
+            "HiAlm": true,
+            "hiSDsp": 53,
+            "hiSD": false
+        },
+        "outTemp": {
+            "val": 29.76,
+            "HiAlmSP": 65,
+            "HiAlm": true,
+            "hiSDsp": 73,
+            "hiSD": false
+        },
+        "oilTemp": {
+            "val": 45.24,
+            "HiAlmSP": 120,
+            "HiAlm": true,
+            "hiSDsp": 128,
+            "hiSD": false
+        },
+        "controlValve": {
+            "position": 0,
+            "pressureRating": 200,
+            "pid": {
+                "setpoint": 390,
+                "kp": 0.1,
+                "ki": 0.03,
+                "kd": 0,
+                "integralError": -1269.2939051355913,
+                "lastError": 0
+            }
+        },
+        "meter": {
+            "currRate": 0,
+            "lastUpdate": 1684038423593,
+            "todayTotal": 0,
+            "lifetimeTotal": 56516.84172952201,
+            "yesterdayTotal": 30389.819899753944
+        },
+        "id": "pump2",
+        "runInt": 0
+    }
+}

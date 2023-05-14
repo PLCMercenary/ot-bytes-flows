@@ -1,0 +1,8 @@
+{
+    "cowsay2": {
+        "spec": "cowsay2",
+        "module": "cowsay2",
+        "builtin": false,
+        "known": false
+    }
+}

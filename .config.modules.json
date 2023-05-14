@@ -1,0 +1,14 @@
+{
+    "cowsay2": {
+        "spec": "cowsay2",
+        "module": "cowsay2",
+        "builtin": false,
+        "known": false
+    },
+    "clone": {
+        "spec": "clone",
+        "module": "clone",
+        "builtin": false,
+        "known": false
+    }
+}

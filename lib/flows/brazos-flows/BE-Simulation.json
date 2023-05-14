@@ -1,0 +1,462 @@
+[
+    {
+        "id": "3eb826abb193de97",
+        "type": "tab",
+        "label": "BE-Simulation",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c479e897a8cddfb9",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "Level Control",
+        "func": "let t1 = global.get('tank1') || {};\nlet t2 = global.get('tank2') || {};\nlet p1 = global.get('pump1') || {};\nlet p2 = global.get('pump2') || {};\nlet st = global.get('simTags') || {};\nlet iv = global.get('inlet') || {};\nconst sim = global.get('simRun')\n\nconst low = st.low;\nconst high = st.high;\n\n\n// function updateTankLevel(tank, pumpRunInd, valveStatus, updateInterval, fastMode) {\n//     const maxInchesPerUpdate = fastMode ? 60 : 4;\n//     const minInchesPerUpdate = fastMode ? 30 : 0;\n//     const avgInchesPerUpdate = fastMode ? 45 : 2.2; // Adjust these values based on your desired average rise or fall\n\n//     const inchesPerSecond = (Math.random() * (maxInchesPerUpdate - minInchesPerUpdate) + minInchesPerUpdate) / updateInterval;\n//     const inchesChange = inchesPerSecond * updateInterval;\n\n//     if (sim && !pumpRunInd && valveStatus === 'open') {\n//         tank.Level += inchesChange;\n//     }\n//     if (sim && pumpRunInd) {\n//         tank.Level -= inchesChange;\n//     }\n\n//     tank.Level = Math.max(0, tank.Level);\n//     tank.Level = Math.floor(tank.Level * 100) / 100; // Round down to 2 decimal places\n// }\n\n// const fastMode = msg.fastMode || false;\n// const updateInterval = fastMode ? (Math.random() * 60 + 120) : (Math.random() * 15 + 45); // Random interval between 45 to 60 seconds for normal mode, and between 120 to 180 seconds for fast mode\n\n\n\n// updateTankLevel(t1, p1.runInd, iv.valve, updateInterval, fastMode);\n// updateTankLevel(t2, p2.runInd, iv.valve, updateInterval, fastMode);\n\n// function updateTankLevel(tank, pumpRunInd, valveStatus, updateInterval, fastMode, tankName) {\n//     const initialLevel = tank.Level;\n//     const maxInchesPerUpdate = fastMode ? 60 : 4;\n//     const minInchesPerUpdate = fastMode ? 30 : 0;\n//     const avgInchesPerUpdate = fastMode ? 45 : 2.2; // Adjust these values based on your desired average rise or fall\n\n//     const inchesPerSecond = (Math.random() * (maxInchesPerUpdate - minInchesPerUpdate) + minInchesPerUpdate) / updateInterval;\n//     const inchesChange = inchesPerSecond * updateInterval;\n\n//     if (sim && !pumpRunInd && valveStatus === 'open') {\n//         tank.Level += inchesChange;\n//     }\n//     if (sim && pumpRunInd) {\n//         tank.Level -= inchesChange;\n//     }\n\n//     tank.Level = Math.max(0, tank.Level);\n//     tank.Level = Math.floor(tank.Level * 100) / 100; // Round down to 2 decimal places\nfunction updateTankLevel(tank, pumpRunInd, valveStatus, updateInterval, fastMode, tankName) {\n    const initialLevel = tank.Level;\n    const maxInchesPerUpdate = fastMode ? 60 : 4;\n    const minInchesPerUpdate = fastMode ? 30 : 0;\n    const avgInchesPerUpdate = fastMode ? 45 : 2.2; // Adjust these values based on your desired average rise or fall\n\n    const inchesPerSecond = (Math.random() * (maxInchesPerUpdate - minInchesPerUpdate) + minInchesPerUpdate) / updateInterval;\n    const inchesChange = inchesPerSecond * updateInterval;\n    const feetChange = inchesChange / 12; // Convert inches to feet\n\n    if (sim && !pumpRunInd && valveStatus === 'open') {\n        tank.Level += feetChange;\n    }\n    if (sim && pumpRunInd) {\n        tank.Level -= feetChange;\n    }\n\n    tank.Level = Math.max(0, tank.Level);\n    tank.Level = Math.floor(tank.Level * 100) / 100; // Round down to 2 decimal places\n\n    \n}\n\nconst fastMode = msg.fastMode || false;\nconst updateInterval = fastMode ? (Math.random() * 60 + 120) : (Math.random() * 15 + 45); // Random interval between 45 to 60 seconds for normal mode, and between 120 to 180 seconds for fast mode\n\nupdateTankLevel(t1, p1.runInd, iv.valve, updateInterval, fastMode, 'Tank1');\nupdateTankLevel(t2, p2.runInd, iv.valve, updateInterval, fastMode, 'Tank2');\n\nif (sim) {\n    global.set('tank1', t1);\n    global.set('tank2', t2);\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 40,
+        "wires": [
+            []
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.io\n  \\/_____/   \\/_/ | sean@scadaBytes.io\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "3228cc79f5041434",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "Temp measurement",
+        "func": "// let p1 = global.get('pump1') || {}\n// let p2 = global.get('pump2') || {}\n// let st =  global.get('simTags') || {} \n\n// var high = st.high\n// var low = st.low\n\n\n\n// function random(low, high) {\n//     return Math.random() * (high - low) + low\n// }\n\n// var step = Math.random()\n// var sim = global.get('simRun')\n\n\n// if (sim  && p1.runInd && p1.inTemp.val < st.inTempMaxMin[0]){      \n//     p1.inTemp.val= Math.round((p1.inTemp.val+step)* 100)/ 100\n//     }\n// if (sim && !p1.runInd && p1.inTemp.val > st.inTempMaxMin[1]){\n//     p1.inTemp.val = Math.round((p1.inTemp.val - step) * 100) / 100\n//     }\n// global.set('pump1.inTemp.val', p1.inTemp.val)\n\n// step = Math.random()\n// if (sim && p1.runInd && p1.outTemp.val < st.outTempMaxMin[0]) {\n//     p1.outTemp.val = Math.round((p1.outTemp.val + step) * 100) / 100\n// }\n// if (sim && !p1.runInd && p1.outTemp.val > st.outTempMaxMin[1]) {\n//     p1.outTemp.val = Math.round((p1.outTemp.val - step) * 100) / 100\n// }\n// global.set('pump1.outTemp.val', p1.outTemp.val)\n\n// step = Math.random()\n// if (sim && p1.runInd && p1.oilTemp.val < st.oilTempMaxMin[0]) {\n//     p1.oilTemp.val = Math.round((p1.oilTemp.val + step) * 100) / 100\n// }\n// if (sim && !p1.runInd && p1.oilTemp.val > st.oilTempMaxMin[1]) {\n//     p1.oilTemp.val = Math.round((p1.oilTemp.val - step) * 100) / 100  \n// }\n// global.set('pump1.oilTemp.val', p1.oilTemp.val)\n\n\n\n// step = Math.random()\n// if (sim && p2.runInd && p2.inTemp.val < st.inTempMaxMin[0]) {\n//     p2.inTemp.val = Math.round((p2.inTemp.val + step) * 100) / 100\n// }\n// if (sim && !p2.runInd && p2.inTemp.val > st.inTempMaxMin[1]) {\n//     p2.inTemp.val = Math.round((p2.inTemp.val - step) * 100) / 100\n   \n// }\n// global.set('pump2.inTemp.val', p2.inTemp.val)\n\n// step = Math.random()\n// if (sim && p2.runInd && p2.outTemp.val < st.outTempMaxMin[0]) {\n//     p2.outTemp.val = Math.round((p2.outTemp.val + step) * 100) / 100\n// }\n// if (sim && !p2.runInd&& p2.outTemp.val > st.outTempMaxMin[1]) {\n//     p2.outTemp.val = Math.round((p2.outTemp.val - step) * 100) / 100 \n// }\n// global.set('pump2.outTemp.val', p2.outTemp.val)\n\n// step = Math.random()\n// if (sim && p2.runInd && p2.oilTemp.val < st.oilTempMaxMin[0]) {\n//     p2.oilTemp.val = Math.round((p2.oilTemp.val + step) * 100) / 100\n// }\n// if (sim && !p2.runInd && p2.oilTemp.val > st.oilTempMaxMin[1]) {\n//     p2.oilTemp.val = Math.round((p2.oilTemp.val - step) * 100) / 100 \n// }\n// global.set('pump2.oilTemp.val', p2.oilTemp.val)\n\n\n// return ;\n\n\nlet p1 = global.get('pump1') || {};\nlet p2 = global.get('pump2') || {};\nlet st = global.get('simTags') || {};\nlet sim = global.get('simRun')\n\nfunction random(low, high) {\n    return Math.random() * (high - low) + low;\n}\n\nfunction updateTemperature(pump, property, runInd, maxMin) {\n    let step = Math.random();\n    if (sim && runInd && pump[property].val < maxMin[0]) {\n        pump[property].val = Math.round((pump[property].val + step) * 100) / 100;\n    }\n    if (sim && !runInd && pump[property].val > maxMin[1]) {\n        pump[property].val = Math.round((pump[property].val - step) * 100) / 100;\n    }\n    global.set(pump.id + '.' + property + '.val', pump[property].val);\n}\n\np1.id = 'pump1';\np2.id = 'pump2';\n\nupdateTemperature(p1, 'inTemp', p1.runInd, st.inTempMaxMin);\nupdateTemperature(p1, 'outTemp', p1.runInd, st.outTempMaxMin);\nupdateTemperature(p1, 'oilTemp', p1.runInd, st.oilTempMaxMin);\n\nupdateTemperature(p2, 'inTemp', p2.runInd, st.inTempMaxMin);\nupdateTemperature(p2, 'outTemp', p2.runInd, st.outTempMaxMin);\nupdateTemperature(p2, 'oilTemp', p2.runInd, st.oilTempMaxMin);\n\nreturn;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 120,
+        "wires": [
+            []
+        ],
+        "info": "***********************************************\n ______   ______  | Copyright 2021\n/\\  ___\\ /\\__  _\\ | Rights Reserved \n\\ \\___  \\\\/_/\\ \\/ | Sean Terrell  \n \\/\\_____\\  \\ \\_\\ | https://scadaBytes.com\n  \\/_____/   \\/_/ | scadaBytes industrial data  \n                  | Montreal, QB\n***********************************************\n\nFind me on [https://www.linkedin.com/in/sean-terrell-1837a312/](Linkedin)\n"
+    },
+    {
+        "id": "1249a8ef35cebda8",
+        "type": "inject",
+        "z": "3eb826abb193de97",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "35",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "3228cc79f5041434",
+                "6242a77fe70b73cb"
+            ]
+        ]
+    },
+    {
+        "id": "46ebad62de560535",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "scale flow to speed",
+        "func": "// Function to scale pump speed to flow rate\nfunction scaleSpeedToFlowRate(speed, minIn, maxIn, minOut, maxOut) {\n    const scaledSpeed = Math.max(Math.min(speed, maxIn), minIn);\n    const scale = (maxOut - minOut) / (maxIn - minIn);\n    return Math.round(minOut + scale * (scaledSpeed - minIn));\n}\n\n// Update pump flow rate based on pump speed\nfunction updatePumpFlowRate(pumpId, speed) {\n    const flowRate = scaleSpeedToFlowRate(speed, 0, 62, 0, 512);\n    global.set(pumpId + '.meter.currRate', flowRate);\n    return flowRate;\n}\n\nlet p1 = global.get('pump1') || {};\nlet p2 = global.get('pump2') || {};\n\nlet p1FlowRate = p1.runInd ? updatePumpFlowRate('pump1', p1.speed) : 0;\nlet p2FlowRate = p2.runInd ? updatePumpFlowRate('pump2', p2.speed) : 0;\n\nmsg.payload = { p1FlowRate: p1FlowRate, p2FlowRate: p2FlowRate };\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4584bb75851f6b2",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 1",
+        "links": [
+            "6242a77fe70b73cb"
+        ],
+        "x": 545,
+        "y": 280,
+        "wires": [
+            [
+                "3ec2fb8b7af0b335"
+            ]
+        ]
+    },
+    {
+        "id": "2b6985d5dc5f5883",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 5",
+        "links": [
+            "6242a77fe70b73cb"
+        ],
+        "x": 545,
+        "y": 360,
+        "wires": [
+            [
+                "46ebad62de560535"
+            ]
+        ]
+    },
+    {
+        "id": "6242a77fe70b73cb",
+        "type": "link out",
+        "z": "3eb826abb193de97",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "2b6985d5dc5f5883",
+            "3f1628ce08fed92c",
+            "92b9e87521413c9a",
+            "a4584bb75851f6b2",
+            "fe97dc58596fd1dc",
+            "6e234048a3fe814d",
+            "9d39612f66507e23",
+            "f2f140e4fbff9554",
+            "b4b5312b3dd10365",
+            "f380f9d05f44ac67"
+        ],
+        "x": 315,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3920af8a21990d23",
+        "type": "inject",
+        "z": "3eb826abb193de97",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "fastMode",
+                "v": "false",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "45",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 40,
+        "wires": [
+            [
+                "c479e897a8cddfb9"
+            ]
+        ]
+    },
+    {
+        "id": "56e5a8f0cfd77e1f",
+        "type": "inject",
+        "z": "3eb826abb193de97",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 200,
+        "wires": [
+            [
+                "9d19a4c059376b1b"
+            ]
+        ]
+    },
+    {
+        "id": "9d19a4c059376b1b",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "function 17",
+        "func": "global.set('simTags.high', 0.0000000005)\nglobal.set('simTags.low',  0.00000000001)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3ec2fb8b7af0b335",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "t.Level to p.Speed map",
+        "func": "// Function to scale tank level to pump speed\nfunction scaleLevelToSpeed(tankLevel, minIn, maxIn, minOut, maxOut) {\n    const level = Math.max(Math.min(tankLevel, maxIn), minIn);\n    const scale = (maxOut - minOut) / (maxIn - minIn);\n    return Math.round(minOut + scale * (level - minIn));\n}\n\n// Update pump speed based on tank level\nfunction updatePumpSpeed(pumpId, tankLevel) {\n    const pump = global.get(pumpId) || {};\n    const speed = scaleLevelToSpeed(tankLevel, 0, 25, 38, 62);\n    global.set(pumpId + \".speed\", speed);\n    return speed;\n}\n\nlet t1 = global.get(\"tank1\") || {};\nlet t2 = global.get(\"tank2\") || {};\nlet p1 = global.get(\"pump1\") || {};\nlet p2 = global.get(\"pump2\") || {};\n\nif (p1.runInd) {\n    msg.payload = updatePumpSpeed(\"pump1\", t1.Level);\n    // msg.topic = \"scadaBytes/tanksite/\" + global.get(\"SITE\") + \"/main/pump1/vfd_speed\";\n    return msg;\n} else {\n    global.set(\"pump1.speed\", 0);\n}\n\nif (p2.runInd) {\n    msg.payload = updatePumpSpeed(\"pump2\", t2.Level);\n    // msg.topic = \"scadaBytes/tanksite/\" + global.get(\"SITE\") + \"/main/pump2/vfd_speed\";\n    return msg;\n} else {\n    global.set(\"pump2.speed\", 0);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dea591fa126002b4",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "map suct / discPSI - Hz range",
+        "func": "// Function to scale pump speed to suction and discharge PSI\nfunction scaleSpeedToPSI(speed, minIn, maxIn, minOut, maxOut) {\n    const scaledSpeed = Math.max(Math.min(speed, maxIn), minIn);\n    const scale = (maxOut - minOut) / (maxIn - minIn);\n    return Math.round(minOut + scale * (scaledSpeed - minIn));\n}\n\n// Update pump suction and discharge PSI based on pump speed\nfunction updatePumpPSI(pumpId, speed) {\n    const suctPSI = scaleSpeedToPSI(speed, 38, 62, 75, 30);\n    const discPSI = scaleSpeedToPSI(speed, 38, 62, 85, 160);\n    global.set(pumpId + '.suctPSI.val', suctPSI);\n    global.set(pumpId + '.discPSI.val', discPSI);\n}\n\nlet p1 = global.get('pump1') || {};\nlet p2 = global.get('pump2') || {};\n\nif (p1.runInd) {\n    updatePumpPSI('pump1', p1.speed);\n} else {\n    global.set('pump1.suctPSI.val', 0);\n    global.set('pump1.discPSI.val', 0);\n}\n\nif (p2.runInd) {\n    updatePumpPSI('pump2', p2.speed);\n} else {\n    global.set('pump2.suctPSI.val', 0);\n    global.set('pump2.discPSI.val', 0);\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6e234048a3fe814d",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 34",
+        "links": [
+            "6242a77fe70b73cb"
+        ],
+        "x": 545,
+        "y": 320,
+        "wires": [
+            [
+                "dea591fa126002b4"
+            ]
+        ]
+    },
+    {
+        "id": "7e0b085b7201f21e",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "p1 flowmeter",
+        "func": "const FLOW_RATE_AT_72HZ = 48320;\nconst MIN_FREQ = 54;\nconst MAX_FREQ = 72;\nconst MS_IN_A_DAY = 86400000;\n\nconst now = Date.now();\nconst lastUpdate = global.get('pump1.meter.lastUpdate') || now;\nconst elapsedTime = now - lastUpdate;\nglobal.set('pump1.meter.lastUpdate', now);\n\nconst p1 = global.get('pump1') || {};\n\nif (p1.runInd) {\n    const speed = p1.speed || 0;\n    const freq = (speed / (MAX_FREQ - MIN_FREQ)) * (MAX_FREQ - MIN_FREQ) + MIN_FREQ;\n    const flowRate = (freq / MAX_FREQ) * FLOW_RATE_AT_72HZ;\n    const flowForElapsedTime = flowRate * (elapsedTime / MS_IN_A_DAY);\n\n    if (msg.rollover) {\n        const todayTotal = global.get('pump1.meter.todayTotal') || 0;\n        global.set('pump1.meter.yesterdayTotal', todayTotal);\n        global.set('pump1.meter.todayTotal', 0);\n    } else {\n        const todayTotal = global.get('pump1.meter.todayTotal') || 0;\n        global.set('pump1.meter.todayTotal', todayTotal + flowForElapsedTime);\n    }\n\n    const lifetimeTotal = global.get('pump1.meter.lifetimeTotal') || 208430;\n    global.set('pump1.meter.lifetimeTotal', lifetimeTotal + flowForElapsedTime);\n\n    msg.payload = {\n        instantFlowRate: flowRate,\n        todayTotal: global.get('pump1.meter.todayTotal'),\n        yesterdayTotal: global.get('pump1.meter.yesterdayTotal'),\n        lifetimeTotal: global.get('pump1.meter.lifetimeTotal')\n    };\n} else {\n    msg.payload = {\n        instantFlowRate: 0,\n        todayTotal: global.get('pump1.meter.todayTotal'),\n        yesterdayTotal: global.get('pump1.meter.yesterdayTotal'),\n        lifetimeTotal: global.get('pump1.meter.lifetimeTotal')\n    };\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d39612f66507e23",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 35",
+        "links": [
+            "6242a77fe70b73cb",
+            "127d884417b0670f"
+        ],
+        "x": 545,
+        "y": 400,
+        "wires": [
+            [
+                "7e0b085b7201f21e"
+            ]
+        ]
+    },
+    {
+        "id": "dbf27704329ab4e9",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "p2 flowmeter",
+        "func": "const FLOW_RATE_AT_70HZ = 44671;\nconst MIN_FREQ = 54;\nconst MAX_FREQ = 70;\nconst MS_IN_A_DAY = 86400000;\n\nconst now = Date.now();\nconst lastUpdate = global.get('pump2.meter.lastUpdate') || now;\nconst elapsedTime = now - lastUpdate;\nglobal.set('pump2.meter.lastUpdate', now);\n\nconst p2 = global.get('pump2') || {};\n\nif (p2.runInd) {\n    const speed = p2.speed || 0;\n    const freq = (speed / (MAX_FREQ - MIN_FREQ)) * (MAX_FREQ - MIN_FREQ) + MIN_FREQ;\n    const flowRate = (freq / MAX_FREQ) * FLOW_RATE_AT_70HZ;\n    const flowForElapsedTime = flowRate * (elapsedTime / MS_IN_A_DAY);\n\n    if (msg.rollover) {\n        const todayTotal = global.get('pump2.meter.todayTotal') || 0;\n        global.set('pump2.meter.yesterdayTotal', todayTotal);\n        global.set('pump2.meter.todayTotal', 0);\n    } else {\n        const todayTotal = global.get('pump2.meter.todayTotal') || 0;\n        global.set('pump2.meter.todayTotal', todayTotal + flowForElapsedTime);\n    }\n\n    const lifetimeTotal = global.get('pump2.meter.lifetimeTotal') || 663;\n    global.set('pump2.meter.lifetimeTotal', lifetimeTotal + flowForElapsedTime);\n\n    msg.payload = {\n        instantFlowRate: flowRate,\n        todayTotal: global.get('pump2.meter.todayTotal'),\n        yesterdayTotal: global.get('pump2.meter.yesterdayTotal'),\n        lifetimeTotal: global.get('pump2.meter.lifetimeTotal')\n    };\n} else {\n    msg.payload = {\n        instantFlowRate: 0,\n        todayTotal: global.get('pump2.meter.todayTotal'),\n        yesterdayTotal: global.get('pump2.meter.yesterdayTotal'),\n        lifetimeTotal: global.get('pump2.meter.lifetimeTotal')\n    };\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f2f140e4fbff9554",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 36",
+        "links": [
+            "6242a77fe70b73cb",
+            "127d884417b0670f"
+        ],
+        "x": 545,
+        "y": 440,
+        "wires": [
+            [
+                "dbf27704329ab4e9"
+            ]
+        ]
+    },
+    {
+        "id": "76778d91cfde20c9",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "inlet flowmeter",
+        "func": "const FLOW_RATE_AT_210PSI = 30000;\nconst MIN_PRESSURE = 200;\nconst MAX_PRESSURE = 210;\nconst MS_IN_A_DAY = 86400000;\n\nfunction getRandomInt(min, max) {\n    min = Math.ceil(min);\n    max = Math.floor(max);\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\nconst now = Date.now();\nconst lastUpdate = global.get('inlet.inletmeter.lastUpdate') || now;\nconst elapsedTime = now - lastUpdate;\nglobal.set('inlet.inletmeter.lastUpdate', now);\n\nconst valveOpen = global.get('inlet.valve') || 'open';\nlet flowRate = 0;\n\nif (valveOpen) {\n  const pressure = getRandomInt(MIN_PRESSURE, MAX_PRESSURE);\n    flowRate = (pressure / MAX_PRESSURE) * FLOW_RATE_AT_210PSI;\n    const flowForElapsedTime = flowRate * (elapsedTime / MS_IN_A_DAY);\n\n    if (msg.rollover) {\n        const todayTotal = global.get('inlet.inletmeter.todayTotal') || 0;\n        global.set('inlet.inletmeter.yesterdayTotal', todayTotal);\n        global.set('inlet.inletmeter.todayTotal', 0);\n    } else {\n        const todayTotal = global.get('inlet.inletmeter.todayTotal') || 12740;        \n        global.set('inlet.inletmeter.todayTotal', todayTotal + flowForElapsedTime);\n    }\n\n    const lifetimeTotal = global.get('inlet.inletmeter.lifetimeTotal') || 997004.25;\n    global.set('inlet.inletmeter.lifetimeTotal', lifetimeTotal + flowForElapsedTime);\n}\n\nmsg.payload = {\n    valveOpen: valveOpen,\n    instantFlowRate: flowRate,\n    todayTotal: global.get('inlet.inletmeter.todayTotal'),\n    yesterdayTotal: global.get('inlet.inletmeter.yesterdayTotal'),\n    lifetimeTotal: global.get('inlet.inletmeter.lifetimeTotal')\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b4b5312b3dd10365",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 37",
+        "links": [
+            "6242a77fe70b73cb",
+            "127d884417b0670f"
+        ],
+        "x": 545,
+        "y": 480,
+        "wires": [
+            [
+                "76778d91cfde20c9"
+            ]
+        ]
+    },
+    {
+        "id": "d0ea04aaa5720d12",
+        "type": "cron",
+        "z": "3eb826abb193de97",
+        "name": "",
+        "crontab": "0 4 * * *",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "c1fe0209e4c331bf"
+            ]
+        ]
+    },
+    {
+        "id": "c1fe0209e4c331bf",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "function 20",
+        "func": "msg.rollover = true\nmsg.topic = \"cron alms\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "127d884417b0670f"
+            ]
+        ]
+    },
+    {
+        "id": "127d884417b0670f",
+        "type": "link out",
+        "z": "3eb826abb193de97",
+        "name": "link out 20",
+        "mode": "link",
+        "links": [
+            "9d39612f66507e23",
+            "f2f140e4fbff9554",
+            "b4b5312b3dd10365",
+            "f380f9d05f44ac67"
+        ],
+        "x": 275,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "35d1d088e6b997c3",
+        "type": "function",
+        "z": "3eb826abb193de97",
+        "name": "function 21",
+        "func": "function setIncomingPressure() {\n    const minPressure = 8;\n    const maxPressure = 210;\n    const maxChange = 35;\n\n    let inlet = global.get(\"inlet\") || {\n        valve: \"open\",\n        plPSI: minPressure,\n        inletmeter: {\n            curflowrate: 12,\n            todaytotal: 0,\n            yesttotal: 0,\n            lifetime: 0\n        }\n    };\n\n    const previousPressure = inlet.plPSI;\n    const pressureChange = Math.floor(Math.random() * (maxChange * 2 + 1)) - maxChange;\n    inlet.plPSI = Math.max(Math.min(previousPressure + pressureChange, maxPressure), minPressure);\n\n    global.set(\"inlet\", inlet);\n}\n\nsetIncomingPressure();\n\nmsg.payload = {\n    inlet: global.get(\"inlet\")\n};\n\nreturn msg;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f380f9d05f44ac67",
+        "type": "link in",
+        "z": "3eb826abb193de97",
+        "name": "link in 38",
+        "links": [
+            "6242a77fe70b73cb",
+            "127d884417b0670f"
+        ],
+        "x": 545,
+        "y": 520,
+        "wires": [
+            [
+                "35d1d088e6b997c3"
+            ]
+        ]
+    }
+]

@@ -1,0 +1,64 @@
+{
+    "_": {
+        "editor": {
+            "view": {
+                "view-store-zoom": false,
+                "view-store-position": false,
+                "view-show-grid": true,
+                "view-snap-grid": true,
+                "view-grid-size": "20",
+                "view-node-status": true,
+                "view-node-show-label": true,
+                "view-show-tips": true,
+                "view-show-welcome-tours": true
+            },
+            "tours": {
+                "welcome": "3.0.2"
+            },
+            "keymap": {},
+            "context": {
+                "flowRefresh": false
+            }
+        },
+        "debug": {
+            "filter": "filterCurrent",
+            "filteredNodes": [
+                "9716ede9087b50d3",
+                "16c10ad9.ea5c75",
+                "9f176c0.9c6b298",
+                "c3db64d1d2260340",
+                "b9394fbf.beddd",
+                "a23789a7.17e4b8",
+                "fffb6cde.8a2c5",
+                "f6609e8e2065a1a3",
+                "65b13d57.700074",
+                "20fa70dc.7107f",
+                "ed3da95d.62ee98",
+                "7c2812c.c6ee7ec",
+                "c2541f10.59544",
+                "189fecce.8c76bb",
+                "3a4adf7d7fd9343b",
+                "153eb0ff.5622df",
+                "309ef9e7d8a331d2",
+                "0e3b55ee6ea1a0ae",
+                "dd03f3b621b06c99",
+                "65c207ab.b53e08",
+                "2cf3f051.3dd33",
+                "4e7c2860.c5c318",
+                "16169222.b4d91e",
+                "ef16c5036419f2d1",
+                "50c73c4d00f6ba6c",
+                "6a22f49cbb9a5929",
+                "e50f0d84b6aad16a",
+                "27f0524e1895230c",
+                "9a50ea929eb5cbb9",
+                "d2a39d698abe0fb9",
+                "a8c441b764b25ce4"
+            ]
+        },
+        "menu-menu-item-sidebar": true,
+        "menu-deploymenu-item-node": true,
+        "menu-deploymenu-item-full": false,
+        "menu-menu-item-palette": true
+    }
+}

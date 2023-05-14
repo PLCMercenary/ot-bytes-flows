@@ -1,0 +1,2178 @@
+[
+    {
+        "id": "493d2f30c5ead3e9",
+        "type": "tab",
+        "label": "Brazos-Edge-FD",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bf3928f1c1cf14f6",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 8",
+        "mode": "link",
+        "links": [
+            "f2aceacafb3777a2"
+        ],
+        "x": 615,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "68c0a337793d04b9",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 4",
+        "mode": "link",
+        "links": [
+            "0a6fd1f43e87049a"
+        ],
+        "x": 615,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "5383910989fc96df",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 9",
+        "mode": "link",
+        "links": [
+            "5816d7ca4124487c"
+        ],
+        "x": 615,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "702d6b887a5f9e8e",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 10",
+        "mode": "link",
+        "links": [
+            "fbc3da0d80a74c32"
+        ],
+        "x": 615,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "cf3567de0ed474d7",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "format plot data",
+        "func": "let t1 = global.get('tank1') || {}\nlet t2 = global.get('tank2') || {}\nlet p1 = global.get('pump1') || {}\nlet p2 = global.get('pump2') || {}\nlet t = Math.round(Date.now() / 1000)\nlet data = flow.get('plotData')||[]\nlet a = [t, t1.Level, t2.Level]\n\n\ndata.length>=50?data = [...data, a].slice(1, 50): data= [...data, a] \n\n\nmsg.unit = \"Ft\"\nmsg.payload = data;\nmsg.title = 'Tanks'\nmsg.labels = [\"tank 1\", \"tank2\"]\nmsg.points = [true, true]\nnode.send([msg, null, null])\nflow.set('plotData', data)\n\nmsg.payload = t1.Level\nmsg.topic = \"t1\"\nmsg.title = 'Tank 1'\nmsg.unit = \"Ft\"\nnode.send([null, msg, null]);\n\nmsg.payload = t2.Level\nmsg.topic = \"t2\"\nmsg.title = 'Tank 2'\nmsg.unit = \"Ft\"\nmsg.color = \"green\"\nnode.send([null, null, msg])\n\n// if(p1.runInd){\n//     msg.payload = \"Running\"\n//     msg.color = \"green-accent-3\"\n//     msg.title = \"Pump 1\"\n//     node.send([null, null, null, msg])\n// }\n// if(!p1.runInd){\n//     msg.payload = \"Stop\"\n//     msg.color = \"pink-accent-3\"\n//     msg.title = \"Pump 1\"\n//     node.send([null, null, null, msg])\n// }\n// if (p2.runInd) {\n//     msg.payload = \"Running\"\n//     msg.color = \"green-accent-3\"\n//     msg.title = \"Pump 2\"\n//     node.send([null, null, null, null, msg])\n// }\n// if (!p2.runInd) {\n//     msg.payload = \"Stop\"\n//     msg.color = \"pink-accent-3\"\n//     msg.title = \"Pump 2\"\n//     node.send([null, null, null, null, msg])\n// }\n\n// msg.payload = p1.suctPSI.val\n// msg.color = 'green-accent-3'\n// msg.low_color = 'blue-accent-3'\n// msg.hi_color = 'pink-accent-3'\n// msg.low_threshold = 150\n// msg.high_threshold = 170\n// msg.title = 'P1 Suct PSI'\n// msg.unit = \"psi\"\n// node.send([null, null, null, null, null, msg])\n\n// msg.payload = p1.discPSI.val\n// msg.title = 'P1 Discharge PSI'\n// msg.color = 'green-accent-3'\n// msg.low_color = 'blue-accent-3'\n// msg.hi_color = 'pink-accent-3'\n// msg.low_threshold = 420\n// msg.high_threshold = 430\n// msg.unit = \"psi\"\n// node.send([null, null, null, null, null, null, msg])\n\n// msg.payload = p2.suctPSI.val\n// msg.color = 'green-accent-3'\n// msg.low_color = 'blue-accent-3'\n// msg.hi_color = 'pink-accent-3'\n// msg.low_threshold = 150\n// msg.high_threshold = 170\n// msg.title = 'P2 Suct PSI'\n// msg.unit = \"psi\"\n// node.send([null, null, null, null, \n//            null, null, null, msg])\n\n// msg.payload = p2.discPSI.val\n// msg.title = 'P2 Discharge PSI'\n// msg.color = 'green-accent-3'\n// msg.low_color = 'blue-accent-3'\n// msg.hi_color = 'pink-accent-3'\n// msg.low_threshold = 420\n// msg.high_threshold = 430\n// msg.unit = \"psi\"\n// node.send([null, null, null, null, \n//            null, null, null, null, \n//            msg])\n// return;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 120,
+        "wires": [
+            [
+                "b52b75adc1d1ae63",
+                "e496bb85b269d7b4"
+            ],
+            [
+                "a1a9a0ccbe7f5358"
+            ],
+            [
+                "e1bf9a9d5e68c697"
+            ]
+        ]
+    },
+    {
+        "id": "2f6610498e8813ac",
+        "type": "inject",
+        "z": "493d2f30c5ead3e9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "15",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 60,
+        "wires": [
+            [
+                "f8e158f05e225708"
+            ]
+        ]
+    },
+    {
+        "id": "b49152bc426fd9d4",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "DashButton parse",
+        "func": "// if (msg.topic === \"p1.opSP.start\"){\n//     global.set('pump1.opSP.start', msg.payload) \n//  }\n// if (msg.topic === \"p1.opSP.stop\") {\n//     global.set('pump1.opSP.stop', msg.payload)\n// } \n// if (msg.topic === \"p2.opSP.start\") {\n//     global.set('pump2.opSP.start', msg.payload)\n// }\n// if (msg.topic === \"p2.opSP.stop\") {\n//     global.set('pump2.opSP.stop', msg.payload)\n// }\n\n\n//  if (msg.topic === 'alarmReset') {\n//     global.set('reset', msg.payload)\n//  }\n\nglobal.set(msg.topic, msg.payload)\n\n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6d7042900e6b389d",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "P1-P2 Run conditions",
+        "func": "let p1 = global.get('pump1') || {}\nlet p2 = global.get('pump2') || {}\n\nif (p1.runInd) {\n    msg.payload = \"Running\"\n//    msg.value = \"shit\"\n    msg.color = \"green-accent-3\"\n    msg.title = \"Status\"\n    node.send([msg])\n}\nif (!p1.runInd) {\n    msg.payload = \"Stop\"\n    msg.color = \"pink-accent-3\"\n    msg.title = \"Status\"\n    node.send([msg])\n}\nif (p2.runInd) {\n    msg.payload = \"Running\"\n    msg.color = \"green-accent-3\"\n    msg.title = \"Status\"\n    node.send([null, msg])\n}\nif (!p2.runInd) {\n    msg.payload = \"Stop\"\n    msg.color = \"pink-accent-3\"\n    msg.title = \"Status\"\n    node.send([null, msg])\n}\n\nmsg.payload = p1.suctPSI.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 150\nmsg.high_threshold = 170\nmsg.title = 'Suction PSI'\nmsg.unit = \"psi\"\nnode.send([null, null, msg])\n\nmsg.payload = p1.discPSI.val\nmsg.title = 'Discharge PSI'\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 420\nmsg.high_threshold = 430\nmsg.unit = \"psi\"\nnode.send([null, null, null, msg])\n\nmsg.payload = p2.suctPSI.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 150\nmsg.high_threshold = 170\nmsg.title = 'Suction PSI'\nmsg.unit = \"psi\"\nnode.send([null, null, null, null,\n    msg])\n\nmsg.payload = p2.discPSI.val\nmsg.title = 'Discharge PSI'\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 420\nmsg.high_threshold = 430\nmsg.unit = \"psi\"\nnode.send([null, null, null, null,\n           null, msg])\n\nmsg.payload = p1.speed\nmsg.title = 'Pump Speed'\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 55\nmsg.high_threshold = 60\nmsg.unit = \"hz\"\nnode.send([null, null, null, null,\n    null, null, msg])\n\n\nmsg.payload = p2.speed\nmsg.title = 'Pump Speed'\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = 55\nmsg.high_threshold = 60\nmsg.unit = \"hz\"\nnode.send([null, null, null, null,\n    null, null, null, msg])\n\nreturn;\n",
+        "outputs": 8,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 520,
+        "wires": [
+            [
+                "bf3928f1c1cf14f6"
+            ],
+            [
+                "68c0a337793d04b9"
+            ],
+            [
+                "5383910989fc96df"
+            ],
+            [
+                "702d6b887a5f9e8e"
+            ],
+            [
+                "2958d741a3838476"
+            ],
+            [
+                "5f2ac4ce9c793c98"
+            ],
+            [
+                "8b728b8f8bda683d"
+            ],
+            [
+                "0bd848786f479f4e"
+            ]
+        ]
+    },
+    {
+        "id": "7eb8ad78e98ed3fa",
+        "type": "inject",
+        "z": "493d2f30c5ead3e9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "url",
+                "v": "https://nodered.ot-bytes.xyz/ui/#!/0?socketid=LvvEKaE7S2Nnv8SIAAAP",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "cf3567de0ed474d7"
+            ]
+        ]
+    },
+    {
+        "id": "e496bb85b269d7b4",
+        "type": "debug",
+        "z": "493d2f30c5ead3e9",
+        "name": "debug 136",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8d7694b744aa851e",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "txtbox val fill",
+        "func": "let p1 = global.get('pump1')||{}\nlet p2 = global.get('pump2')||{}\n\n\nmsg.payload = p1.opSP.start\nnode.send ([msg, null, null, null]);\n\nmsg.payload = p1.opSP.stop\nnode.send ([null, msg, null, null])\n\nmsg.payload = p2.opSP.start\nnode.send ([null, null, msg, null]);\n\nmsg.payload = p2.opSP.stop\nnode.send([null, null, null, msg])\n\nreturn ;",
+        "outputs": 4,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "bd6cd674cc9a05c6"
+            ],
+            [
+                "1426d0bb3b43ca1d"
+            ],
+            [
+                "ed81b2c984fe008c"
+            ],
+            [
+                "f21df0b6090b1ecb"
+            ]
+        ]
+    },
+    {
+        "id": "396ebb7bbde0767f",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "Tank1 Props",
+        "func": "const t1 = global.get('tank1')\n\nconst {Level, LvlAlmSP, LvlAlms} = t1\nlet a, b\na = {\n    \"Hi SD SP\":LvlAlmSP[0],\n    \"Hi Alarm SP\": LvlAlmSP[1],\n    \"Lo Alarm SP\": LvlAlmSP[2],\n    \"Lo SD SP\"   : LvlAlmSP[3],   \n    }\nlet c = {...a}//, ...b}\n\nmsg.data = {...a}\nmsg.fields = [...Object.keys(a)] //, ...Object.keys(b)] \nmsg.editable = true\nmsg.send_all = true\n\nnode.send([msg]),\n\n\nb= {\n    \"Hi SD\": LvlAlms[0],\n    \"Hi Alarm\": LvlAlms[1],\n    \"Lo Alarm\": LvlAlms[2],\n    \"Lo SD\": LvlAlms[3],\n}\n\nmsg.data = { ...b }\nmsg.fields = [...Object.keys(b)] //, ...Object.keys(b)] \nmsg.editable = false\nmsg.sendAll = false\n//msg.textColor: \"black\",\nmsg.bgColor = []\nfor (const key in msg.data) {\n    if (msg.data.hasOwnProperty(key)) {\n        msg.bgColor.push(msg.data[key] ? '#EF9A9A' : '');\n    }\n}\n\nnode.send([null, msg]),\n\n\n\n\n\n\n\n\nmsg.payload = Level\nmsg.unit = \"Feet\"\n\n\nif (Level >= LvlAlmSP[0] ) {\n    msg.color = \"pink\"\n} else if (Level >= LvlAlmSP[1]){\n    msg.color = \"orange\"\n} else {\n    msg.color = \"text\"\n}\n\nnode.send([null,null,msg])\n\n\n\n\n\n\nreturn ;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 940,
+        "wires": [
+            [
+                "217caed5e9cee597"
+            ],
+            [
+                "0f7e034cdb57b753"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "826a24e81c15a009",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "map current vals",
+        "func": "let a=Object.values(msg.payload)\nlet b= a.map(Number);\n\nglobal.set('tank1.LvlAlmSP', b)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3076f70451a97744",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "map current vals",
+        "func": "let a=Object.values(msg.payload)\nlet b= a.map(Number);\n\nglobal.set('tank2.LvlAlmSP', b)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b293435c32ac21f7",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "rst btn handler",
+        "func": "if (global.get('reset') || msg.topic === 'reset'){\n    msg.color = 'grey-lighten-3'\n}else {\n    msg.color = 'light-blue-lighten-3'\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 420,
+        "wires": [
+            [
+                "40d6a7c5836eba11"
+            ]
+        ]
+    },
+    {
+        "id": "3f77f65827533421",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 13",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 305,
+        "y": 420,
+        "wires": [
+            [
+                "b293435c32ac21f7"
+            ]
+        ]
+    },
+    {
+        "id": "f8e158f05e225708",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 3",
+        "mode": "link",
+        "links": [
+            "969a6eafbc6e4c2c",
+            "3f77f65827533421",
+            "5c905616c03af72c",
+            "fa15bdac5fa8dffd",
+            "596f2a8a59a61cb7",
+            "d5fd2829e8f04436",
+            "a7d0c9f879632c10"
+        ],
+        "x": 85,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "969a6eafbc6e4c2c",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 14",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 195,
+        "y": 340,
+        "wires": [
+            [
+                "8d7694b744aa851e"
+            ]
+        ]
+    },
+    {
+        "id": "5c905616c03af72c",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 15",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 175,
+        "y": 240,
+        "wires": [
+            [
+                "e57b170711d4cd0d",
+                "60c3223dc144daf7"
+            ]
+        ]
+    },
+    {
+        "id": "fa15bdac5fa8dffd",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 16",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 265,
+        "y": 940,
+        "wires": [
+            [
+                "396ebb7bbde0767f"
+            ]
+        ]
+    },
+    {
+        "id": "596f2a8a59a61cb7",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 17",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 195,
+        "y": 520,
+        "wires": [
+            [
+                "6d7042900e6b389d"
+            ]
+        ]
+    },
+    {
+        "id": "d5fd2829e8f04436",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 18",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 265,
+        "y": 1000,
+        "wires": [
+            [
+                "e9693c4b11240b0d"
+            ]
+        ]
+    },
+    {
+        "id": "e94e96c90ba4927c",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "HOA",
+        "title": "HOA",
+        "sfc_source": "<template>\n  <v-btn variant=\"elevated\" class=\"ma-auto\" @click=\"clicked()\">\n    <span class=\"label\">{{ label }}</span>\n  </v-btn>\n</template>\n\n<style scoped>\n  .label { color: black; }\n</style>\n\n<script>\nexport default {\n  // Props are the inputs to the widget.\n  // They can be set dynamically using Node-RED messages using `msg.<prop>`.\n  // In a \"custom widget\" like this one they cannot be set via the Node-RED flow editor:\n  // use the default values in the lines below instead.\n  props: {\n    label: { default: \"HOA\" }, // text to show inside button\n    output: { default: \"label\" }, // value to output when clicked\n  },\n\n  emits: ['send'], // declare to Vue that this component emits a 'send' event\n\n  // simple methods within the component\n  methods: {\n    clicked() { // handle the clicking of the button, i.e., the handler for the '@click'\n      this.$emit('send', this.output) // emit an event (Vue concept), a 'send' event goes to NR\n    },\n  },\n}\n</script>\n",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 770,
+        "y": 1060,
+        "wires": [
+            [
+                "27a4c2c927c5a06b"
+            ]
+        ]
+    },
+    {
+        "id": "27a4c2c927c5a06b",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "state map hoa1",
+        "func": "// let state = ['Hand', 'Off', \"Auto\"]\n// let color = [\"orange\", 'grey', 'green']\n// if (msg.payload[1] === state[0]){\n//     msg.label = state[1]\n//     msg.output = [1, state[1]]\n//     msg.color = color[1]\n//     global.set('pump1.HOA', 2)\n//     return msg;\n// }\n// if (msg.payload[1] === state[1]) {    \n//     msg.label = state[2]\n//     msg.output = [1, state[2]]\n//     msg.color = color[2]\n//     global.set('pump1.HOA', 3)\n//     return msg;\n// }\n// if (msg.payload[1] === state[2] || msg.payload === 'default') {\n//     msg.label = state[0]\n//     msg.output = [1, state[0]]\n//     msg.color = color[0]\n//     global.set('pump1.HOA', 1)\n//     return msg;\n// }\nconst stateMap = {\n    'Hand': { next: 'Off', color: 'grey', hoa: 2 },\n    'Off': { next: 'Auto', color: 'green', hoa: 3 },\n    'Auto': { next: 'Hand', color: 'orange', hoa: 1 },\n};\n\nconst currentState = msg.payload[1] || 'default';\nconst nextState = stateMap[currentState] || stateMap['Auto'];\n\nmsg.label = nextState.next;\nmsg.output = [1, nextState.next];\nmsg.color = nextState.color;\nglobal.set('pump1.HOA', nextState.hoa);\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nif (context.get('currState') === undefined){\n    context.set('currState', 0)\n}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1060,
+        "wires": [
+            [
+                "e94e96c90ba4927c"
+            ]
+        ]
+    },
+    {
+        "id": "b3b4c86d4635e85f",
+        "type": "inject",
+        "z": "493d2f30c5ead3e9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "default",
+        "payloadType": "str",
+        "x": 340,
+        "y": 1060,
+        "wires": [
+            [
+                "27a4c2c927c5a06b",
+                "6e3c9f050e890464"
+            ]
+        ]
+    },
+    {
+        "id": "a90d41cadcb31fa9",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "HOA",
+        "title": "HOA",
+        "sfc_source": "<template>\n  <v-btn variant=\"elevated\" class=\"ma-auto\" @click=\"clicked()\">\n    <span class=\"label\">{{ label }}</span>\n  </v-btn>\n</template>\n\n<style scoped>\n  .label { color: black; }\n</style>\n\n<script>\nexport default {\n  // Props are the inputs to the widget.\n  // They can be set dynamically using Node-RED messages using `msg.<prop>`.\n  // In a \"custom widget\" like this one they cannot be set via the Node-RED flow editor:\n  // use the default values in the lines below instead.\n  props: {\n    label: { default: \"HOA\" }, // text to show inside button\n    output: { default: \"label\" }, // value to output when clicked\n  },\n\n  emits: ['send'], // declare to Vue that this component emits a 'send' event\n\n  // simple methods within the component\n  methods: {\n    clicked() { // handle the clicking of the button, i.e., the handler for the '@click'\n      this.$emit('send', this.output) // emit an event (Vue concept), a 'send' event goes to NR\n    },\n  },\n}\n</script>\n",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 770,
+        "y": 1100,
+        "wires": [
+            [
+                "6e3c9f050e890464"
+            ]
+        ]
+    },
+    {
+        "id": "6e3c9f050e890464",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "state map hoa2",
+        "func": "const stateMap = {\n    'Hand': { next: 'Off', color: 'grey', hoa: 2 },\n    'Off': { next: 'Auto', color: 'green', hoa: 3 },\n    'Auto': { next: 'Hand', color: 'orange', hoa: 1 },\n};\n\nconst currentState = msg.payload[1] || 'default';\nconst nextState = stateMap[currentState] || stateMap['Auto'];\n\nmsg.label = nextState.next;\nmsg.output = [2, nextState.next];\nmsg.color = nextState.color;\nglobal.set('pump2.HOA', nextState.hoa);\n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nif (context.get('currState') === undefined){\n    context.set('currState', 0)\n}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1100,
+        "wires": [
+            [
+                "a90d41cadcb31fa9"
+            ]
+        ]
+    },
+    {
+        "id": "e9693c4b11240b0d",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "tank2 props",
+        "func": "const t2 = global.get('tank2')\n\nconst {Level, LvlAlmSP, LvlAlms} = t2\nlet a, b\na = {\n    \"Hi SD SP\": LvlAlmSP[0],\n    \"Hi Alarm SP\": LvlAlmSP[1],\n    \"Lo Alarm SP\": LvlAlmSP[2],\n    \"Lo SD SP\"   : LvlAlmSP[3],   \n    }\nlet c = {...a}//, ...b}\n\nmsg.data = {...a}\nmsg.fields = [...Object.keys(a)] //, ...Object.keys(b)] \nmsg.editable = true\nmsg.send_all = true\n\n\nnode.send(msg),\n\n\nb= {\n    \"Hi SD\": LvlAlms[0],\n    \"Hi Alarm\": LvlAlms[1],\n    \"Lo Alarm\": LvlAlms[2],\n    \"Lo SD\": LvlAlms[3],\n}\n\nmsg.data = {...b}\nmsg.fields = [...Object.keys(b)] //, ...Object.keys(b)] \nmsg.editable = false\nmsg.sendAll = false\n//msg.textColor: \"black\",\nmsg.bgColor= []\nfor (const key in msg.data) {\n    if (msg.data.hasOwnProperty(key)) {\n        msg.bgColor.push(msg.data[key] ? '#EF9A9A' : '');\n    }\n}\n\nnode.send([null, msg]),\n\n\n\n// msg.payload = Level\n// msg.unit = \"Feet\"\n\n\n// if (Level >= LvlAlmSP[0] ) {\n//     msg.color = \"pink\"\n// } else if (Level >= LvlAlmSP[1]){\n//     msg.color = \"orange\"\n// } else {\n//     msg.color = \"black\"\n// }\n\nnode.send([null,null,msg])\n\n\n\n\n\n\nreturn ;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1000,
+        "wires": [
+            [
+                "3d1daed2a6c539ca"
+            ],
+            [
+                "41c82168eff9f224"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "3d1daed2a6c539ca",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "custom props",
+        "sfc_source": "<!-- Props-table -- Display a simple table of key-value properties\n     Copyright ©2021 Thorsten von Eicken, MIT license, see LICENSE file\n-->\n<template>\n  <!-- title -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span v-if=\"title\" class=\"ml-auto mr-1 mb-1 text-no-wrap\">{{title}}</span>\n    <span class=\"mr-auto\"></span>\n  </v-card-text>\n\n  <!-- table of properties -->\n  <v-table height=\"auto\" style=\"overflow-y:scroll\" v-bind=\"$attrs\">\n    <tbody>\n      <tr v-for=\"(key, ix) in keys\" :key=\"ix\">\n        <td align=\"right\" class=\"px-1\"><b>{{key}}:</b></td>\n        <!-- non-editing -->\n        <td v-if=\"!editing\" class=\"px-2\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\">{{value[key]}}\n        </td>\n        <!-- edit string -->\n        <td v-else-if=\"kind[key]==='string'\" class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit number -->\n        <td v-else-if=\"kind[key]==='number'\" class=\"px-2\">\n          <input type=\"number\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit boolean -->\n        <td v-else-if=\"kind[key]==='boolean'\" class=\"px-2\">\n          <input type=\"checkbox\" :checked=\"value[key]\" :tada=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- other types: not sure.... -->\n        <td v-else class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n      </tr>\n    </tbody>\n  </v-table>\n\n  <v-spacer></v-spacer>\n\n  <!-- edit, save, and cancel buttons at the bottom -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span class=\"mr-auto\"></span>\n    <!-- edit button (when not editing) -->\n    <v-btn icon class=\"title-btn mr-auto ml-0\" v-if=\"editable && !editing\" @click=\"handleEdit\">\n      <v-icon size=\"small\" icon=\"mdi-pencil\" />\n    </v-btn>\n    <!-- save/cancel buttons (when editing) -->\n    <v-btn icon class=\"title-btn mr-1 ml-0\" v-if=\"editing\" @click=\"handleCancel\">\n      <v-icon size=\"small\" icon=\"mdi-close-thick\" />\n    </v-btn>\n    <v-btn small icon class=\"title-btn mr-auto ml-1\" v-if=\"editing\" @click=\"handleSave\">\n      <v-icon size=\"small\" icon=\"mdi-check-bold\" />\n    </v-btn>\n  </v-card-text>\n</template>\n\n\n<style scoped>\n  .unit {\n    vertical-align: 15%;\n    margin-left: 0.1em;\n  }\n\n  .title-btn {\n    position: relative;\n    top: -4px;\n  }\n\n  /* FIXME: .theme--xxx is no longer present in vuetify 3 */\n  .theme--light .v-btn--icon {\n    background-color: rgba(255, 255, 255, 0.6);\n  }\n\n  .theme--dark .v-btn--icon {\n    background-color: rgba(30, 30, 30, 0.6);\n  }\n\n  .theme--light .v-card__text {\n    color: rgba(0, 0, 0, 0.6);\n  }\n\n  .theme--dark .v-card__text {\n    color: rgba(255, 255, 255, 0.7);\n  }\n\n  td input:not([type=checkbox]) {\n    width: 100%;\n    padding: 0px 1px;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    background: none;\n    border: 1px solid #888;\n    border-radius: 2px;\n  }\n\n  .v-table {\n    height: 100%;\n    width: 100%\n  }\n</style>\n\n<script scoped>\n  // Map an object to another one through a function that transforms the values\nvar ObjectMap = (o, fn) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fn(k, v)]))\n\nexport default {\n    name: 'PropsTable',\n    // help displayed in the UI: the first line is used in the widgets menu and is always shown in\n    // the edit card. Successive lines can be expanded in the card and are markdown-formatted.\n    help: `Display key-value pairs in tabular form.\nIf the \\`fields\\` property is empty the table shows all data field in alphanumeric order.\nIf the \\`fields\\` property is set, the table shows only the listed fields in the order specified.\n\nThe table can be set as editable which allows the user to change the property values.\n\\`send_all\\` controls whether only the edited fields or all fields are sent to the\n\\`output\\` topic.`,\n\n    // properties are inputs to the widget, these can be set to static values or bound to dynamic\n    // data by topic in the FlexDash UI. The type is used to display the appropriate kind of input\n    // field and also to convert data (ex: string to number). Dynamic is used to bind an input\n    // to a data topic right when the widget is created so it animates tight off the bat.\n    props: {\n        title: { type: String, default: '' },\n        data: { type: Object, default: () => ({ \"key1\": \"value1\", \"key2\": \"value2\" }),\n            tip: \"simple key-value pairs to show in table\"},\n        editable: { type: Boolean, default: false, tip: \"allow editing of the table\"},\n        fields: { type: Array, default: () => ['key1', 'key2'],\n            tip: \"fields to show in table in order, show all in sorted order if empty\"},\n        send_all: { type: Boolean, default: false,\n            tip: \"send all fields to topic, not just changed ones\"},\n        textColor: { type: String, default: '', tip: \"text color of the values\" },\n        bgColor: { type: String, default: '', tip: \"background color of the values\" },\n    },\n\n    output: { default: null },\n    emits: ['send'],\n\n    data() { return {\n        editing: false,\n        new_values: {},\n    }},\n\n    computed: {\n        // sort property keys alphabetically\n        keys() {  return this.fields && this.fields.length ? this.fields : Object.keys(this.data).sort() },\n        kind() { return ObjectMap(this.data, (k,v) => typeof v) },\n        value() { return ObjectMap(this.data, (k,v) => {\n            if (typeof v == 'string') return v\n            else return JSON.stringify(v)\n        })},\n    },\n\n    methods: {\n        handleEdit() { this.editing = true },\n        handleCancel() { this.editing = false; this.new_values = {} },\n        handleSave() {\n            this.editing = false;\n            this.$emit('send', this.send_all ? {...this.data, ...this.new_values} : this.new_values)\n            this.new_values = {}\n        },\n        handleInput(key, ev) { this.new_values[key] = ev.target.value },\n        getBgColor(index) {\n            if (Array.isArray(this.bgColor) && this.bgColor[index]) {\n                return this.bgColor[index];\n            }\n            return this.bgColor || '';\n        }\n    }\n\n}\n</script>",
+        "fd_container": "378776577a63304a",
+        "fd_cols": 4,
+        "fd_rows": 2,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 640,
+        "y": 980,
+        "wires": [
+            [
+                "3076f70451a97744"
+            ]
+        ]
+    },
+    {
+        "id": "41c82168eff9f224",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "custom props",
+        "sfc_source": "<!-- Props-table -- Display a simple table of key-value properties\n     Copyright ©2021 Thorsten von Eicken, MIT license, see LICENSE file\n-->\n<template>\n  <!-- title -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span v-if=\"title\" class=\"ml-auto mr-1 mb-1 text-no-wrap\">{{title}}</span>\n    <span class=\"mr-auto\"></span>\n  </v-card-text>\n\n  <!-- table of properties -->\n  <v-table height=\"auto\" style=\"overflow-y:scroll\" v-bind=\"$attrs\">\n    <tbody>\n      <tr v-for=\"(key, ix) in keys\" :key=\"ix\">\n        <td align=\"right\" class=\"px-1\"><b>{{key}}:</b></td>\n        <!-- non-editing -->\n        <td v-if=\"!editing\" class=\"px-2\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\">{{value[key]}}\n        </td>\n        <!-- edit string -->\n        <td v-else-if=\"kind[key]==='string'\" class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit number -->\n        <td v-else-if=\"kind[key]==='number'\" class=\"px-2\">\n          <input type=\"number\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit boolean -->\n        <td v-else-if=\"kind[key]==='boolean'\" class=\"px-2\">\n          <input type=\"checkbox\" :checked=\"value[key]\" :tada=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- other types: not sure.... -->\n        <td v-else class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n      </tr>\n    </tbody>\n  </v-table>\n\n  <v-spacer></v-spacer>\n\n  <!-- edit, save, and cancel buttons at the bottom -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span class=\"mr-auto\"></span>\n    <!-- edit button (when not editing) -->\n    <v-btn icon class=\"title-btn mr-auto ml-0\" v-if=\"editable && !editing\" @click=\"handleEdit\">\n      <v-icon size=\"small\" icon=\"mdi-pencil\" />\n    </v-btn>\n    <!-- save/cancel buttons (when editing) -->\n    <v-btn icon class=\"title-btn mr-1 ml-0\" v-if=\"editing\" @click=\"handleCancel\">\n      <v-icon size=\"small\" icon=\"mdi-close-thick\" />\n    </v-btn>\n    <v-btn small icon class=\"title-btn mr-auto ml-1\" v-if=\"editing\" @click=\"handleSave\">\n      <v-icon size=\"small\" icon=\"mdi-check-bold\" />\n    </v-btn>\n  </v-card-text>\n</template>\n\n\n<style scoped>\n  .unit {\n    vertical-align: 15%;\n    margin-left: 0.1em;\n  }\n\n  .title-btn {\n    position: relative;\n    top: -4px;\n  }\n\n  /* FIXME: .theme--xxx is no longer present in vuetify 3 */\n  .theme--light .v-btn--icon {\n    background-color: rgba(255, 255, 255, 0.6);\n  }\n\n  .theme--dark .v-btn--icon {\n    background-color: rgba(30, 30, 30, 0.6);\n  }\n\n  .theme--light .v-card__text {\n    color: rgba(0, 0, 0, 0.6);\n  }\n\n  .theme--dark .v-card__text {\n    color: rgba(255, 255, 255, 0.7);\n  }\n\n  td input:not([type=checkbox]) {\n    width: 100%;\n    padding: 0px 1px;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    background: none;\n    border: 1px solid #888;\n    border-radius: 2px;\n  }\n\n  .v-table {\n    height: 100%;\n    width: 100%\n  }\n</style>\n\n<script scoped>\n  // Map an object to another one through a function that transforms the values\nvar ObjectMap = (o, fn) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fn(k, v)]))\n\nexport default {\n    name: 'PropsTable',\n    // help displayed in the UI: the first line is used in the widgets menu and is always shown in\n    // the edit card. Successive lines can be expanded in the card and are markdown-formatted.\n    help: `Display key-value pairs in tabular form.\nIf the \\`fields\\` property is empty the table shows all data field in alphanumeric order.\nIf the \\`fields\\` property is set, the table shows only the listed fields in the order specified.\n\nThe table can be set as editable which allows the user to change the property values.\n\\`send_all\\` controls whether only the edited fields or all fields are sent to the\n\\`output\\` topic.`,\n\n    // properties are inputs to the widget, these can be set to static values or bound to dynamic\n    // data by topic in the FlexDash UI. The type is used to display the appropriate kind of input\n    // field and also to convert data (ex: string to number). Dynamic is used to bind an input\n    // to a data topic right when the widget is created so it animates tight off the bat.\n    props: {\n        title: { type: String, default: '' },\n        data: { type: Object, default: () => ({ \"key1\": \"value1\", \"key2\": \"value2\" }),\n            tip: \"simple key-value pairs to show in table\"},\n        editable: { type: Boolean, default: false, tip: \"allow editing of the table\"},\n        fields: { type: Array, default: () => ['key1', 'key2'],\n            tip: \"fields to show in table in order, show all in sorted order if empty\"},\n        send_all: { type: Boolean, default: false,\n            tip: \"send all fields to topic, not just changed ones\"},\n        textColor: { type: String, default: '', tip: \"text color of the values\" },\n        bgColor: { type: String, default: '', tip: \"background color of the values\" },\n    },\n\n    output: { default: null },\n    emits: ['send'],\n\n    data() { return {\n        editing: false,\n        new_values: {},\n    }},\n\n    computed: {\n        // sort property keys alphabetically\n        keys() {  return this.fields && this.fields.length ? this.fields : Object.keys(this.data).sort() },\n        kind() { return ObjectMap(this.data, (k,v) => typeof v) },\n        value() { return ObjectMap(this.data, (k,v) => {\n            if (typeof v == 'string') return v\n            else return JSON.stringify(v)\n        })},\n    },\n\n    methods: {\n        handleEdit() { this.editing = true },\n        handleCancel() { this.editing = false; this.new_values = {} },\n        handleSave() {\n            this.editing = false;\n            this.$emit('send', this.send_all ? {...this.data, ...this.new_values} : this.new_values)\n            this.new_values = {}\n        },\n        handleInput(key, ev) { this.new_values[key] = ev.target.value },\n        getBgColor(index) {\n            if (Array.isArray(this.bgColor) && this.bgColor[index]) {\n                return this.bgColor[index];\n            }\n            return this.bgColor || '';\n        }\n    }\n\n}\n</script>",
+        "fd_container": "378776577a63304a",
+        "fd_cols": 4,
+        "fd_rows": 2,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 640,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "217caed5e9cee597",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "custom props",
+        "sfc_source": "<!-- Props-table -- Display a simple table of key-value properties\n     Copyright ©2021 Thorsten von Eicken, MIT license, see LICENSE file\n-->\n<template>\n  <!-- title -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span v-if=\"title\" class=\"ml-auto mr-1 mb-1 text-no-wrap\">{{title}}</span>\n    <span class=\"mr-auto\"></span>\n  </v-card-text>\n\n  <!-- table of properties -->\n  <v-table height=\"auto\" style=\"overflow-y:scroll\" v-bind=\"$attrs\">\n    <tbody>\n      <tr v-for=\"(key, ix) in keys\" :key=\"ix\">\n        <td align=\"right\" class=\"px-1\"><b>{{key}}:</b></td>\n        <!-- non-editing -->\n        <td v-if=\"!editing\" class=\"px-2\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\">{{value[key]}}\n        </td>\n        <!-- edit string -->\n        <td v-else-if=\"kind[key]==='string'\" class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit number -->\n        <td v-else-if=\"kind[key]==='number'\" class=\"px-2\">\n          <input type=\"number\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit boolean -->\n        <td v-else-if=\"kind[key]==='boolean'\" class=\"px-2\">\n          <input type=\"checkbox\" :checked=\"value[key]\" :tada=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- other types: not sure.... -->\n        <td v-else class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n      </tr>\n    </tbody>\n  </v-table>\n\n  <v-spacer></v-spacer>\n\n  <!-- edit, save, and cancel buttons at the bottom -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span class=\"mr-auto\"></span>\n    <!-- edit button (when not editing) -->\n    <v-btn icon class=\"title-btn mr-auto ml-0\" v-if=\"editable && !editing\" @click=\"handleEdit\">\n      <v-icon size=\"small\" icon=\"mdi-pencil\" />\n    </v-btn>\n    <!-- save/cancel buttons (when editing) -->\n    <v-btn icon class=\"title-btn mr-1 ml-0\" v-if=\"editing\" @click=\"handleCancel\">\n      <v-icon size=\"small\" icon=\"mdi-close-thick\" />\n    </v-btn>\n    <v-btn small icon class=\"title-btn mr-auto ml-1\" v-if=\"editing\" @click=\"handleSave\">\n      <v-icon size=\"small\" icon=\"mdi-check-bold\" />\n    </v-btn>\n  </v-card-text>\n</template>\n\n\n<style scoped>\n  .unit {\n    vertical-align: 15%;\n    margin-left: 0.1em;\n  }\n\n  .title-btn {\n    position: relative;\n    top: -4px;\n  }\n\n  /* FIXME: .theme--xxx is no longer present in vuetify 3 */\n  .theme--light .v-btn--icon {\n    background-color: rgba(255, 255, 255, 0.6);\n  }\n\n  .theme--dark .v-btn--icon {\n    background-color: rgba(30, 30, 30, 0.6);\n  }\n\n  .theme--light .v-card__text {\n    color: rgba(0, 0, 0, 0.6);\n  }\n\n  .theme--dark .v-card__text {\n    color: rgba(255, 255, 255, 0.7);\n  }\n\n  td input:not([type=checkbox]) {\n    width: 100%;\n    padding: 0px 1px;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    background: none;\n    border: 1px solid #888;\n    border-radius: 2px;\n  }\n\n  .v-table {\n    height: 100%;\n    width: 100%\n  }\n</style>\n\n<script scoped>\n  // Map an object to another one through a function that transforms the values\nvar ObjectMap = (o, fn) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fn(k, v)]))\n\nexport default {\n    name: 'PropsTable',\n    // help displayed in the UI: the first line is used in the widgets menu and is always shown in\n    // the edit card. Successive lines can be expanded in the card and are markdown-formatted.\n    help: `Display key-value pairs in tabular form.\nIf the \\`fields\\` property is empty the table shows all data field in alphanumeric order.\nIf the \\`fields\\` property is set, the table shows only the listed fields in the order specified.\n\nThe table can be set as editable which allows the user to change the property values.\n\\`send_all\\` controls whether only the edited fields or all fields are sent to the\n\\`output\\` topic.`,\n\n    // properties are inputs to the widget, these can be set to static values or bound to dynamic\n    // data by topic in the FlexDash UI. The type is used to display the appropriate kind of input\n    // field and also to convert data (ex: string to number). Dynamic is used to bind an input\n    // to a data topic right when the widget is created so it animates tight off the bat.\n    props: {\n        title: { type: String, default: '' },\n        data: { type: Object, default: () => ({ \"key1\": \"value1\", \"key2\": \"value2\" }),\n            tip: \"simple key-value pairs to show in table\"},\n        editable: { type: Boolean, default: false, tip: \"allow editing of the table\"},\n        fields: { type: Array, default: () => ['key1', 'key2'],\n            tip: \"fields to show in table in order, show all in sorted order if empty\"},\n        send_all: { type: Boolean, default: false,\n            tip: \"send all fields to topic, not just changed ones\"},\n        textColor: { type: String, default: '', tip: \"text color of the values\" },\n        bgColor: { type: String, default: '', tip: \"background color of the values\" },\n    },\n\n    output: { default: null },\n    emits: ['send'],\n\n    data() { return {\n        editing: false,\n        new_values: {},\n    }},\n\n    computed: {\n        // sort property keys alphabetically\n        keys() {  return this.fields && this.fields.length ? this.fields : Object.keys(this.data).sort() },\n        kind() { return ObjectMap(this.data, (k,v) => typeof v) },\n        value() { return ObjectMap(this.data, (k,v) => {\n            if (typeof v == 'string') return v\n            else return JSON.stringify(v)\n        })},\n    },\n\n    methods: {\n        handleEdit() { this.editing = true },\n        handleCancel() { this.editing = false; this.new_values = {} },\n        handleSave() {\n            this.editing = false;\n            this.$emit('send', this.send_all ? {...this.data, ...this.new_values} : this.new_values)\n            this.new_values = {}\n        },\n        handleInput(key, ev) { this.new_values[key] = ev.target.value },\n        getBgColor(index) {\n            if (Array.isArray(this.bgColor) && this.bgColor[index]) {\n                return this.bgColor[index];\n            }\n            return this.bgColor || '';\n        }\n    }\n\n}\n</script>",
+        "fd_container": "26ee4be0b705b085",
+        "fd_cols": 4,
+        "fd_rows": 2,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 640,
+        "y": 920,
+        "wires": [
+            [
+                "826a24e81c15a009"
+            ]
+        ]
+    },
+    {
+        "id": "0f7e034cdb57b753",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "name": "custom props",
+        "sfc_source": "<!-- Props-table -- Display a simple table of key-value properties\n     Copyright ©2021 Thorsten von Eicken, MIT license, see LICENSE file\n-->\n<template>\n  <!-- title -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span v-if=\"title\" class=\"ml-auto mr-1 mb-1 text-no-wrap\">{{title}}</span>\n    <span class=\"mr-auto\"></span>\n  </v-card-text>\n\n  <!-- table of properties -->\n  <v-table height=\"auto\" style=\"overflow-y:scroll\" v-bind=\"$attrs\">\n    <tbody>\n      <tr v-for=\"(key, ix) in keys\" :key=\"ix\">\n        <td align=\"right\" class=\"px-1\"><b>{{key}}:</b></td>\n        <!-- non-editing -->\n        <td v-if=\"!editing\" class=\"px-2\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\">{{value[key]}}\n        </td>\n        <!-- edit string -->\n        <td v-else-if=\"kind[key]==='string'\" class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit number -->\n        <td v-else-if=\"kind[key]==='number'\" class=\"px-2\">\n          <input type=\"number\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- edit boolean -->\n        <td v-else-if=\"kind[key]==='boolean'\" class=\"px-2\">\n          <input type=\"checkbox\" :checked=\"value[key]\" :tada=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n        <!-- other types: not sure.... -->\n        <td v-else class=\"px-2\">\n          <input type=\"text\" :value=\"value[key]\" @input=\"handleInput(key, $event)\" :style=\"{ color: textColor, backgroundColor: getBgColor(ix) }\"/>\n        </td>\n      </tr>\n    </tbody>\n  </v-table>\n\n  <v-spacer></v-spacer>\n\n  <!-- edit, save, and cancel buttons at the bottom -->\n  <v-card-text class=\"d-flex pa-0 pt-1\">\n    <span class=\"mr-auto\"></span>\n    <!-- edit button (when not editing) -->\n    <v-btn icon class=\"title-btn mr-auto ml-0\" v-if=\"editable && !editing\" @click=\"handleEdit\">\n      <v-icon size=\"small\" icon=\"mdi-pencil\" />\n    </v-btn>\n    <!-- save/cancel buttons (when editing) -->\n    <v-btn icon class=\"title-btn mr-1 ml-0\" v-if=\"editing\" @click=\"handleCancel\">\n      <v-icon size=\"small\" icon=\"mdi-close-thick\" />\n    </v-btn>\n    <v-btn small icon class=\"title-btn mr-auto ml-1\" v-if=\"editing\" @click=\"handleSave\">\n      <v-icon size=\"small\" icon=\"mdi-check-bold\" />\n    </v-btn>\n  </v-card-text>\n</template>\n\n\n<style scoped>\n  .unit {\n    vertical-align: 15%;\n    margin-left: 0.1em;\n  }\n\n  .title-btn {\n    position: relative;\n    top: -4px;\n  }\n\n  /* FIXME: .theme--xxx is no longer present in vuetify 3 */\n  .theme--light .v-btn--icon {\n    background-color: rgba(255, 255, 255, 0.6);\n  }\n\n  .theme--dark .v-btn--icon {\n    background-color: rgba(30, 30, 30, 0.6);\n  }\n\n  .theme--light .v-card__text {\n    color: rgba(0, 0, 0, 0.6);\n  }\n\n  .theme--dark .v-card__text {\n    color: rgba(255, 255, 255, 0.7);\n  }\n\n  td input:not([type=checkbox]) {\n    width: 100%;\n    padding: 0px 1px;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    background: none;\n    border: 1px solid #888;\n    border-radius: 2px;\n  }\n\n  .v-table {\n    height: 100%;\n    width: 100%\n  }\n</style>\n\n<script scoped>\n  // Map an object to another one through a function that transforms the values\nvar ObjectMap = (o, fn) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fn(k, v)]))\n\nexport default {\n    name: 'PropsTable',\n    // help displayed in the UI: the first line is used in the widgets menu and is always shown in\n    // the edit card. Successive lines can be expanded in the card and are markdown-formatted.\n    help: `Display key-value pairs in tabular form.\nIf the \\`fields\\` property is empty the table shows all data field in alphanumeric order.\nIf the \\`fields\\` property is set, the table shows only the listed fields in the order specified.\n\nThe table can be set as editable which allows the user to change the property values.\n\\`send_all\\` controls whether only the edited fields or all fields are sent to the\n\\`output\\` topic.`,\n\n    // properties are inputs to the widget, these can be set to static values or bound to dynamic\n    // data by topic in the FlexDash UI. The type is used to display the appropriate kind of input\n    // field and also to convert data (ex: string to number). Dynamic is used to bind an input\n    // to a data topic right when the widget is created so it animates tight off the bat.\n    props: {\n        title: { type: String, default: '' },\n        data: { type: Object, default: () => ({ \"key1\": \"value1\", \"key2\": \"value2\" }),\n            tip: \"simple key-value pairs to show in table\"},\n        editable: { type: Boolean, default: false, tip: \"allow editing of the table\"},\n        fields: { type: Array, default: () => ['key1', 'key2'],\n            tip: \"fields to show in table in order, show all in sorted order if empty\"},\n        send_all: { type: Boolean, default: false,\n            tip: \"send all fields to topic, not just changed ones\"},\n        textColor: { type: String, default: '', tip: \"text color of the values\" },\n        bgColor: { type: String, default: '', tip: \"background color of the values\" },\n    },\n\n    output: { default: null },\n    emits: ['send'],\n\n    data() { return {\n        editing: false,\n        new_values: {},\n    }},\n\n    computed: {\n        // sort property keys alphabetically\n        keys() {  return this.fields && this.fields.length ? this.fields : Object.keys(this.data).sort() },\n        kind() { return ObjectMap(this.data, (k,v) => typeof v) },\n        value() { return ObjectMap(this.data, (k,v) => {\n            if (typeof v == 'string') return v\n            else return JSON.stringify(v)\n        })},\n    },\n\n    methods: {\n        handleEdit() { this.editing = true },\n        handleCancel() { this.editing = false; this.new_values = {} },\n        handleSave() {\n            this.editing = false;\n            this.$emit('send', this.send_all ? {...this.data, ...this.new_values} : this.new_values)\n            this.new_values = {}\n        },\n        handleInput(key, ev) { this.new_values[key] = ev.target.value },\n        getBgColor(index) {\n            if (Array.isArray(this.bgColor) && this.bgColor[index]) {\n                return this.bgColor[index];\n            }\n            return this.bgColor || '';\n        }\n    }\n\n}\n</script>",
+        "fd_container": "26ee4be0b705b085",
+        "fd_cols": 4,
+        "fd_rows": 2,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 640,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aba2feebc17ad117",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "pump1 runtimeline fmt",
+        "func": "const pump1 = global.get(\"pump1\");\nconst currentTime = msg.payload;\n\n// Status: 0 for stopped, 1 for running\nconst status = pump1.runInd ? 1 : 0;\n\nconst storedTimes = flow.get(\"times\") || [];\nconst storedValues = flow.get(\"values\") || [];\n\n// Check if the pump running status has changed\nconst lastStatus = storedValues[storedValues.length - 1];\nif (status !== lastStatus) {\n    // Add new data point\n    storedTimes.push(currentTime / 1000);\n    storedValues.push(status);\n\n    // Limit the storage to 150 elements and remove the oldest values if necessary\n    if (storedTimes.length > 40) {\n        storedTimes.shift();\n        storedValues.shift();\n    }\n\n    // Update flow variables\n    flow.set(\"times\", storedTimes);\n    flow.set(\"values\", storedValues);\n\n    return { payload: [storedTimes, storedValues] };\n} else {\n    return null;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 1160,
+        "wires": [
+            [
+                "9948a20e60eaac14"
+            ]
+        ]
+    },
+    {
+        "id": "0ca435a662521a40",
+        "type": "inject",
+        "z": "493d2f30c5ead3e9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 1180,
+        "wires": [
+            [
+                "aba2feebc17ad117",
+                "9e88ba652e1cd1b4",
+                "e64caccc98e30a90"
+            ]
+        ]
+    },
+    {
+        "id": "2958d741a3838476",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 5",
+        "mode": "link",
+        "links": [
+            "70f95eace6aeb325"
+        ],
+        "x": 615,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "5f2ac4ce9c793c98",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 6",
+        "mode": "link",
+        "links": [
+            "594362fb2ccfb9b4"
+        ],
+        "x": 615,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "0a6fd1f43e87049a",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 19",
+        "links": [
+            "68c0a337793d04b9"
+        ],
+        "x": 785,
+        "y": 460,
+        "wires": [
+            [
+                "cb4a58a854d28b7c"
+            ]
+        ]
+    },
+    {
+        "id": "70f95eace6aeb325",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 20",
+        "links": [
+            "2958d741a3838476"
+        ],
+        "x": 785,
+        "y": 480,
+        "wires": [
+            [
+                "1e9c1c3f62556dfb"
+            ]
+        ]
+    },
+    {
+        "id": "c89ab7ce9c6d04e9",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 21",
+        "links": [
+            "0bd848786f479f4e"
+        ],
+        "x": 785,
+        "y": 500,
+        "wires": [
+            [
+                "9a49b02bf96cafcf"
+            ]
+        ]
+    },
+    {
+        "id": "594362fb2ccfb9b4",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 22",
+        "links": [
+            "5f2ac4ce9c793c98"
+        ],
+        "x": 785,
+        "y": 520,
+        "wires": [
+            [
+                "7cd8ca49e1aff9f3"
+            ]
+        ]
+    },
+    {
+        "id": "8b728b8f8bda683d",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 11",
+        "mode": "link",
+        "links": [
+            "7b08c01c91d25341"
+        ],
+        "x": 615,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f2aceacafb3777a2",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 23",
+        "links": [
+            "bf3928f1c1cf14f6"
+        ],
+        "x": 785,
+        "y": 380,
+        "wires": [
+            [
+                "f452a54dcc172f1e"
+            ]
+        ]
+    },
+    {
+        "id": "5816d7ca4124487c",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 24",
+        "links": [
+            "5383910989fc96df"
+        ],
+        "x": 785,
+        "y": 400,
+        "wires": [
+            [
+                "ccc8eed15f2a9179"
+            ]
+        ]
+    },
+    {
+        "id": "fbc3da0d80a74c32",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 25",
+        "links": [
+            "702d6b887a5f9e8e"
+        ],
+        "x": 785,
+        "y": 440,
+        "wires": [
+            [
+                "ce1496755502efd8"
+            ]
+        ]
+    },
+    {
+        "id": "7b08c01c91d25341",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 26",
+        "links": [
+            "8b728b8f8bda683d"
+        ],
+        "x": 785,
+        "y": 420,
+        "wires": [
+            [
+                "15090298114a7455"
+            ]
+        ]
+    },
+    {
+        "id": "0bd848786f479f4e",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 7",
+        "mode": "link",
+        "links": [
+            "c89ab7ce9c6d04e9"
+        ],
+        "x": 615,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "e57b170711d4cd0d",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "watching tanks",
+        "func": "// Get tank data objects\nlet t1 = global.get('tank1') || {};\nlet t2 = global.get('tank2') || {};\nconst lt1 = context.get(\"t1PrevAlms\")||[] // || \"\";\nconst lt2 = context.get(\"t2PrevAlms\")||[]\n//\"lt1\", lt1)\n\nlet aalm, balm\nlet alarmMap = [\"HiLvlSD\", 'HiLvlAlm', 'LowLvlAlm', 'LowLvlSD']\nfunction getCurrentTimestamp() {\n    let now = new Date();\n    let formattedDate = now.toLocaleString(\"en-US\", {\n        timeZone: \"America/Chicago\",\n        day: \"2-digit\",\n        month: \"2-digit\",\n        year: \"numeric\",\n        hour: \"2-digit\",\n        minute: \"2-digit\",\n        second: \"2-digit\"\n    });\n    return formattedDate + \" CDT\";\n}\n\naalm= t1.LvlAlms.some(value => value === true);\nbalm= t2.LvlAlms.some(value => value === true);\n\n\nlet txt\n\n\n\n\nfor (let i = 0; i < t1.LvlAlms.length; i++) {\n\n    if (t1.LvlAlms[i] === true && lt1[i] === false) {\n\n        txt = \"tank 1 \" + alarmMap[i] + ' active. Tank Level is '+ t1.Level+'ft. '+ t1.LvlAlmSP[i] + `ft is alarm setpoint`\n        msg.topic = 't1 alm';\n        msg.payload = txt;\n        msg.timeStamp = getCurrentTimestamp();\n        node.send(msg);   \n    }\n    if (lt1[i] === true && t1.LvlAlms[i] === false){\n\n        txt = \"tank 1 \" + alarmMap[i] + ' cleared. Tank Level is ' + t1.Level + 'ft. ' + t1.LvlAlmSP[i] + `ft is alarm setpoint`\n        msg.topic = 't1 alm';\n        msg.payload = txt;\n        msg.timeStamp = getCurrentTimestamp();\n        node.send(msg);\n    }\n    \n    lt1[i] = t1.LvlAlms[i]\n}\ncontext.set(\"t1PrevAlms\", lt1)\n\nfor (let i = 0; i < t2.LvlAlms.length; i++) {\n    if (t2.LvlAlms[i] === true && !lt2[i]) {\n        txt = \"tank 2 \" + alarmMap[i] + ' active. Tank Level is ' + t2.Level + 'ft. ' + t2.LvlAlmSP[i] + `ft is alarm setpoint`\n        msg.topic = 't2 alm';\n        msg.payload = txt;\n        msg.timeStamp = getCurrentTimestamp();\n        node.send(msg);\n        //        context.set(\"lt1\", t1.LvlAlms);} \n    }\n    if (lt2[i] === true && !t2.LvlAlms[i]) {\n        txt = \"tank 2 \" + alarmMap[i] + ' cleared. Tank Level is ' + t2.Level + 'ft. ' + t2.LvlAlmSP[i] + `ft is alarm setpoint`\n        msg.topic = 't2 alm';\n        msg.payload = txt;\n        msg.timeStamp = getCurrentTimestamp();\n        node.send(msg);\n        \n    }\n    \n    lt2[i] = t2.LvlAlms[i]\n}\ncontext.set(\"t2PrevAlms\", lt2)\n\n\nreturn; \n\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.set(\"t1PrevAlms\", [false, false, false, false ])\ncontext.set(\"t2PrevAlms\", [false, false, false, false ])",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 220,
+        "wires": [
+            [
+                "0cfe1688b7f72b3c",
+                "1b41ae6a62afb50a"
+            ]
+        ]
+    },
+    {
+        "id": "1b41ae6a62afb50a",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "event and alarm log functions",
+        "func": "// // Get existing message log array from the flow variable\n// let msgLog = flow.get('msgLog') || [];\n// let logEntry\n// // Format the log entry\n// if (msg.topic === \"t1 alm\" || msg.topic=== \"t2 alm\"){\n\n//     logEntry = '\\n'+ msg.timeStamp +' - '+ msg.payload;\n// } else {\n//     logEntry = '\\n' + msg.payload;\n// }\n// // Add the log entry to the message log array\n// msgLog.push(logEntry);\n\n// // If the message log array exceeds 80 entries, remove the oldest entry\n// if (msgLog.length > 80) {\n//     msgLog.shift();\n// }\n\n// // Save the updated message log array to the flow variable\n// flow.set('msgLog', msgLog);\n\n// // Convert the message log array to a string and send it as the payload\n// msg.payload = msgLog.join('');\n// return msg;\n// Get existing message log array from the flow variable\nlet msgLog = flow.get('msgLog') || [];\nlet logEntry;\n\n// Format the log entry based on the topic\nif (msg.topic === \"t1 alm\" || msg.topic === \"t2 alm\") {\n    logEntry = '\\n' + msg.timeStamp + ' - ' + msg.payload;\n} else {\n    logEntry = '\\n' + msg.payload;\n}\n\n// Add the log entry to the message log array\nmsgLog.push(logEntry);\n\n// Save the updated message log array to the flow variable\nflow.set('msgLog', msgLog);\n\n// Send the latest 50 log entries to the dashboard\nmsg.payload = msgLog.slice(-50).join('');\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "765c8ec72d128839",
+                "6495af9058dbc9cc"
+            ]
+        ]
+    },
+    {
+        "id": "9e88ba652e1cd1b4",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "pump2 runtimeline fmt",
+        "func": "const pump2 = global.get(\"pump2\");\nconst currentTime = msg.payload;\n\n// Status: 0 for stopped, 1 for running\nconst status = pump2.runInd ? 1 : 0;\n\nconst storedTimes = flow.get(\"p2times\") || [];\nconst storedValues = flow.get(\"p2values\") || [];\n\n// Check if the pump running status has changed\nconst lastStatus = storedValues[storedValues.length - 1];\nif (status !== lastStatus) {\n    // Add new data point\n    storedTimes.push(currentTime / 1000);\n    storedValues.push(status);\n\n    // Limit the storage to 150 elements and remove the oldest values if necessary\n    if (storedTimes.length > 40) {\n        storedTimes.shift();\n        storedValues.shift();\n    }\n\n    // Update flow variables\n    flow.set(\"p2times\", storedTimes);\n    flow.set(\"p2values\", storedValues);\n\n    return { payload: [storedTimes, storedValues] };\n} else {\n    return null;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 1200,
+        "wires": [
+            [
+                "63097abca0a9c1a0"
+            ]
+        ]
+    },
+    {
+        "id": "3da1c0b1c3c9aa73",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 12",
+        "mode": "link",
+        "links": [
+            "9f3e4c3beb6acffe"
+        ],
+        "x": 685,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "b5415edd3b9d6bea",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 13",
+        "mode": "link",
+        "links": [
+            "9da4ff8d05a4ab6c"
+        ],
+        "x": 685,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "394759546711e956",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 14",
+        "mode": "link",
+        "links": [
+            "034993ae905f40d2"
+        ],
+        "x": 685,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "838211b7cffdb4e0",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 15",
+        "mode": "link",
+        "links": [
+            "2e7c7a8c7b1485e1"
+        ],
+        "x": 685,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "8681ba2047eb35fd",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "P1-P2 thermal conditions",
+        "func": "let p1 = global.get('pump1') || {}\nlet p2 = global.get('pump2') || {}\nlet i1 = global.get('inlet') || {}\n\nmsg.payload = p1.inTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p1.inTemp.HiAlmSP\nmsg.high_threshold = p1.inTemp.hiSDsp\nmsg.title = ' P1 Suction Temp'\nmsg.unit = \"\\u00B0C\";\nmsg.popup_info = ` HiAlarmSP : ${p1.inTemp.HiAlmSP} , hiSDsp : ${p1.inTemp.hiSDsp} `\nnode.send([msg])\n\n\nmsg.payload = p1.outTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p1.outTemp.HiAlmSP\nmsg.high_threshold = p1.outTemp.hiSDsp\nmsg.title = ' P1 Outflow Temp'\nmsg.unit = \"\\u00B0C\"; //+\"C\"\nmsg.popup_info = ` HiAlarmSP : ${p1.outTemp.HiAlmSP} , hiSDsp : ${p1.outTemp.hiSDsp} `\nnode.send([null,msg])\n\nmsg.payload = p1.oilTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p1.oilTemp.HiAlmSP\nmsg.high_threshold = p1.oilTemp.hiSDsp\nmsg.title = 'P1 Oil Temp'\nmsg.unit = \"\\u00B0C\";\nmsg.popup_info = ` HiAlarmSP : ${p1.oilTemp.HiAlmSP} , hiSDsp : ${p1.oilTemp.hiSDsp} `\nnode.send([null, null, msg])\n\nmsg.payload = p2.inTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'green-accent-3'//'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p2.inTemp.HiAlmSP\nmsg.high_threshold = p2.inTemp.hiSDsp\nmsg.title = 'P2 Suction Temp'\nmsg.unit = \"\\u00B0C\";\nmsg.popup_info = ` HiAlarmSP : ${p2.inTemp.HiAlmSP} , hiSDsp : ${p2.inTemp.hiSDsp} `\nnode.send([null, null, null, msg])\n\nmsg.payload = p2.outTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'green-accent-3'//'blue-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p2.outTemp.HiAlmSP\nmsg.high_threshold = p2.outTemp.hiSDsp\nmsg.title = 'P2 Outflow Temp'\nmsg.unit = \"\\u00B0C\";\nmsg.popup_info = ` HiAlarmSP : ${p2.outTemp.HiAlmSP} , hiSDsp : ${p2.outTemp.hiSDsp} `\nnode.send([null, null, null, null, msg])\n\nmsg.payload = p2.oilTemp.val\nmsg.color = 'green-accent-3'\nmsg.low_color = 'green-accent-3'\nmsg.hi_color = 'pink-accent-3'\nmsg.low_threshold = p2.oilTemp.HiAlmSP\nmsg.high_threshold = p2.oilTemp.hiSDsp\nmsg.title = 'P2 Oil Temp'\nmsg.unit = \"\\u00B0C\";\nmsg.popup_info = ` HiAlarmSP : ${p2.oilTemp.HiAlmSP} , hiSDsp : ${p2.oilTemp.hiSDsp} `\nnode.send([null, null, null, null, null, msg])\n\n\n\nmsg.payload = i1.valve\nmsg.title = 'Inlet Valve'\nnode.send([null, null, null, null, null, null, msg])\n\nmsg.payload = i1.plPSI\nmsg.title = 'Pipeline Pressure'\nmsg.unit= \"psi\"\nnode.send([null, null, null, null, null, null, null, msg])\n\n\n\n\nreturn;\n",
+        "outputs": 8,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 660,
+        "wires": [
+            [
+                "3da1c0b1c3c9aa73"
+            ],
+            [
+                "b5415edd3b9d6bea"
+            ],
+            [
+                "394759546711e956"
+            ],
+            [
+                "838211b7cffdb4e0"
+            ],
+            [
+                "99fc3262620074cb"
+            ],
+            [
+                "8bf8356490086537"
+            ],
+            [
+                "1ffac796655e4a38"
+            ],
+            [
+                "3b47969bb8b3ecb6"
+            ]
+        ]
+    },
+    {
+        "id": "a7d0c9f879632c10",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 27",
+        "links": [
+            "f8e158f05e225708"
+        ],
+        "x": 275,
+        "y": 660,
+        "wires": [
+            [
+                "8681ba2047eb35fd"
+            ]
+        ]
+    },
+    {
+        "id": "99fc3262620074cb",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 16",
+        "mode": "link",
+        "links": [
+            "a6f6d1ecb8e63a51"
+        ],
+        "x": 685,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "8bf8356490086537",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 17",
+        "mode": "link",
+        "links": [
+            "44bb2e94d22e679a"
+        ],
+        "x": 685,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "1ffac796655e4a38",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 18",
+        "mode": "link",
+        "links": [],
+        "x": 685,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "3b47969bb8b3ecb6",
+        "type": "link out",
+        "z": "493d2f30c5ead3e9",
+        "name": "link out 19",
+        "mode": "link",
+        "links": [],
+        "x": 685,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "9f3e4c3beb6acffe",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 28",
+        "links": [
+            "3da1c0b1c3c9aa73"
+        ],
+        "x": 835,
+        "y": 580,
+        "wires": [
+            [
+                "685d937a93327d76"
+            ]
+        ]
+    },
+    {
+        "id": "9da4ff8d05a4ab6c",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 29",
+        "links": [
+            "b5415edd3b9d6bea"
+        ],
+        "x": 835,
+        "y": 600,
+        "wires": [
+            [
+                "9f86a61717bb6c31"
+            ]
+        ]
+    },
+    {
+        "id": "034993ae905f40d2",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 30",
+        "links": [
+            "394759546711e956"
+        ],
+        "x": 835,
+        "y": 620,
+        "wires": [
+            [
+                "2bb5f95fbe2972ec"
+            ]
+        ]
+    },
+    {
+        "id": "2e7c7a8c7b1485e1",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 31",
+        "links": [
+            "838211b7cffdb4e0"
+        ],
+        "x": 835,
+        "y": 640,
+        "wires": [
+            [
+                "3781d1e6a702107d"
+            ]
+        ]
+    },
+    {
+        "id": "a6f6d1ecb8e63a51",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 32",
+        "links": [
+            "99fc3262620074cb"
+        ],
+        "x": 835,
+        "y": 660,
+        "wires": [
+            [
+                "222e3ff24a1e6618"
+            ]
+        ]
+    },
+    {
+        "id": "44bb2e94d22e679a",
+        "type": "link in",
+        "z": "493d2f30c5ead3e9",
+        "name": "link in 33",
+        "links": [
+            "8bf8356490086537"
+        ],
+        "x": 835,
+        "y": 680,
+        "wires": [
+            [
+                "8bf0103d47f9063c"
+            ]
+        ]
+    },
+    {
+        "id": "0cfe1688b7f72b3c",
+        "type": "debug",
+        "z": "493d2f30c5ead3e9",
+        "name": "debug 137",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "6495af9058dbc9cc",
+        "type": "debug",
+        "z": "493d2f30c5ead3e9",
+        "name": "debug 138",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "60c3223dc144daf7",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "watching pumps",
+        "func": "// Get pump data objects\n// let p1 = global.get('pump1') || {};\n// let p2 = global.get('pump2') || {};\n\n// // Define the previous alarm states and runInd status\n// let prevP1Alarms = context.get('prevP1Alarms') || Array(2).fill(false);\n// let prevP2Alarms = context.get('prevP2Alarms') || Array(2).fill(false);\n// let prevP1RunInd = context.get('prevP1RunInd') || false;\n// let prevP2RunInd = context.get('prevP2RunInd') || false;\n\n// function getCurrentTimestamp() {\n//     let now = new Date();\n//     let formattedDate = now.toLocaleString(\"en-US\", {\n//         timeZone: \"America/Chicago\",\n//         day: \"2-digit\",\n//         month: \"2-digit\",\n//         year: \"numeric\",\n//         hour: \"2-digit\",\n//         minute: \"2-digit\",\n//         second: \"2-digit\"\n//     });\n//     return formattedDate + \" CDT\";\n// }\n\n// function sendAlarmMessage(pumpId, alarmIndex, alarmState) {\n//     const alarmLabel = [\"Hi Temperature\", \"Low Pressure\"][alarmIndex];\n//     const logEvent = `${getCurrentTimestamp()} - Pump ${pumpId} ${alarmLabel}: ${alarmState ? \"triggered\" : \"cleared\"}`;\n\n//     const newMsg = {\n//         topic: `p${pumpId}Alm_${alarmIndex}`,\n//         payload: logEvent\n//     };\n//     node.send(newMsg);\n// }\n\n// function sendRunStatusMessage(pumpId, runStatus) {\n//     const tankId = pumpId === '1' ? 'tank1' : 'tank2';\n//     const tank = global.get(tankId);\n//     const logEvent = `${getCurrentTimestamp()} - Pump ${pumpId}: ${runStatus ? ` Started Running with Tank Level at ${tank.Level.toFixed(2)} ft.  SetPoint: ${tank.opSP.stop} ft` : `Stopped with Tank Level at ${tank.Level.toFixed(2)} ft. SetPoint: ${tank.opSP.stop} ft`}`;\n\n//     const newMsg = {\n//         topic: `p${pumpId}RunStatus`,\n//         payload: logEvent\n//     };\n//     node.send(newMsg);\n// }\n\n// function checkAlarmsAndRunStatus(pumpId, prevAlarms, pumpData, prevRunInd) {\n//     let alarms = [pumpData.inTemp.HiAlm, pumpData.suctPSI.HiAlm];\n//     for (let i = 0; i < alarms.length; i++) {\n//         if (prevAlarms[i] !== alarms[i]) {\n//             sendAlarmMessage(pumpId, i, alarms[i]);\n//         }\n//     }\n//     context.set(`prevP${pumpId}Alarms`, alarms);\n\n//     if (prevRunInd !== pumpData.runInd) {\n//         sendRunStatusMessage(pumpId, pumpData.runInd);\n//     }\n//     context.set(`prevP${pumpId}RunInd`, pumpData.runInd);\n// }\n\n// checkAlarmsAndRunStatus(\"1\", prevP1Alarms, p1, prevP1RunInd);\n// checkAlarmsAndRunStatus(\"2\", prevP2Alarms, p2, prevP2RunInd);\n\n\n// Get pump data objects\nlet p1 = global.get('pump1') || {};\nlet p2 = global.get('pump2') || {};\n\n// Define the previous alarm states and runInd status\nlet prevP1Alarms = context.get('prevP1Alarms') || Array(2).fill(false);\nlet prevP2Alarms = context.get('prevP2Alarms') || Array(2).fill(false);\nlet prevP1RunInd = context.get('prevP1RunInd') || false;\nlet prevP2RunInd = context.get('prevP2RunInd') || false;\n\nfunction getCurrentTimestamp() {\n    let now = new Date();\n    let formattedDate = now.toLocaleString(\"en-US\", {\n        timeZone: \"America/Chicago\",\n        day: \"2-digit\",\n        month: \"2-digit\",\n        year: \"numeric\",\n        hour: \"2-digit\",\n        minute: \"2-digit\",\n        second: \"2-digit\",\n    });\n    return formattedDate + \" CDT\";\n}\n\n        function sendAlarmMessage(pumpId, alarmIndex, alarmState, pumpData) {\n        const alarmLabel = [\n            \"Suction PSI Hi SD\", \"Suction PSI Hi Alarm\",\n            \"Discharge PSI Hi SD\", \"Discharge PSI Hi Alarm\",\n            \"Suction Temperature Hi SD\", \"Suction Temperature Hi Alarm\",\n            \"Discharge Temperature Hi SD\", \"Discharge Temperature Hi Alarm\",\n            \"Oil Temperature Hi SD\", \"Oil Temperature Hi Alarm\"\n        ][alarmIndex];\n        const alarm1SP = [\n            p1.suctPSI.hiSDsp, p1.suctPSI.HiAlmSP,\n            p1.discPSI.hiSDsp, p1.discPSI.HiAlmSP,\n            p1.inTemp.hiSDsp, p1.inTemp.HiAlmSP,\n            p1.outTemp.hiSDsp, p1.outTemp.HiAlmSP,\n            p1.oilTemp.hiSDsp, p1.oilTemp.HiAlmSP,\n        ][alarmIndex];\n        const alarm2SP = [\n            p2.suctPSI.hiSDsp, p2.suctPSI.HiAlmSP,\n            p2.discPSI.hiSDsp, p2.discPSI.HiAlmSP,\n            p2.inTemp.hiSDsp,  p2.inTemp.HiAlmSP,\n            p2.outTemp.hiSDsp, p2.outTemp.HiAlmSP,\n            p2.oilTemp.hiSDsp, p2.oilTemp.HiAlmSP,\n            ][alarmIndex];\n        const pumpValIndexMapping = {\n            0: 0, 1: 0,\n            2: 1, 3: 1,\n            4: 2, 5: 2,\n            6: 3, 7: 3,\n            8: 4, 9: 4\n        };\n\n        const pumpValIndex = pumpValIndexMapping[alarmIndex];\n        const pumpVal = pumpValues[pumpValIndex];\n\n            const logEvent = `${getCurrentTimestamp()} - Pump ${pumpId} ${alarmLabel}: ${alarmState ? `triggered. Current value is ${pumpVal}, Alarm setpoint is ${pumpId === 1 ? alarm1SP[alarmIndex] : alarm2SP[alarmIndex]}` : `cleared. Current value is ${pumpVal}. Alarm setpoint is ${pumpId === 1 ? alarm1SP[alarmIndex] : alarm2SP[alarmIndex]}`}`;\n\n        const newMsg = {\n            topic: `p${pumpId}Alm_${alarmIndex}`,\n            payload: logEvent\n        };\n        node.send(newMsg);\n    }\n  \n\nfunction sendRunStatusMessage(pumpId, runStatus) {\n    const tankId = pumpId === '1' ? 'tank1' : 'tank2';\n    const tank = global.get(tankId);\n    const logEvent = `${getCurrentTimestamp()} - Pump ${pumpId}: ${runStatus ? ` Started Running with Tank Level at ${tank.Level} ft.  SetPoint:  ${pumpId === 1 ? p1.opSP.stop : p2.opSP.stop} ft` : `Stopped with Tank Level at ${tank.Level.toFixed(2)} ft. SetPoint: ${pumpId === 1 ? p1.opSP.stop : p2.opSP.stop} ft`}`;\n\n    const newMsg = {\n        topic: `p${pumpId}RunStatus`,\n        payload: logEvent\n    };\n    node.send(newMsg);\n}\nlet pumpValues\n\nfunction checkAlarmsAndRunStatus(pumpId, prevAlarms, pumpData, prevRunInd) {\n    let alarms = [\n        pumpData.suctPSI.hiSD, pumpData.suctPSI.HiAlm,\n        pumpData.discPSI.hiSD, pumpData.discPSI.HiAlm,\n        pumpData.inTemp.hiSD, pumpData.inTemp.HiAlm,\n        pumpData.outTemp.hiSD, pumpData.outTemp.HiAlm,\n        pumpData.oilTemp.hiSD, pumpData.oilTemp.HiAlm,\n    ];\n    pumpValues = [\n        pumpData.suctPSI.val,\n        pumpData.discPSI.val,\n        pumpData.inTemp.val,\n        pumpData.outTemp.val,\n        pumpData.oilTemp.val,\n    ]\n    for (let i = 0; i < alarms.length; i++) {\n        if (prevAlarms[i] !== alarms[i]) {\n            sendAlarmMessage(pumpId, i, alarms[i], pumpData);\n        }\n    }\n    context.set(`prevP${pumpId}Alarms`, alarms);\n\n    if (prevRunInd !== pumpData.runInd) {\n        sendRunStatusMessage(pumpId, pumpData.runInd);\n    }\n    context.set(`prevP${pumpId}RunInd`, pumpData.runInd);\n}\n\ncheckAlarmsAndRunStatus(\"1\", prevP1Alarms, p1, prevP1RunInd);\ncheckAlarmsAndRunStatus(\"2\", prevP2Alarms, p2, prevP2RunInd);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "1b41ae6a62afb50a"
+            ]
+        ]
+    },
+    {
+        "id": "8a58ead75eb38b6f",
+        "type": "flexdash custom",
+        "z": "493d2f30c5ead3e9",
+        "title": "Inlet Valve",
+        "import_map": {},
+        "sfc_source": "<template>\n  <div>\n    <svg :fill=\"color\" height=\"65px\" width=\"70px\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 491.52 491.52\" xml:space=\"preserve\">\n      <g>\n        <g>\n          <path d=\"M471.04,286.72h-40.96v-20.48c0-11.325-9.155-20.48-20.48-20.48h-61.44c-11.325,0-20.48,9.155-20.48,20.48v20.48H307.2\n          V204.8c0-11.325-9.155-20.48-20.48-20.48h-20.48v-40.96h81.92c11.325,0,20.48-9.155,20.48-20.48V20.48\n          C368.64,9.155,359.485,0,348.16,0h-81.92v122.88c0-11.325-9.155-20.48-20.48-20.48c-11.325,0-20.48,9.155-20.48,20.48V0h-81.92\n          c-11.325,0-20.48,9.155-20.48,20.48v102.4c0,11.325,9.155,20.48,20.48,20.48h81.92v40.96H204.8c-11.325,0-20.48,9.155-20.48,20.48\n          v81.92h-20.48v-20.48c0-11.325-9.155-20.48-20.48-20.48H81.92c-11.325,0-20.48,9.155-20.48,20.48v20.48H20.48\n          C9.155,286.72,0,295.875,0,307.2v122.88c0,11.325,9.155,20.48,20.48,20.48h40.96v20.48c0,11.325,9.155,20.48,20.48,20.48h61.44\n          c11.325,0,20.48-9.155,20.48-20.48v-20.48h163.84v20.48c0,11.325,9.155,20.48,20.48,20.48h61.44c11.325,0,20.48-9.155,20.48-20.48\n          v-20.48h40.96c11.325,0,20.48-9.155,20.48-20.48V307.2C491.52,295.875,482.365,286.72,471.04,286.72z M122.88,307.2v122.88v20.48\n          H102.4v-20.48V307.2v-20.48h20.48V307.2z M389.12,307.2v122.88v20.48h-20.48v-20.48V307.2v-20.48h20.48V307.2z\" />   \n        </g>\n      </g>\n    </svg>\n  </div>\n</template>\n<script>\nexport default {\n  name: \" SimpleShape\", props: { color: { type: String, default: \"#00000\" , }, }, }; </script>\n\n            <style scoped>\n              .animated-shape {\n                animation: scale 2s infinite alternate;\n              }\n\n              @keyframes scale {\n                from {\n                  transform: scale(1);\n                }\n\n                to {\n                  transform: scale(1.2);\n                }\n              }\n            </style>",
+        "fd_container": "05e23e721857bba2",
+        "fd_cols": 2,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "x": 780,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e64caccc98e30a90",
+        "type": "function",
+        "z": "493d2f30c5ead3e9",
+        "name": "function 19",
+        "func": "let i1= global.get('inlet')\nif (i1.valve === 'open'){\n    msg.color = \"#13D691\"\n}else {\n    msg.color = \"#D3136C\"\n}\n\nmsg.topic = ''\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 1240,
+        "wires": [
+            [
+                "8a58ead75eb38b6f"
+            ]
+        ]
+    },
+    {
+        "id": "866652ed297020bb",
+        "type": "inject",
+        "z": "493d2f30c5ead3e9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "color",
+                "v": "#D3136C",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 560,
+        "y": 1280,
+        "wires": [
+            [
+                "8a58ead75eb38b6f"
+            ]
+        ]
+    },
+    {
+        "id": "685d937a93327d76",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "d02343c5247cacbd",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 120,
+        "color": "green",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 940,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "9f86a61717bb6c31",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "d02343c5247cacbd",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 130,
+        "color": "green",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 1000,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "2bb5f95fbe2972ec",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "d02343c5247cacbd",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 150,
+        "color": "green",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 940,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "3781d1e6a702107d",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "b6c0f44ff103965b",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 120,
+        "color": "green",
+        "low_color": "green",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 940,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "222e3ff24a1e6618",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "b6c0f44ff103965b",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 130,
+        "color": "green",
+        "low_color": "green",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 1000,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "8bf0103d47f9063c",
+        "type": "fd-gauge",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "b6c0f44ff103965b",
+        "fd_cols": "4",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "",
+        "title": "Gauge",
+        "popup_info": "",
+        "value": null,
+        "unit": "",
+        "arc": 90,
+        "min": 0,
+        "max": 150,
+        "color": "green",
+        "low_color": "green-accent-3",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "base_color": "grey-lighten-3",
+        "needle_color": "white",
+        "radius": 70,
+        "stretch": false,
+        "x": 940,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "40d6a7c5836eba11",
+        "type": "fd-push-button",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "05e23e721857bba2",
+        "fd_cols": "2",
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "reset",
+        "fd_loopback": true,
+        "name": "reset",
+        "title": "Alarm Reset",
+        "popup_info": "",
+        "enabled": true,
+        "color": "light-blue-lighten-1",
+        "output_value": true,
+        "icon": null,
+        "x": 630,
+        "y": 420,
+        "wires": [
+            [
+                "b49152bc426fd9d4",
+                "b293435c32ac21f7"
+            ]
+        ]
+    },
+    {
+        "id": "765c8ec72d128839",
+        "type": "fd-text-view",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "05e23e721857bba2",
+        "fd_cols": "8",
+        "fd_rows": "1",
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "",
+        "fd_loopback": false,
+        "name": "",
+        "title": "Event Journal",
+        "popup_info": "",
+        "text": "",
+        "editable": false,
+        "wrap": false,
+        "autoscroll": true,
+        "x": 880,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1bf9a9d5e68c697",
+        "type": "fd-spark-line",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "378776577a63304a",
+        "fd_cols": "4",
+        "fd_rows": "2",
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "tank2",
+        "title": "Spark Line",
+        "popup_info": "",
+        "value": 0,
+        "color": "green-darken-3",
+        "fill_color": "",
+        "text_color": "",
+        "show_value": false,
+        "unit": "Ft",
+        "x": 710,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a1a9a0ccbe7f5358",
+        "type": "fd-spark-line",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "26ee4be0b705b085",
+        "fd_cols": "4",
+        "fd_rows": "2",
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "tank1",
+        "title": "Spark Line",
+        "popup_info": "",
+        "value": 0,
+        "color": "blue",
+        "fill_color": "",
+        "text_color": "",
+        "show_value": false,
+        "unit": "Ft",
+        "x": 710,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "bd6cd674cc9a05c6",
+        "type": "fd-number-field",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "pump1.opSP.start",
+        "fd_loopback": true,
+        "name": "P1 start SP",
+        "title": "Start Level",
+        "popup_info": "",
+        "enabled": true,
+        "color": "grey-lighten-3",
+        "value": null,
+        "align": "center",
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "b49152bc426fd9d4"
+            ]
+        ]
+    },
+    {
+        "id": "1426d0bb3b43ca1d",
+        "type": "fd-number-field",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "pump1.opSP.stop",
+        "fd_loopback": true,
+        "name": "P1 stop SP",
+        "title": "Stop Level",
+        "popup_info": "",
+        "enabled": true,
+        "color": "grey-lighten-3",
+        "value": null,
+        "align": "center",
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "b49152bc426fd9d4"
+            ]
+        ]
+    },
+    {
+        "id": "ed81b2c984fe008c",
+        "type": "fd-number-field",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "pump2.opSP.start",
+        "fd_loopback": true,
+        "name": "P2 start SP",
+        "title": "Start Level",
+        "popup_info": "",
+        "enabled": true,
+        "color": "grey-lighten-3",
+        "value": null,
+        "align": "center",
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "b49152bc426fd9d4"
+            ]
+        ]
+    },
+    {
+        "id": "f21df0b6090b1ecb",
+        "type": "fd-number-field",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "pump2.opSP.stop",
+        "fd_loopback": true,
+        "name": "P2 stop SP",
+        "title": "Stop Level",
+        "popup_info": "",
+        "enabled": true,
+        "color": "grey-lighten-3",
+        "value": null,
+        "align": "center",
+        "x": 610,
+        "y": 380,
+        "wires": [
+            [
+                "b49152bc426fd9d4"
+            ]
+        ]
+    },
+    {
+        "id": "9948a20e60eaac14",
+        "type": "fd-timeline-plot",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 6,
+        "fd_rows": 2,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "",
+        "fd_loopback": false,
+        "name": "",
+        "title": "Pump1 Energy Timeline",
+        "popup_info": "",
+        "options": {},
+        "data": null,
+        "colors": {
+            "0": "black",
+            "1": "blue"
+        },
+        "labels": [
+            "run indication"
+        ],
+        "gradient": null,
+        "show_values": true,
+        "click": true,
+        "x": 790,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63097abca0a9c1a0",
+        "type": "fd-timeline-plot",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": "6",
+        "fd_rows": "2",
+        "fd_array": false,
+        "fd_array_max": 10,
+        "fd_output_topic": "",
+        "fd_loopback": false,
+        "name": "",
+        "title": "Pump2 Energy Timeline",
+        "popup_info": "",
+        "options": {},
+        "data": null,
+        "colors": {
+            "0": "black",
+            "1": "green"
+        },
+        "labels": [
+            "run indicator"
+        ],
+        "gradient": null,
+        "show_values": true,
+        "click": true,
+        "x": 790,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b52b75adc1d1ae63",
+        "type": "fd-time-plot",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "172dcff0e361032b",
+        "fd_cols": "12",
+        "fd_rows": "5",
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "Tank Time Plot",
+        "title": "Tank Time Plot",
+        "popup_info": "",
+        "data": null,
+        "labels": [],
+        "colors": [],
+        "axes": [],
+        "widths": [],
+        "points": [
+            true
+        ],
+        "span_gaps": [
+            true,
+            true
+        ],
+        "left_unit": "",
+        "left_min": null,
+        "left_max": null,
+        "left_decimals": 1,
+        "left_isoprefix": false,
+        "left_log": false,
+        "right_unit": "",
+        "right_min": null,
+        "right_max": null,
+        "right_decimals": 1,
+        "right_isoprefix": false,
+        "right_log": false,
+        "reverse_legend": false,
+        "max_points": null,
+        "x": 740,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ccc8eed15f2a9179",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p1 suct ",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 950,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "ce1496755502efd8",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p1 dischg",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 890,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1e9c1c3f62556dfb",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p2 suct",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 950,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "7cd8ca49e1aff9f3",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p2 dischg",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 910,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "cb4a58a854d28b7c",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 6,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p2 run",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 900,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "15090298114a7455",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p1 Speed",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 890,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9a49b02bf96cafcf",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "66ad283dd0e0aaa3",
+        "fd_cols": 3,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p2 speed ",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 890,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f452a54dcc172f1e",
+        "type": "fd-stat",
+        "z": "493d2f30c5ead3e9",
+        "fd_container": "8683b3e527fd6e62",
+        "fd_cols": 6,
+        "fd_rows": 1,
+        "fd_array": false,
+        "fd_array_max": 10,
+        "name": "p1 run",
+        "title": "Stat",
+        "popup_info": "",
+        "unit": "",
+        "value": null,
+        "color": "",
+        "low_color": "blue",
+        "high_color": "pink",
+        "low_threshold": null,
+        "high_threshold": null,
+        "low_regexp": "",
+        "high_regexp": "",
+        "chip": false,
+        "iso_prefix": true,
+        "precision": 3,
+        "zoom": 1,
+        "x": 880,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8683b3e527fd6e62",
+        "type": "flexdash container",
+        "name": "PumpView1",
+        "title": "Pump 1",
+        "kind": "Panel",
+        "fd_children": ",f452a54dcc172f1e,1426d0bb3b43ca1d,bd6cd674cc9a05c6,ccc8eed15f2a9179,ce1496755502efd8,15090298114a7455,e94e96c90ba4927c,9948a20e60eaac14,d02343c5247cacbd",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "f5c40a17a891a657",
+        "solid": false,
+        "cols": 3,
+        "rows": 6
+    },
+    {
+        "id": "66ad283dd0e0aaa3",
+        "type": "flexdash container",
+        "name": "PumpView",
+        "title": "Pump 2",
+        "kind": "Panel",
+        "fd_children": ",cb4a58a854d28b7c,f21df0b6090b1ecb,ed81b2c984fe008c,1e9c1c3f62556dfb,7cd8ca49e1aff9f3,9a49b02bf96cafcf,a90d41cadcb31fa9,63097abca0a9c1a0,b6c0f44ff103965b",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "f5c40a17a891a657",
+        "solid": false,
+        "cols": 3,
+        "rows": 6
+    },
+    {
+        "id": "378776577a63304a",
+        "type": "flexdash container",
+        "name": "two-props",
+        "title": "Tank 2 Alarm Controls",
+        "kind": "Panel",
+        "fd_children": ",3d1daed2a6c539ca,41c82168eff9f224,e1bf9a9d5e68c697",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "172dcff0e361032b",
+        "solid": true,
+        "cols": 6,
+        "rows": 2
+    },
+    {
+        "id": "26ee4be0b705b085",
+        "type": "flexdash container",
+        "name": "solid-props",
+        "title": "Tank 1 Alarm Control",
+        "kind": "Panel",
+        "fd_children": ",,217caed5e9cee597,0f7e034cdb57b753,a1a9a0ccbe7f5358",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "172dcff0e361032b",
+        "solid": true,
+        "cols": 6,
+        "rows": 2
+    },
+    {
+        "id": "05e23e721857bba2",
+        "type": "flexdash container",
+        "name": "rst panel",
+        "kind": "Panel",
+        "fd_children": ",8a58ead75eb38b6f,40d6a7c5836eba11,765c8ec72d128839",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "f5c40a17a891a657",
+        "solid": false,
+        "cols": 6,
+        "rows": 1
+    },
+    {
+        "id": "d02343c5247cacbd",
+        "type": "flexdash container",
+        "name": "P1 Thermal ",
+        "title": "P1 Thermal Status",
+        "kind": "Panel",
+        "fd_children": ",685d937a93327d76,9f86a61717bb6c31,2bb5f95fbe2972ec",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "8683b3e527fd6e62",
+        "solid": true,
+        "cols": 6,
+        "rows": 2
+    },
+    {
+        "id": "b6c0f44ff103965b",
+        "type": "flexdash container",
+        "name": "P2 Thermal",
+        "title": "P2 Thermal Status",
+        "kind": "Panel",
+        "fd_children": ",3781d1e6a702107d,222e3ff24a1e6618,8bf0103d47f9063c",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "66ad283dd0e0aaa3",
+        "solid": true,
+        "cols": 6,
+        "rows": 2
+    },
+    {
+        "id": "172dcff0e361032b",
+        "type": "flexdash container",
+        "name": "tank plot panel",
+        "title": "Tank Controls ",
+        "kind": "Panel",
+        "fd_children": ",26ee4be0b705b085,378776577a63304a,b52b75adc1d1ae63",
+        "tab": "",
+        "min_cols": 1,
+        "max_cols": 20,
+        "unicast": "ignore",
+        "parent": "f5c40a17a891a657",
+        "solid": true,
+        "cols": 6,
+        "rows": 8
+    },
+    {
+        "id": "f5c40a17a891a657",
+        "type": "flexdash container",
+        "name": "grid lock",
+        "title": "Grid",
+        "kind": "StdGrid",
+        "fd_children": ",05e23e721857bba2,172dcff0e361032b,8683b3e527fd6e62,66ad283dd0e0aaa3",
+        "tab": "8e29b2a7673a687b",
+        "min_cols": 1,
+        "max_cols": 12,
+        "unicast": "ignore",
+        "parent": "",
+        "solid": false,
+        "cols": 1,
+        "rows": 1
+    },
+    {
+        "id": "8e29b2a7673a687b",
+        "type": "flexdash tab",
+        "name": " Big Brazos Balls",
+        "icon": "mdi-fire",
+        "title": "Brazos ",
+        "fd_children": ",f5c40a17a891a657",
+        "fd": "478cb9823a626b8c"
+    }
+]

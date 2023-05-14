@@ -1,0 +1,307 @@
+[
+    {
+        "id": "b10ce2d2.81d18",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "45d0507e.0576c",
+        "type": "http in",
+        "z": "b10ce2d2.81d18",
+        "name": "Manual Get Status",
+        "url": "/get_status",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 220,
+        "wires": [
+            [
+                "46b2b631.5405b8",
+                "fffb6cde.8a2c5"
+            ]
+        ]
+    },
+    {
+        "id": "393aa135.56feee",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "VALIDATE INCOMING SUBSCRIBE COMMAND",
+        "func": "// first output, add pin to list // second output, remove pin from list // third output, no action, text response var cmd = msg.payload.Body.toLowerCase() var subscribe_pin = flow.get(\"subscribe_pin\")||\"0000\" var incoming_pin = \"9999\" var result = \"\" var test_inc = parseInt(cmd) if(isNaN(test_inc)) { // not a valid pin, check for remove command if(cmd.indexOf(\"remove\") != -1) { // remove incoming number from list msg.payload = msg.payload.From return [null, msg] } else { msg.payload = \"Error: Your command or pin is invalid. Send a numeric pin to subscribe to Americo CRU alarms.\" return [null,null,msg] } } else { // valid pin, check if equal to current subscribe_pin incoming_pin = msg.payload.Body if(incoming_pin == subscribe_pin) { // add number to current list if number is not already in subscribed list msg.payload = msg.payload.From return [msg] } else { // pin doesnt match, return error message msg.payload = \"Error: Your command or pin is invalid. Send a numeric pin to subscribe to Americo CRU alarms.\" return [null, null, msg] } } ",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 760,
+        "y": 220,
+        "wires": [
+            [
+                "32d723c5.e1a13c"
+            ],
+            [
+                "6c28e6a8.b7d468"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "dab3500a.7b92a",
+        "type": "inject",
+        "z": "b10ce2d2.81d18",
+        "name": "SUBSCRIBE_PIN",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "4837",
+        "payloadType": "str",
+        "x": 330,
+        "y": 400,
+        "wires": [
+            [
+                "aee27d3.c46008"
+            ]
+        ]
+    },
+    {
+        "id": "aee27d3.c46008",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "SET SUBSCRIBE PIN",
+        "func": "flow.set(\"subscribe_pin\", msg.payload)",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 563.5,
+        "y": 399.9999978542328,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32d723c5.e1a13c",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "ADD NUMBER",
+        "func": "var smsContacts = flow.get(\"smsContacts\") var alarmContacts = flow.get(\"alarmContacts\") var response = \"\" if(smsContacts.indexOf(msg.payload) == -1) { smsContacts = smsContacts + \",\" + msg.payload flow.set(\"smsContacts\", smsContacts) alarmContacts[msg.payload] = \"Unknown Americo User\" flow.set(\"alarmContacts\", alarmContacts) msg.phoneNumber = msg.payload msg.payload = \"Success: You are now subscribed to sms & voice alarms for Americo CRU. Please enter your first and last name to attach to your account: \" return msg } else { msg.payload = \"You are already subscribed to sms & voice alarms for Americo CRU\" return [null,msg] } ",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1080,
+        "y": 180,
+        "wires": [
+            [
+                "6620809a.0f6a3",
+                "5e1d13e2.b00d0c",
+                "cea324b3.3ab6d8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6c28e6a8.b7d468",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "REMOVE NUMBER",
+        "func": "var smsContacts = flow.get(\"smsContacts\") var alarmContacts = flow.get(\"alarmContacts\") var response = \"\" if(smsContacts.indexOf(msg.payload) != -1) { var s1 = \",\" + msg.payload var s2 = msg.payload + \",\" var s3 = msg.payload if(smsContacts.indexOf(s1) != -1) { smsContacts = smsContacts.replace(s1, \"\") } else if(smsContacts.indexOf(s2) != -1) { smsContacts = smsContacts.replace(s2, \"\") } else { smsContacts = smsContacts.replace(s3, \"\") } flow.set(\"smsContacts\", smsContacts) var o = {} var k = Object.keys(alarmContacts) k.forEach(function(key){ if(key != msg.payload) { o[key] = alarmContacts[key] } }); flow.set(\"alarmContacts\", o) msg.payload = \"Success: You are now unsubscribed from sms & voice alarms for Americo CRU.\" } else { msg.payload = \"You are already unsubscribed from sms & voice alarms for Americo CRU\" } return msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1370,
+        "y": 140,
+        "wires": [
+            [
+                "5e1d13e2.b00d0c",
+                "cea324b3.3ab6d8"
+            ]
+        ]
+    },
+    {
+        "id": "46b2b631.5405b8",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Check Incoming Number",
+        "func": "var smsContacts = flow.get(\"smsContacts\") if(smsContacts.indexOf(msg.payload.From) != -1) { return msg; } else { return [null,msg]; } ",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "c93ad1d3.88b38"
+            ],
+            [
+                "393aa135.56feee"
+            ]
+        ]
+    },
+    {
+        "id": "6620809a.0f6a3",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Waiting For Name to True",
+        "func": "var waiting = \"waitingForName_\"+msg.phoneNumber flow.set(waiting, true) return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1390,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c93ad1d3.88b38",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Check for Name",
+        "func": "var num = \"waitingForName_\"+msg.payload.From var waiting = flow.get(num)||false if(waiting) { flow.set(num, false) var alarmContacts = flow.get(\"alarmContacts\") alarmContacts[msg.payload.From] = msg.payload.Body flow.set(\"alarmContacts\", alarmContacts) msg.payload = \"Success: Account name set to: \" + msg.payload.Body return [null, msg] } else { return msg; } ",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 760,
+        "y": 120,
+        "wires": [
+            [],
+            [
+                "5e1d13e2.b00d0c"
+            ]
+        ]
+    },
+    {
+        "id": "5e1d13e2.b00d0c",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Get Alarm Contacts",
+        "func": "var contacts = flow.get(\"alarmContacts\")||{} msg.payload = JSON.stringify(contacts) return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1430,
+        "y": 220,
+        "wires": [
+            [
+                "554cb0aa.9d3fc"
+            ]
+        ]
+    },
+    {
+        "id": "cea324b3.3ab6d8",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Get SMS Contacts",
+        "func": "var contacts = flow.get(\"smsContacts\")||\"\" msg.payload = contacts return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1450,
+        "y": 280,
+        "wires": [
+            [
+                "b8b66db9.8bd3"
+            ]
+        ]
+    },
+    {
+        "id": "fffb6cde.8a2c5",
+        "type": "debug",
+        "z": "b10ce2d2.81d18",
+        "name": "TWILIO",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 400,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "3ba6bc16.c23314",
+        "type": "ui_button",
+        "z": "b10ce2d2.81d18",
+        "name": "Send CSV Report",
+        "group": "d93206f4.8e76a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Send CSV Report",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 323.333251953125,
+        "y": 516.7996826171875,
+        "wires": [
+            [
+                "9c1c60b0.e7885"
+            ]
+        ]
+    },
+    {
+        "id": "9c1c60b0.e7885",
+        "type": "function",
+        "z": "b10ce2d2.81d18",
+        "name": "Weekly Trend All Alarms",
+        "func": "var query = \"SELECT name, value, timestamp FROM ccs_scada WHERE timestamp > unix_timestamp(NOW() - INTERVAL 1 WEEK)\" msg.topic = query return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 575.333251953125,
+        "y": 516.4663696289062,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3158abb4.e74fc4",
+        "type": "http response",
+        "z": "b10ce2d2.81d18",
+        "name": "Respond with Status Msg",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "text/plain"
+        },
+        "x": 1850,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "554cb0aa.9d3fc",
+        "type": "file",
+        "z": "b10ce2d2.81d18",
+        "name": "File Cache Alarm Contacts",
+        "filename": "/data/alarm_contacts.json",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 1683.9998016357422,
+        "y": 391.9998092651367,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b8b66db9.8bd3",
+        "type": "file",
+        "z": "b10ce2d2.81d18",
+        "name": "File Cache Sms Contacts",
+        "filename": "/data/sms_contacts.txt",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 1671.9998016357422,
+        "y": 451.9998092651367,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d93206f4.8e76a8",
+        "type": "ui_group",
+        "name": "Alarms",
+        "tab": "",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    }
+]

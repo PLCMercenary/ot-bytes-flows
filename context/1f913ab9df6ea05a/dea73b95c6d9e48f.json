@@ -1,0 +1,123 @@
+{
+    "stateTrailStorage": [
+        {
+            "state": true,
+            "timestamp": 1684002438794
+        },
+        {
+            "state": false,
+            "timestamp": 1684002918809
+        },
+        {
+            "state": true,
+            "timestamp": 1684003558866
+        },
+        {
+            "state": false,
+            "timestamp": 1684004238896
+        },
+        {
+            "state": true,
+            "timestamp": 1684004678913
+        },
+        {
+            "state": false,
+            "timestamp": 1684005238934
+        },
+        {
+            "state": true,
+            "timestamp": 1684005678957
+        },
+        {
+            "state": false,
+            "timestamp": 1684006198976
+        },
+        {
+            "state": true,
+            "timestamp": 1684006758999
+        },
+        {
+            "state": false,
+            "timestamp": 1684007199011
+        },
+        {
+            "state": true,
+            "timestamp": 1684007599030
+        },
+        {
+            "state": false,
+            "timestamp": 1684008159045
+        },
+        {
+            "state": true,
+            "timestamp": 1684008679064
+        },
+        {
+            "state": false,
+            "timestamp": 1684009359088
+        },
+        {
+            "state": true,
+            "timestamp": 1684009879108
+        },
+        {
+            "state": false,
+            "timestamp": 1684010359126
+        },
+        {
+            "state": true,
+            "timestamp": 1684011039138
+        },
+        {
+            "state": false,
+            "timestamp": 1684011479159
+        },
+        {
+            "state": true,
+            "timestamp": 1684012000324
+        },
+        {
+            "state": false,
+            "timestamp": 1684012480328
+        },
+        {
+            "state": true,
+            "timestamp": 1684017840491
+        },
+        {
+            "state": false,
+            "timestamp": 1684022930702
+        },
+        {
+            "state": true,
+            "timestamp": 1684028450909
+        },
+        {
+            "state": false,
+            "timestamp": 1684033611108
+        },
+        {
+            "state": true,
+            "timestamp": 1684035261158
+        },
+        {
+            "state": false,
+            "timestamp": 1684036971226
+        },
+        {
+            "state": true,
+            "timestamp": 1684037891255
+        },
+        {
+            "state": false,
+            "timestamp": 1684038251268
+        },
+        {
+            "state": false,
+            "timestamp": 1684038421268
+        }
+    ],
+    "stateTrailReferences": [],
+    "stateTrailMax": 1684038421268,
+    "stateTrailMin": 1684002438794
+}
